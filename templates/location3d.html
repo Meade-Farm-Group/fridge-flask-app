@@ -1,0 +1,74 @@
+{% extends 'base.html' %} 
+{% block title %} 
+Location Page 
+{% endblock %} 
+{% block content %}
+<h1>Location - {{ locdet["name"] }}</h1>
+<script>
+	$(document).ready(function() {
+        getData3d("{{ locdet['id'] }}");
+        setInterval(function() {
+            getData3d("{{ locdet['id'] }}")
+        },60000);
+    });
+
+</script>
+<h2>Select a Rack</h2>
+{% set id = locdet['id']%}
+{% set loc = locdet['short_id']%}
+
+<div class="dropdown">
+	<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+	  Dropdown button
+	</button>
+	<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+		{% for n in range(locdet["tableSize"][0]) %}
+			<li><a class="dropdown-item" href="{{ url_for('location_page', location_id=id, rack_id = '{{ loop.index }}' )}}">{{ loop.index }}</a></li>
+		{% endfor %}
+	</ul>
+  </div>
+
+<select class="form-select form-select-lg mb-3" id="rack_select" onchange="rackChange('{{ loc }}', '{{ id }}');" aria-label="Default select example">
+	{% for n in range(locdet["tableSize"][0]) %}
+		<option value="{{ '{:02d}'.format(loop.index)|string }}">{{ loop.index }}</option>
+	{% endfor %}
+</select>
+<br/>
+<table class="table table-bordered border-dark" id="myTable">
+	<thead>
+		<tr class="table-primary">
+			<th scope="col">#</th>
+			{% for row in range(locdet["tableSize"][2]) %}
+				<th scope="col" >Column {{ loop.index }}</th>
+			{% endfor %}
+		</tr>
+	</thead>
+	<tbody>
+	{% for row in range(locdet["tableSize"][1]) %} 
+		{% set outer_loop = loop %}
+		<tr>
+			<th scope="row" class="table-primary" id="row{{ outer_loop.index }}">{{ alphabet[loop.revindex] }}</th>
+			{% for col in range(locdet["tableSize"][2]) %}
+				{% set cell = locdet["id"] +"-01-"+ alphabet[outer_loop.revindex] +"-"+ "{:02d}".format(loop.index)|string  %}
+
+				{% set cell_label = "01-"+ alphabet[outer_loop.revindex] +"-"+ "{:02d}".format(loop.index)|string %}
+				
+                {% set cell_shelf = alphabet[outer_loop.revindex] %}
+
+				{% if "ST" in locdet['id'] and loop.index % 2 == 1 %}
+					<td class="table-danger" background id="{{ cell }}" cell-id="{{ cell_id }}" style="border-left: 5px solid black">
+				{% elif "D2" in locdet['id'] and loop.index % 3 == 1 %}
+					<td class="table-danger" background id="{{ cell }}" cell-id="{{ cell_id }}" style="border-left: 5px solid black">
+				{% else %}
+					<td class="table-danger" background id="{{ cell }}" cell-shelf="{{ cell_shelf }}">
+				{% endif %}
+                    <a href="{{ url_for('palletInfo_page', pallet_location_id = cell) }}" class="cell-link link-dark disabled" >
+                        <div>Cell {{ cell_label }}</div>
+                    </a>
+                </td>
+			{% endfor %}
+		</tr>
+	{% endfor %}
+	</tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,45 @@
+.table-hover:hover {
+    background-color: rgba(0,0,0,.095);
+}
+
+#myTable td {
+    line-height: 25px;
+    min-height: 25px;
+    height: 75px;
+    min-width: 60px;
+    padding: 0;
+}
+
+.tabletext{
+    font-size: 15px;
+}
+
+td a {
+    margin-top: auto;
+    text-align: center;
+    display: block;
+    height: 100%;
+    font-size: 15px;
+    text-decoration: none;
+}
+
+.valueHeading {
+    width: 100px;
+}
+
+a.disabled {
+    pointer-events: none;
+    cursor: default;
+}
+
+#palletTable th{
+    width: 200px;
+}
+
+.rightBorder{
+    border: 5px solid;
+}
+
+td a div{
+    padding-top: 20px;
+}

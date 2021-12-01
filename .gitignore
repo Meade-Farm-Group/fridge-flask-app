@@ -1,0 +1,7 @@
+env.py
+venv/*
+__pycache__/*
+static/css/bootstrap.min.css
+static/js/bootstrap.bundle.min.js
+static/js/bootstrap.jquery.js
+.vscode/*

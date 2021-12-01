@@ -1,0 +1,56 @@
+{% extends 'base.html' %} 
+{% block title %} 
+Location Page 
+{% endblock %} 
+{% block content %}
+<script>
+	$(document).ready(function() {
+		$("#success-alert").hide();
+        getData("{{ locdet['id'] }}");
+
+        setInterval(function() {
+            getData("{{ locdet['id'] }}");
+			$("#success-alert").fadeTo(2000, 500).slideUp(500, function() {
+      			$("#success-alert").slideUp(500);
+    		});
+        },60000);
+		
+    });
+
+</script>
+
+<br/>
+<h1>Location - {{ locdet["name"] }}</h1>
+<br/>
+
+<table class="table table-bordered border-dark" id="myTable">
+	<thead>
+		<tr class="table-primary">
+			<th scope="col">#</th>
+			{% for row in range(locdet["tableSize"][0]) %}
+			<th scope="col">Rack {{ loop.index }}</th>
+			{% endfor %}
+		</tr>
+	</thead>
+	<tbody>
+	{% for row in range(locdet["tableSize"][1]) %} 
+		{% set outer_loop = loop %}
+		<tr>
+			<th scope="row" class="table-primary" id="row{{ outer_loop }}">{{ alphabet[loop.revindex] }}</th>
+			{% for col in range(locdet["tableSize"][0]) %}
+				{% set cell = locdet["id"] +'-'+ "{:02d}".format(loop.index) +'-'+ alphabet[outer_loop.revindex] %}
+				{% set cell_label = "{:02d}".format(loop.index) +'-'+ alphabet[outer_loop.revindex] %}
+				<td class="table-danger" background id="{{ cell }}" style="border-left: 5px solid black" style="padding-top: 20px;">
+                    <a href="{{ url_for('palletInfo_page', pallet_location_id = cell) }}" class="cell-link link-dark disabled">
+                        <div>Cell {{ cell_label }}</div>
+                    </a>
+                </td>
+			{% endfor %}
+		</tr>
+	{% endfor %}
+	</tbody>
+</table>
+<div class="alert alert-success" id="success-alert">
+	Table refreshed!
+</div>
+{% endblock %}
