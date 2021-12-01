@@ -1,0 +1,57 @@
+{% macro table(alphabet, locdet, rack_id) %}
+
+{% set rack_num = "{:02d}".format(rack_id| int)|string %}
+
+{% if rack_id != none %}
+<h2>Current Rack: {{ rack_num }}</h2>
+{% endif %}
+
+<table class="table table-bordered border-dark" id="myTable">
+	<thead>
+		<tr class="table-primary">
+			<th scope="col">#</th>
+			{% for row in range(locdet["tableSize"][2]) %}
+                {% if rack_id == none %}
+                    <th scope="col" >Rack {{ loop.index }}</th>
+				{% elif rack_id | int % 2 == 1 %}
+					<th scope="col" >Column {{ loop.index }}</th>
+				{% else %}
+					<th scope="col" >Column {{ loop.revindex }}</th>
+				{% endif %}
+			{% endfor %}
+		</tr>
+	</thead>
+	<tbody>
+	{% for row in range(locdet["tableSize"][1]) %} 
+		{% set outer_loop = loop %}
+		<tr>
+			<th scope="row" class="table-primary" id="row{{ outer_loop.index }}">{{ alphabet[loop.revindex] }}</th>
+			{% for col in range(locdet["tableSize"][2]) %}
+				{% if rack_id | int % 2 == 1 or rack_id == none %}
+					{% set cell_id = locdet["short_id"] + "-" + rack_num + "-" + alphabet[outer_loop.revindex] +"-"+ "{:02d}".format(loop.index)|string  %}
+					{% set cell_label =  rack_num +"-"+ alphabet[outer_loop.revindex] +"-"+ "{:02d}".format(loop.index)|string %}
+				{% else %}
+					{% set cell_id = locdet["short_id"] + "-" + rack_num + "-" + alphabet[outer_loop.revindex] +"-"+ "{:02d}".format(loop.revindex)|string  %}
+					{% set cell_label = rack_num +"-"+ alphabet[outer_loop.revindex] +"-"+ "{:02d}".format(loop.revindex)|string %}
+				{% endif %}
+
+                {% if "FVFR" in locdet['short_id'] %}
+                    <td class="table-danger" background id="{{ cell }}" style="border-left: 5px solid black" style="padding-top: 20px;">
+				{% elif "ST" in locdet['short_id'] and loop.index % 2 == 1 %}
+					<td class="table-danger" background id="{{ cell_id }}" style="border-left: 5px solid black">
+				{% elif "D2" in locdet['short_id'] and loop.index % 3 == 1 %}
+					<td class="table-danger" background id="{{ cell_id }}" style="border-left: 5px solid black">
+				{% else %}
+					<td class="table-danger" background id="{{ cell_id }}">
+				{% endif %}
+                    <a href="{{ url_for('palletInfo_page', pallet_location_id = cell_id) }}" class="cell-link link-dark disabled" >
+                        <div>Cell {{ cell_label }}</div>
+                    </a>
+                </td>
+			{% endfor %}
+		</tr>
+	{% endfor %}
+	</tbody>
+</table>
+
+{% endmacro %}

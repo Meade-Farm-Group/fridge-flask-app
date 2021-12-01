@@ -13,8 +13,7 @@ function getData(loc){
     });
 }
 
-function getData3d(loc){
-    var rack = document.getElementById("rack_select").value;
+function getData3d(loc, rack){
     $.ajax({
         url: '/update_data/'+loc+"-"+rack,
         type: 'POST',
@@ -31,18 +30,7 @@ function getData3d(loc){
 
 function rackChange(loc, id){
     var rack = document.getElementById("rack_select").value;
-    $.ajax({
-        url: '/update_data/'+loc+"-"+rack,
-        type: 'POST',
-        success: function(data) {
-            var table = document.getElementById("myTable");
-            for (var i = 1, row; row = table.rows[i]; i++) {
-                for (var j = 1, col; col = row.cells[j]; j++) {
-                    //cellUpdate(col, data);                    
-                }
-            }
-        }
-    });
+
 }
 
 function replaceCellId(col, data, rack, i, j) {
@@ -78,4 +66,7 @@ function cellUpdate(col, data) {
     }
 }
 
-//function tableLabelUpdate(rack):
+function goBack() {
+    window.history.back();
+}
+

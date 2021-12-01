@@ -3,11 +3,13 @@
     Pallet Page
 {% endblock %}
 {% block content %}
+<br/>
+    <button type="button" class="btn btn-success btn-lg" onclick="goBack()">&#8592;Back</button>
     <h2>Location: {{ pallet_location_id }}</h2>
     <br/>
     {% for pallet in pallets %}
 
-    <h3>Description: {{pallet["locDescr"]}}</h3>
+    <h3>{{pallet["locDescr"]}}</h3>
     <table class="table table-striped table-bordered" id="palletTable">
         <tbody>
             <tr>

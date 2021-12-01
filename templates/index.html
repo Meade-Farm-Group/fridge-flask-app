@@ -1,16 +1,19 @@
 {% extends 'base.html' %}
 {% block title %}
-    Home Page
+Home Page
 {% endblock %}
 {% block content %}
-  <br/>
-  <img src="../static/images/mpc_logo.jpg" class="rounded mx-auto d-block" alt="MPC Logo">
-    <h1 class="text-center">Select Location:</h1>
-    {% for key, value in locations.items() %}
-      <div class="d-grid gap-2 col-6 mx-auto">
-        <a class="btn btn-success" href="{{ url_for('location_page', location_id=key, rack_id = '1' )}}">{{ value["name"] }}</a>
-      </div>
-      <br/>
-    {% endfor %}
-      
-{% endblock %}
+<br />
+<img src="../static/images/mpc_logo.jpg" class="rounded mx-auto d-block" alt="MPC Logo" />
+<h1 class="text-center">Select Location:</h1>
+{% for key, value in locations.items() %}
+<div class="d-grid gap-2 col-6 mx-auto">
+	{% if "ST" in key or "DIS" in key %}
+		<a class="btn btn-success" href="{{ url_for('location_page', location_id=key, rack_id = '1' )}}">{{ value["name"]}}</a>
+	{% else %} 
+		<a class="btn btn-success" href="{{ url_for('location_page', location_id=key )}}">{{ value["name"]}}</a>
+	{% endif %}
+	
+</div>
+<br />
+{% endfor %} {% endblock %}

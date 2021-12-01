@@ -27,7 +27,7 @@ def location_page(location_id, rack_id):
 
     locdet = {
         "id": location_id,
-        "short_id": '',
+        "short_id": location_id,
         "name": data["name"],
         "tableSize": data["tableSize"],
     }
