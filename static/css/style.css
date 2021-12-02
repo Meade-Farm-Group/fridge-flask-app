@@ -2,7 +2,7 @@
     background-color: rgba(0,0,0,.095);
 }
 
-#myTable td {
+#cellTable td {
     line-height: 25px;
     min-height: 25px;
     height: 75px;

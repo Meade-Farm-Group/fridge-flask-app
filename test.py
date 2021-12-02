@@ -34,6 +34,6 @@ cursor = cnx.cursor()
 #     cell.setAttribute("id", newId);
 # }
 
-data = sql_queries.get_pallets_by_location("D2-01")
+data = sql_queries.get_pallets_by_location("FVFR1")
 
 print(data)

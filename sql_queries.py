@@ -136,11 +136,8 @@ def get_pallets_by_location(location_id):
     return data
 
 
-# Query to get all pallets in a location
-# There can be mulitple pallets in a sigle location
-# Information desired per pallet: whats on pallet, how much, best before,
-# variety, country of origin, supplier
-# job no., description, pallet no.
+# Query to get information of each pallet in a location
+# There can be mulitple pallets in a single location
 def get_pallet_details(location_id):
     cursor.execute('''
         SELECT

@@ -6,11 +6,17 @@
 <h2>Current Rack: {{ rack_num }}</h2>
 {% endif %}
 
-<table class="table table-bordered border-dark" id="myTable">
+{% if locdet["tableSize"][2] == 0 %}
+	{% set columns = locdet["tableSize"][0] %}
+{% else %}
+	{% set columns = locdet["tableSize"][2] %}
+{% endif %}
+
+<table class="table table-bordered border-dark" id="cellTable">
 	<thead>
 		<tr class="table-primary">
 			<th scope="col">#</th>
-			{% for row in range(locdet["tableSize"][2]) %}
+			{% for row in range(columns) %}
                 {% if rack_id == none %}
                     <th scope="col" >Rack {{ loop.index }}</th>
 				{% elif rack_id | int % 2 == 1 %}
@@ -26,8 +32,11 @@
 		{% set outer_loop = loop %}
 		<tr>
 			<th scope="row" class="table-primary" id="row{{ outer_loop.index }}">{{ alphabet[loop.revindex] }}</th>
-			{% for col in range(locdet["tableSize"][2]) %}
-				{% if rack_id | int % 2 == 1 or rack_id == none %}
+			{% for col in range(columns) %}
+				{% if "FVFR" in locdet['short_id'] %}
+					{% set cell_id = locdet["short_id"] + "-" + "{:02d}".format(loop.index)|string +"-"+alphabet[outer_loop.revindex]  %}
+					{% set cell_label =  "{:02d}".format(loop.index)|string +"-"+ alphabet[outer_loop.revindex] %}
+				{% elif rack_id | int % 2 == 1 or rack_id == none %}
 					{% set cell_id = locdet["short_id"] + "-" + rack_num + "-" + alphabet[outer_loop.revindex] +"-"+ "{:02d}".format(loop.index)|string  %}
 					{% set cell_label =  rack_num +"-"+ alphabet[outer_loop.revindex] +"-"+ "{:02d}".format(loop.index)|string %}
 				{% else %}
@@ -36,7 +45,7 @@
 				{% endif %}
 
                 {% if "FVFR" in locdet['short_id'] %}
-                    <td class="table-danger" background id="{{ cell }}" style="border-left: 5px solid black" style="padding-top: 20px;">
+                    <td class="table-danger" background id="{{ cell_id }}" style="border-left: 10px solid black" style="padding-top: 20px;">
 				{% elif "ST" in locdet['short_id'] and loop.index % 2 == 1 %}
 					<td class="table-danger" background id="{{ cell_id }}" style="border-left: 5px solid black">
 				{% elif "D2" in locdet['short_id'] and loop.index % 3 == 1 %}
@@ -44,7 +53,7 @@
 				{% else %}
 					<td class="table-danger" background id="{{ cell_id }}">
 				{% endif %}
-                    <a href="{{ url_for('palletInfo_page', pallet_location_id = cell_id) }}" class="cell-link link-dark disabled" >
+                    <a href="{{ url_for('palletInfo_page', cell_id = cell_id) }}" class="cell-link link-dark disabled" >
                         <div>Cell {{ cell_label }}</div>
                     </a>
                 </td>
