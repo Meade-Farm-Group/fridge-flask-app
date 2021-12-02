@@ -16,9 +16,10 @@ cnx = pyodbc.connect(f'DRIVER={driver};SERVER={server};\
 cursor = cnx.cursor()
 
 
-# Query to get location id, name from loczon
 def get_locations():
 
+    # Query gets the location code and location name of all locations that are
+    # of zone type "FRIDGE"
     cursor.execute('''
         SELECT
         loczon_nl.zonecode,
@@ -29,20 +30,24 @@ def get_locations():
     ''')
 
     locations = {}
+    # Loop uses the location id as the key, and the value is the name
     for row in cursor.fetchall():
         locations[row[0]] = {"name": row[1]}
+
+    # Returns:
+    # {
+    #   "FVFR1":{
+    #       "name": "Fruit Veg"
+    #   },
+    #   { ... }
+    # }
 
     return locations
 
 
-# Query to get location id, location name, table size and
-    # {
-    #     "id": "FVFR4",
-    #     "name": "Fruit and Veg Fridge 4",
-    #     "tableSize": [3, 20]
-    # }
 def get_table_size(location_id):
 
+    # Query gets all the cell location id's and get the name of the location
     cursor.execute('''
         SELECT
         locfil_nl.loccode,
@@ -55,24 +60,39 @@ def get_table_size(location_id):
 
     alphabet = "_ABCDEFGHIJK"
 
+    # Value of each dimension is defined before comparison
     loc_racks = 0
     loc_height = 0
     loc_depth = 0
     data = {}
 
+    # Each cell will be broken up and the value of each section will be
+    # compared
     for row in cursor.fetchall():
+        # Creates a string list seperated by the "-"
         loc = row[0].split('-')
+
+        # Compare rack values
         if(loc_racks < int(loc[1])):
             loc_racks = int(loc[1])
+
+        # Compare height values
         if(loc_height < alphabet.index(loc[2])):
             loc_height = alphabet.index(loc[2])
-        # Extra bit for 3d
+
+        # Compare depth values
         if (len(loc) == 4):
             if(loc_depth < int(loc[3])):
                 loc_depth = int(loc[3])
 
         data["name"] = row[1]
     data["tableSize"] = [loc_racks, loc_height, loc_depth]
+    # Returns:
+    # {
+    #     "id": "FVFR4",
+    #     "name": "Fruit and Veg Fridge 4",
+    #     "tableSize": [3, 20, 0]
+    # }
 
     return data
 
@@ -166,6 +186,7 @@ def get_pallet_details(location_id):
         res.balance != 0
         ORDER BY palfil_nl.palfilid DESC
     '''.format(str(location_id)))
+
     pallets = []
     for row in cursor.fetchall():
         pallet = {"palletId": row[0],
@@ -186,3 +207,5 @@ def get_pallet_details(location_id):
         pallets.append(pallet)
 
     return pallets
+
+# def query_to_dict(cursor):

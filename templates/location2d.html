@@ -41,7 +41,7 @@ Location Page
 				{% set cell = locdet["id"] +'-'+ "{:02d}".format(loop.index) +'-'+ alphabet[outer_loop.revindex] %}
 				{% set cell_label = "{:02d}".format(loop.index) +'-'+ alphabet[outer_loop.revindex] %}
 				<td class="table-danger" background id="{{ cell }}" style="border-left: 5px solid black" style="padding-top: 20px;">
-                    <a href="{{ url_for('palletInfo_page', pallet_location_id = cell) }}" class="cell-link link-dark disabled">
+                    <a href="{{ url_for('palletInfo_page', pallet_location_id = cell ) }}" class="cell-link link-dark disabled">
                         <div>Cell {{ cell_label }}</div>
                     </a>
                 </td>

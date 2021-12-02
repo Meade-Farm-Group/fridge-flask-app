@@ -8,9 +8,14 @@ Location Page
 {% set rack_num = "{:02d}".format(rack_id| int)|string %}
 <script>
 	$(document).ready(function() {
+		$("#success-alert").hide();
         getData3d("{{ locdet['short_id'] }}", "{{ rack_num }}");
         setInterval(function() {
+			$("#success-alert").hide();
             getData3d("{{ locdet['short_id'] }}", "{{ rack_num }}")
+			$("#success-alert").fadeTo(2000, 500).slideUp(500, function() {
+      			$("#success-alert").slideUp(500);
+    		});
         },60000);
     });
 
@@ -33,5 +38,9 @@ Location Page
 
 {% endif %}
 {{ table(alphabet, locdet, rack_id) }}
+
+<div class="alert alert-success" id="success-alert">
+	Table refreshed!
+</div>
 
 {% endblock %}

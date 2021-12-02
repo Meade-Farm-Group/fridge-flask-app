@@ -33,16 +33,6 @@ function rackChange(loc, id){
 
 }
 
-function replaceCellId(col, data, rack, i, j) {
-    var cell = document.getElementById(col.id) //Cell Html object
-    var cell_id = cell.getAttribute("cell-id"); // Getting the Id of the cell
-    var col_link = col.getElementsByClassName("cell-link")[0]; 
-    var newId = data["loc_id"] +"-"+ cell_id;
-    col_link.innerHTML = "<div> Cell " + rack +"-"+ cell_id+"</div>";
-    col_link.href="/palletInfo/"+newId;
-    cell.setAttribute("id", newId);
-}
-
 function cellUpdate(col, data) {
     var col_link = col.getElementsByClassName("cell-link")[0];
     if (data["pallets"].includes(col.id)) {
