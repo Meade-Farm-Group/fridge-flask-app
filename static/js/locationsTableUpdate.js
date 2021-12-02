@@ -8,11 +8,12 @@ function getData(loc, rack){
     }else{
         search = loc+"-"+rack;
     }
+    console.log(search)
     $.ajax({
         url: '/update_data/'+search,
         type: 'POST',
         success: function(data) {
-            var table = document.getElementById("palletTable");
+            var table = document.getElementById("cellTable");
             for (var i = 1, row; row = table.rows[i]; i++) {
                 for (var j = 1, col; col = row.cells[j]; j++) {
                     cellUpdate(col, data);
@@ -34,7 +35,7 @@ function cellUpdate(col, data) {
             col_link.classList.remove("class", "disabled");
         }
     }
-    // if pallet does not exist in the list
+    // if pallet does not exist in thelist
     else {
         // Check to see if cell is green. If yes, change it, if no, 
         if (col.classList.contains("table-success")) {
@@ -45,8 +46,3 @@ function cellUpdate(col, data) {
         }
     }
 }
-
-function goBack() {
-    window.history.back();
-}
-

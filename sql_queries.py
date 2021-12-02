@@ -1,5 +1,6 @@
 import os
 import pyodbc
+from util import check_table_type
 if os.path.exists("env.py"):
     import env
 
@@ -33,11 +34,13 @@ def get_locations():
     # Loop uses the location id as the key, and the value is the name
     for row in cursor.fetchall():
         locations[row[0]] = {"name": row[1]}
-
+        tableType = check_table_type(row[0])
+        locations[row[0]] = {"name": row[1], "tableType": tableType}
     # Returns:
     # {
     #   "FVFR1":{
-    #       "name": "Fruit Veg"
+    #       "name": "Fruit Veg",
+    #       "tableType": "2d"
     #   },
     #   { ... }
     # }

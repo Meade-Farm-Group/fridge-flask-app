@@ -4,6 +4,7 @@ if os.path.exists("env.py"):
     import env
 import sql_queries
 import json
+from util import check_table_type
 
 
 server = os.getenv("PROPHET_SERVER")
@@ -34,6 +35,7 @@ cursor = cnx.cursor()
 #     cell.setAttribute("id", newId);
 # }
 
-data = sql_queries.get_pallets_by_location("FVFR1")
+# data = sql_queries.get_pallets_by_location("FVFR1")
+data = sql_queries.get_pallets_by_location("D2-01")
 
 print(data)

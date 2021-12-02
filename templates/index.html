@@ -8,7 +8,7 @@ Home Page
 <h1 class="text-center">Select Location:</h1>
 {% for key, value in locations.items() %}
 <div class="d-grid gap-2 col-6 mx-auto">
-	{% if "ST" in key or "DIS" in key %}
+	{% if value["tableType"] == "3d" %}
 		<a class="btn btn-success" href="{{ url_for('location_page', location_id=key, rack_id = '1' )}}">{{ value["name"]}}</a>
 	{% else %} 
 		<a class="btn btn-success" href="{{ url_for('location_page', location_id=key )}}">{{ value["name"]}}</a>
@@ -16,4 +16,5 @@ Home Page
 	
 </div>
 <br />
-{% endfor %} {% endblock %}
+{% endfor %}
+{% endblock %}
