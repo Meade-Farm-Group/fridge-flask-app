@@ -1,6 +1,7 @@
 from flask import Flask, render_template
 import sql_queries
 from util import check_table_type
+import json
 
 app = Flask(__name__)
 
@@ -28,31 +29,22 @@ def location_page(location_id, rack_id):
     # Query to get the dimensions for the table
     data = sql_queries.get_table_size(location_id)
 
-    if("ST" in location_id):
-        cells_per_bay = 2
-    elif("DIS" in location_id):
-        cells_per_bay = 3
-    else:
-        cells_per_bay = 1
-    tableType = check_table_type(location_id)
+    with open('cellsPerBay.json') as json_file:
+        cells_per_bay = json.load(json_file)
+
+    tableType = check_table_type(data["cell"])
     locdet = {
         "id": location_id,  # Id of the location
         "tableType": tableType,  # How table will render
         "name": data["name"],  # Full name of the location
         "tableSize": data["tableSize"],  # Table dimensions
-        "cellsPerBay": cells_per_bay  # How many cells until a break
+        "cellsPerBay": cells_per_bay[location_id]  # How many cells until break
     }
 
     return render_template('location.html',
                            alphabet=alphabet,
                            locdet=locdet,
                            rack_id=rack_id)
-
-
-@app.route('/location/<string:location_id>/<string:rack_id>',
-           methods=['POST', 'GET'])
-def rack_change(location_id, rack_id):
-    return render_template('location3d.html')
 
 
 # Routing used to refresh the data for the tables
@@ -70,8 +62,7 @@ def palletInfo_page(cell_id):
 
     return render_template('palletInfo.html',
                            pallets=pallets,
-                           cell_id=cell_id
-                           )
+                           cell_id=cell_id)
 
 
 @app.errorhandler(404)

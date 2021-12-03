@@ -8,7 +8,6 @@ function getData(loc, rack){
     }else{
         search = loc+"-"+rack;
     }
-    console.log(search)
     $.ajax({
         url: '/update_data/'+search,
         type: 'POST',
@@ -21,6 +20,7 @@ function getData(loc, rack){
             }
         }
     });
+    showAlert();
 }
 
 function cellUpdate(col, data) {
@@ -45,4 +45,10 @@ function cellUpdate(col, data) {
             col_link.classList.add("class", "disabled");
         }
     }
+}
+
+function showAlert(){
+    $("#success-alert").fadeTo(2000, 500).slideUp(500, function() {
+        $("#success-alert").slideUp(500);
+    });
 }

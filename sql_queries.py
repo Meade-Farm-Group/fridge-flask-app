@@ -89,11 +89,13 @@ def get_table_size(location_id):
                 loc_depth = int(loc[3])
 
         data["name"] = row[1]
+        data["cell"] = row[0]
     data["tableSize"] = [loc_racks, loc_height, loc_depth]
     # Returns:
     # {
     #     "id": "FVFR4",
     #     "name": "Fruit and Veg Fridge 4",
+    #     "cell": "FVFR4-01-A",
     #     "tableSize": [3, 20, 0]
     # }
 

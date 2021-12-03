@@ -17,15 +17,10 @@
 <h1>Location - {{ locdet["name"] }}</h1>
 <script>
 	$(document).ready(function() {
-		$("#success-alert").hide();
         getData("{{ loc_id }}", "{{ rack_num }}");
         setInterval(function() {
-			$("#success-alert").hide();
-            getData("{{ loc_id }}", "{{ rack_num }}")
-			$("#success-alert").fadeTo(2000, 500).slideUp(500, function() {
-      			$("#success-alert").slideUp(500);
-    		});
-        },60000);
+            getData("{{ loc_id }}", "{{ rack_num }}");
+        },600000);
     });
 </script>
 
@@ -46,20 +41,20 @@
 {% set rack_num = "{:02d}".format(rack_id| int)|string %}
 
 {% if rack_id != none %}
-	<h2>Current Rack: {{ rack_num }}</h2>
+	<h2>Current Rack: {{loc_id}}-{{ rack_num }}</h2>
 {% endif %}
 
-<table class="table table-bordered border-dark" id="cellTable">
+<table class="table table-bordered border-dark table-fixed" id="cellTable">
 	<thead>
 		<tr class="table-primary">
 			<th scope="col">#</th>
 			{% for row in range(columns) %}
                 {% if rack_id == none %}
-                    <th scope="col" >Rack {{ loop.index }}</th>
+                    <th scope="col">Rack {{ "{:02d}".format(loop.index) }}</th>
 				{% elif rack_id | int % 2 == 1 %}
-					<th scope="col" >Column {{ loop.index }}</th>
+					<th scope="col" style="text-align: center;">Cell {{ "{:02d}".format(loop.index) }}</th>
 				{% else %}
-					<th scope="col" >Column {{ loop.revindex }}</th>
+					<th scope="col" style="text-align: center;">Cell {{ "{:02d}".format(loop.index) }} </th>
 				{% endif %}
 			{% endfor %}
 		</tr>
@@ -73,7 +68,7 @@
 				<!-- 2D data -->
 				{% if locdet['tableType'] == '2d' %}
 					{% set cell_id = loc_id + "-" + "{:02d}".format(loop.index)|string + "-" + alphabet[outer_loop.revindex]  %}
-					{% set cell_label =  "{:02d}".format(loop.index)|string +"-"+ alphabet[outer_loop.revindex] %}
+					{% set cell_label = "{:02d}".format(loop.index)|string +"-"+ alphabet[outer_loop.revindex] %}
 				<!-- 3D data and odd numbered rack -->	
 				{% elif rack_id | int % 2 == 1 %}
 					{% set cell_id = loc_id + "-" + rack_num + "-" + alphabet[outer_loop.revindex] +"-"+ "{:02d}".format(loop.index)|string  %}
@@ -84,17 +79,13 @@
 					{% set cell_label = rack_num +"-"+ alphabet[outer_loop.revindex] +"-"+ "{:02d}".format(loop.revindex)|string %}
 				{% endif %}
 
-                {% if locdet['cellsPerBay'] == 1 %}
-                    <td class="table-danger" background id="{{ cell_id }}" style="border-left: 10px solid black" style="padding-top: 20px;">
-				{% elif locdet['cellsPerBay'] == 2 and loop.index % 2 == 1 %}
-					<td class="table-danger" background id="{{ cell_id }}" style="border-left: 5px solid black">
-				{% elif locdet['cellsPerBay'] == 3 and loop.index % 3 == 1 %}
-					<td class="table-danger" background id="{{ cell_id }}" style="border-left: 5px solid black">
+                {% if loop.index % locdet['cellsPerBay'] == 1 or locdet['cellsPerBay'] == 1 %}
+                    <td class="table-danger" background id="{{ cell_id }}" style="border-left: 5px solid black">
 				{% else %}
 					<td class="table-danger" background id="{{ cell_id }}">
 				{% endif %}
                     <a href="{{ url_for('palletInfo_page', cell_id = cell_id, location = cell_location ) }}" class="cell-link link-dark disabled" >
-                        <div>Cell {{ cell_label }}</div>
+                        <div> {{ cell_label }} </div>
                     </a>
                 </td>
 			{% endfor %}
