@@ -71,22 +71,23 @@ def get_table_size(location_id):
 
     # Each cell will be broken up and the value of each section will be
     # compared
+
     for row in cursor.fetchall():
         # Creates a string list seperated by the "-"
         loc = row[0].split('-')
+        if(str(loc[1]).isdigit()):
+            # Compare rack values
+            if(loc_racks < int(loc[1])):
+                loc_racks = int(loc[1])
 
-        # Compare rack values
-        if(loc_racks < int(loc[1])):
-            loc_racks = int(loc[1])
+            # Compare height values
+            if(loc_height < alphabet.index(loc[2])):
+                loc_height = alphabet.index(loc[2])
 
-        # Compare height values
-        if(loc_height < alphabet.index(loc[2])):
-            loc_height = alphabet.index(loc[2])
-
-        # Compare depth values
-        if (len(loc) == 4):
-            if(loc_depth < int(loc[3])):
-                loc_depth = int(loc[3])
+            # Compare depth values
+            if (len(loc) == 4):
+                if(loc_depth < int(loc[3])):
+                    loc_depth = int(loc[3])
 
         data["name"] = row[1]
         data["cell"] = row[0]

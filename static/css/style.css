@@ -43,3 +43,11 @@ a.disabled {
 td a div{
     padding-top: 20px;
 }
+
+.Borderleft {
+    border-left: 5px;
+}
+
+.dropdown-item{
+    font-size: 2rem;
+}

@@ -30,15 +30,29 @@ def location_page(location_id, rack_id):
     data = sql_queries.get_table_size(location_id)
 
     with open('cellsPerBay.json') as json_file:
-        cells_per_bay = json.load(json_file)
+        data2 = json.load(json_file)
 
+    # Check to see if location is in file
+    if(location_id in data2):
+        cells_per_bay = data2[location_id]
+    else:
+        return render_template('errors/404.html'), 404
+
+    # Check if the url is valid
     tableType = check_table_type(data["cell"])
+    if(tableType == "3d"):
+        if(int(rack_id) > data["tableSize"][0]):
+            return render_template('errors/404.html'), 404
+    else:
+        if(rack_id is not None):
+            return render_template('errors/404.html'), 404
+
     locdet = {
         "id": location_id,  # Id of the location
         "tableType": tableType,  # How table will render
         "name": data["name"],  # Full name of the location
         "tableSize": data["tableSize"],  # Table dimensions
-        "cellsPerBay": cells_per_bay[location_id]  # How many cells until break
+        "cellsPerBay": cells_per_bay  # How many cells until break
     }
 
     return render_template('location.html',

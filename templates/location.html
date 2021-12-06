@@ -13,25 +13,20 @@
 	{% set loc_id = locdet["id"][0] + locdet["id"][-1] %}
 	{% set cell_location = locdet['id']+'-'+rack_id %}
 {% endif %}
+<br/>
+<a href="{{ url_for('home_page')}}" 
+        class="btn btn-success btn-lg" tabindex="-1" role="button" aria-disabled="true"><i class="fas fa-angle-left"></i>&#8592;Back</a>
 
 <h1>Location - {{ locdet["name"] }}</h1>
-<script>
-	$(document).ready(function() {
-        getData("{{ loc_id }}", "{{ rack_num }}");
-        setInterval(function() {
-            getData("{{ loc_id }}", "{{ rack_num }}");
-        },600000);
-    });
-</script>
-
+<br/>
 {% if locdet['tableType'] == "3d" %}
 <div class="dropdown">
 	<button class="btn btn-success btn-lg dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
 		Select a Rack
 	</button>
-	<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+	<ul class="dropdown-menu dropdown-large border" aria-labelledby="dropdownMenuButton1">
 		{% for n in range(locdet["tableSize"][0]) %}
-			<li><a class="dropdown-item" href="{{ url_for('location_page', location_id=locdet['id'], rack_id = loop.index )}}">{{ loop.index }}</a></li>
+			<li><a class="dropdown-item border" href="{{ url_for('location_page', location_id=locdet['id'], rack_id = loop.index )}}">Rack {{ loop.index }}</a></li>
 		{% endfor %}
 	</ul>
 </div>
@@ -40,9 +35,21 @@
 
 {% set rack_num = "{:02d}".format(rack_id| int)|string %}
 
-{% if rack_id != none %}
-	<h2>Current Rack: {{loc_id}}-{{ rack_num }}</h2>
-{% endif %}
+<ul class="list-inline">
+	<li class="list-inline-item">
+		{% if rack_id != none %}
+			<h2>Current Rack: {{ rack_num }} &emsp;</h2>
+		{% endif %}
+	</li>
+	<li class="list-inline-item">
+		<h4 class="text-muted">
+			Last Updated: 
+			<li class="list-inline-item">
+				<div id="updatedTime"></div>
+			</li>
+		</h4>
+	</li>
+  </ul>
 
 <table class="table table-bordered border-dark table-fixed" id="cellTable">
 	<thead>
@@ -52,9 +59,9 @@
                 {% if rack_id == none %}
                     <th scope="col">Rack {{ "{:02d}".format(loop.index) }}</th>
 				{% elif rack_id | int % 2 == 1 %}
-					<th scope="col" style="text-align: center;">Cell {{ "{:02d}".format(loop.index) }}</th>
+					<th scope="col" class="text-center">Cell {{ "{:02d}".format(loop.index) }}</th>
 				{% else %}
-					<th scope="col" style="text-align: center;">Cell {{ "{:02d}".format(loop.index) }} </th>
+					<th scope="col" class="text-center">Cell {{ "{:02d}".format(loop.revindex) }} </th>
 				{% endif %}
 			{% endfor %}
 		</tr>
@@ -80,7 +87,7 @@
 				{% endif %}
 
                 {% if loop.index % locdet['cellsPerBay'] == 1 or locdet['cellsPerBay'] == 1 %}
-                    <td class="table-danger" background id="{{ cell_id }}" style="border-left: 5px solid black">
+                    <td class="table-danger" background id="{{ cell_id }}" style="border-left: 5px solid black;">
 				{% else %}
 					<td class="table-danger" background id="{{ cell_id }}">
 				{% endif %}
@@ -98,4 +105,12 @@
 	Table refreshed!
 </div>
 
+<meta id="my-data" data-loc="{{ loc_id }}" data-rack="{{ rack_num }}">
 {% endblock %}
+
+{% block extrajs %}
+<script src="{{ url_for('static', filename='js/tableRefresh.js') }}"></script>
+{% endblock %}
+
+
+

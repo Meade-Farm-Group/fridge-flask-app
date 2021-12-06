@@ -36,6 +36,8 @@ cursor = cnx.cursor()
 # }
 
 # data = sql_queries.get_pallets_by_location("FVFR1")
-data = sql_queries.get_pallets_by_location("D2-01")
+data = sql_queries.get_table_size("D2-01")
 
-print(data)
+# {% block extrajs %}
+# <script src="{{ url_for('static', filename='js/function.js') }}"></script>
+# {% endblock %}
