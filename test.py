@@ -36,8 +36,12 @@ cursor = cnx.cursor()
 # }
 
 # data = sql_queries.get_pallets_by_location("FVFR1")
-data = sql_queries.get_table_size("D2-01")
+# data = sql_queries.get_pallets_by_location("FVFR1-08")
 
-# {% block extrajs %}
-# <script src="{{ url_for('static', filename='js/function.js') }}"></script>
-# {% endblock %}
+# print(data)
+# Using readlines()
+file1 = open('test.txt', 'r')
+Lines = file1.readlines()
+# Strips the newline character
+for line in Lines:
+    print('"'+line.strip()+'": "#",')

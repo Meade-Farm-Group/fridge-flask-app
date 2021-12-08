@@ -111,12 +111,17 @@ def get_pallets_by_location(location_id):
         locfil_nl.loccode,
         loczon_nl.name,
         palstk_nl.recqty,
-        res.soldqty
+        res.soldqty,
+        prdall_nl.mascode,
+        prdall_nl.descr
         FROM palstk_nl
         LEFT JOIN palfil_nl ON palstk_nl.palfilid = palfil_nl.palfilid
         LEFT JOIN locdet_nl ON palfil_nl.locdetid = locdet_nl.locdetid
         LEFT JOIN locfil_nl ON locdet_nl.locfilid = locfil_nl.locfilid
         LEFT JOIN loczon_nl ON locfil_nl.zonecode = loczon_nl.zonecode
+        LEFT JOIN lotdet_nl ON palstk_nl.lotdetid = lotdet_nl.lotdetid
+        LEFT JOIN spdfil_nl ON lotdet_nl.prodnum = spdfil_nl.prodnum
+        LEFT JOIN prdall_nl ON spdfil_nl.mascode = prdall_nl.mascode
         LEFT JOIN (
             SELECT
             p1.palstkid,
@@ -130,14 +135,22 @@ def get_pallets_by_location(location_id):
         locfil_nl.loccode LIKE '{}%'
         AND
         res.balance != 0
+        ORDER BY locfil_nl.loccode
     '''.format(str(location_id)))
 
     data = {}
     data["loc_id"] = location_id
     data["loc_name"] = ""
-    data["pallets"] = []
+    data["pallets"] = {}
+    data["masCodeNames"] = {}
     for row in cursor.fetchall():
-        data["pallets"].append(row[0])
+        if row[0] in data["pallets"]:
+            if row[4] not in data["pallets"][row[0]]:
+                data["pallets"][row[0]].append(row[4])
+        else:
+            data["pallets"][row[0]] = [row[4]]
+        if row[4] not in data["masCodeNames"]:
+            data["masCodeNames"][row[4]] = row[5]
 
     return data
 

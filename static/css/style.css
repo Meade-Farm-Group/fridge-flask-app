@@ -6,7 +6,7 @@
     line-height: 25px;
     min-height: 25px;
     height: 75px;
-    min-width: 60px;
+    min-width: 90px;
     padding: 0;
 }
 
@@ -36,18 +36,29 @@ a.disabled {
     width: 210px;
 }
 
-.rightBorder{
-    border: 5px solid;
-}
-
 td a div{
     padding-top: 20px;
 }
 
-.Borderleft {
+.borderLeft {
     border-left: 5px;
 }
 
 .dropdown-item{
     font-size: 2rem;
+}
+
+.legendSample{
+    width: 50px;
+    height: 20px;
+    border-radius: 15px;
+    align-content: center;
+}
+
+#legendTable{
+    width: 400px;
+}
+
+#legendTableColour{
+    width: 100px
 }
