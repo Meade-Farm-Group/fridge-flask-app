@@ -2,10 +2,10 @@
     background-color: rgba(0,0,0,.095);
 }
 
-#cellTable td {
+.cellTable td {
     line-height: 25px;
     min-height: 25px;
-    height: 75px;
+    height: 60px;
     min-width: 75px;
     padding: 0;
 }
@@ -54,17 +54,4 @@ td a div{
     border-radius: 5px;
 }
 
-/* .TestTable table { display: block; }
-
-table table { 
-    display:inline-block;
-    vertical-align:top; 
-}
-
-table table td { 
-    line-height: 25px;
-    min-height: 25px;
-    height: 75px;
-    min-width: 75px;
-    padding: 0;
-} */
+table table { display: block; }

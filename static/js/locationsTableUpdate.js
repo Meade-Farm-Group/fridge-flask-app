@@ -1,24 +1,32 @@
 function getData(loc, rack) {
     var search = "";
+    var range;
     // If the rack value is "00", this means it is a 2d view of the storage
     // 2d storages do not have a rack value, so it defaults to 0, which is then
     // formatted to the desired digit length
     if (rack == 00) {
         search = loc;
+        range = 2
     } else {
         search = loc + "-" + rack;
+        range = 1
     }
     $.ajax({
         url: '/update_data/' + search,
         type: 'POST',
         success: function (data) {
-            var table = document.getElementById("cellTable");
+            // var table = document.getElementById("cellTable");
+            var tableNum;
+            var table;
             $.getJSON("/static/js/mascodeColours.json", function (masCodeColours) {
                 legendList = {};
-                
-                for (var i = 1, row; row = table.rows[i]; i++) {
-                    for (var j = 1, col; col = row.cells[j]; j++) {
-                        legendList = cellUpdate(col, data, masCodeColours, legendList);
+                for (var k = 1; k <= range ; k++) {
+                    tableNum = "cellTable" + k;
+                    table = document.getElementById(tableNum);
+                    for (var i = 1, row; row = table.rows[i]; i++) {
+                        for (var j = 1, col; col = row.cells[j]; j++) {
+                            legendList = cellUpdate(col, data, masCodeColours, legendList);
+                        }
                     }
                 }
                 // Update the legend
@@ -82,6 +90,7 @@ function updateLegend(masCodeColours, legendList){
     var name;
     for (var key in legendList) {
         if (legendList.hasOwnProperty(key)) {
+            <button class="col-md legendSample text-center" style="background-color: rgb(102, 180, 71);">Apple</button>
 
             bgColour = masCodeColours[key];
             var element = document.createElement("div");
