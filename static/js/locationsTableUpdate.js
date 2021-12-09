@@ -15,17 +15,18 @@ function getData(loc, rack) {
             var table = document.getElementById("cellTable");
             $.getJSON("/static/js/mascodeColours.json", function (masCodeColours) {
                 legendList = {};
+                
                 for (var i = 1, row; row = table.rows[i]; i++) {
                     for (var j = 1, col; col = row.cells[j]; j++) {
                         legendList = cellUpdate(col, data, masCodeColours, legendList);
                     }
                 }
-                // Update the legend table
+                // Update the legend
                 updateLegend(masCodeColours, legendList);
             });
         }
     });
-    showAlert();
+    // showUpdateMsg();
 }
 function cellUpdate(col, data, masCodeColours, legendList) {
     var col_link = col.getElementsByClassName("cell-link")[0];
@@ -43,13 +44,18 @@ function cellUpdate(col, data, masCodeColours, legendList) {
             masCode = data["pallets"][col.id][0]
             bgColour = masCodeColours[masCode]
             if (typeof bgColour === 'undefined') {
-                $(col).css("background-color", "black");
-            } else {
-                $(col).css("background-color", bgColour);
+                bgColour = "#000000"
+            }
+
+            $(col).css("background-color", bgColour);
+            cellText = col.getElementsByTagName("Div")[0]
+            if(checkBrightness(bgColour)){
+                $(cellText).css("color", "white");
+            }else{
+                $(cellText).css("color", "black");
             }
         }
-        // If all values are not the same, we will display it a colour to represent mixed
-        else {
+        else { // If all values are not the same, we will display it a colour to represent mixed
             masCode = "MIXD";
             $(col).css("background-color", masCodeColours[masCode]);
         }
@@ -72,31 +78,51 @@ function cellUpdate(col, data, masCodeColours, legendList) {
 }
 
 function updateLegend(masCodeColours, legendList){
-
-    $("#legendItems tr").remove(); 
-    var table = document.getElementById("legendItems")
-    
+    $("#testDisplay div").remove(); 
+    var name;
     for (var key in legendList) {
         if (legendList.hasOwnProperty(key)) {
 
             bgColour = masCodeColours[key];
-        
-            var row = table.insertRow(0);
-            var cell1 = row.insertCell(0);
-            var cell2 = row.insertCell(1);
-            cell1.innerHTML = '<div class="border border-dark legendSample" style="background-color:'+ bgColour +' "></div>';
-            if (typeof legendList[key] === 'undefined') {
-                cell2.innerHTML = 'Mixed'
-            }else{
-                cell2.innerHTML = legendList[key];
+            var element = document.createElement("div");
+            element.classList.add("col-md");
+            element.classList.add("legendSample");
+            element.classList.add("text-center");
+            $(element).css("background-color", bgColour);
+            
+            if(checkBrightness(bgColour)){
+                $(element).css("color", "white");
             }
+
+            if (typeof legendList[key] === 'undefined') {
+                name = 'Mixed'
+            }else{
+                name = legendList[key];
+            }
+
+            element.innerHTML = name;
+            document.getElementById('testDisplay').appendChild(element); 
         }
     }
-    console.log(legendList)
 }
 
-function showAlert() {
+function showUpdateMsg() {
     $("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
         $("#success-alert").slideUp(500);
     });
+}
+
+function checkBrightness(bgColour){
+    var bgColour = bgColour.substring(1);      // strip #
+    var rgb = parseInt(bgColour, 16);   // convert rrggbb to decimal
+    var r = (rgb >> 16) & 0xff;  // extract red
+    var g = (rgb >>  8) & 0xff;  // extract green
+    var b = (rgb >>  0) & 0xff;  // extract blue
+
+    var luma = 0.2126 * r + 0.7152 * g + 0.0722 * b; // per ITU-R BT.709
+    if (luma < 115) {
+        return true
+    }else{
+        return false
+    }
 }
