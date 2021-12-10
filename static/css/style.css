@@ -1,5 +1,5 @@
 .table-hover:hover {
-    background-color: rgba(0,0,0,.095);
+    filter: brightness(110%);
 }
 
 .cellTable td {
@@ -40,18 +40,24 @@ td a div{
     padding-top: 20px;
 }
 
-.borderLeft {
-    border-left: 5px;
-}
-
 .dropdown-item{
     font-size: 2rem;
 }
 
 .legendSample{
     margin: 5px;
-    padding: 15px;
+    padding: 5px;
     border-radius: 5px;
 }
 
-table table { display: block; }
+.legendSample:hover{
+    filter: brightness(90%);
+}
+
+.darkenCell {
+    filter: brightness(35%);
+}
+
+.borderLeft {
+    border-left: 5px;
+}

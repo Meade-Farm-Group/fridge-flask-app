@@ -30,7 +30,7 @@ function getData(loc, rack) {
                     }
                 }
                 // Update the legend
-                updateLegend(masCodeColours, legendList);
+                updateLegend(masCodeColours, legendList, range);
             });
         }
     });
@@ -54,19 +54,19 @@ function cellUpdate(col, data, masCodeColours, legendList) {
             if (typeof bgColour === 'undefined') {
                 bgColour = "#000000"
             }
-
-            $(col).css("background-color", bgColour);
-            cellText = col.getElementsByTagName("Div")[0]
-            if(checkBrightness(bgColour)){
-                $(cellText).css("color", "white");
-            }else{
-                $(cellText).css("color", "black");
-            }
         }
         else { // If all values are not the same, we will display it a colour to represent mixed
             masCode = "MIXD";
-            $(col).css("background-color", masCodeColours[masCode]);
+            bgColour = masCodeColours[masCode]
         }
+        $(col).css("background-color", bgColour);
+        cellText = col.getElementsByTagName("Div")[0]
+        if(checkBrightness(bgColour)){
+            $(cellText).css("color", "white");
+        }else{
+            $(cellText).css("color", "black");
+        }
+        col.setAttribute("data-masCode", masCode);
 
         // Array containing all mascodes and colours that is currently being displayed
         // on the table
@@ -79,24 +79,25 @@ function cellUpdate(col, data, masCodeColours, legendList) {
     else {
         // Check to see if cell is green. If yes, change it, if no,
         $(col).css("background-color", "white");
+        col.setAttribute("data-masCode","");
         col.classList.remove("table-hover");
         col_link.classList.add("class", "disabled");
     }
     return legendList;
 }
 
-function updateLegend(masCodeColours, legendList){
-    $("#testDisplay div").remove(); 
+function updateLegend(masCodeColours, legendList, range){
+    $("#legendDisplay button").remove();
     var name;
     for (var key in legendList) {
         if (legendList.hasOwnProperty(key)) {
-            <button class="col-md legendSample text-center" style="background-color: rgb(102, 180, 71);">Apple</button>
 
             bgColour = masCodeColours[key];
-            var element = document.createElement("div");
+            var element = document.createElement("button");
             element.classList.add("col-md");
             element.classList.add("legendSample");
             element.classList.add("text-center");
+            element.setAttribute("onclick","toggleFilter('"+key+"','"+range+"');");
             $(element).css("background-color", bgColour);
             
             if(checkBrightness(bgColour)){
@@ -110,7 +111,7 @@ function updateLegend(masCodeColours, legendList){
             }
 
             element.innerHTML = name;
-            document.getElementById('testDisplay').appendChild(element); 
+            document.getElementById('legendDisplay').appendChild(element); 
         }
     }
 }
@@ -133,5 +134,32 @@ function checkBrightness(bgColour){
         return true
     }else{
         return false
+    }
+}
+
+function toggleFilter(key, range){
+    var filter = $('#my-data').data();
+    for (var k = 1; k <= range ; k++) {
+        tableNum = "cellTable" + k;
+        table = document.getElementById(tableNum);
+        for (var i = 1, row; row = table.rows[i]; i++) {
+            for (var j = 1, col; col = row.cells[j]; j++) {
+
+                if(key == filter['currentfilter']){
+                    col.classList.remove("darkenCell")
+                }else{
+                    if (key != col.getAttribute("data-mascode")){
+                        col.classList.add("darkenCell")
+                    }else{
+                        col.classList.remove("darkenCell")
+                    }
+                }    
+            }
+        }
+    }
+    if(key == filter['currentfilter']){
+        filter['currentfilter'] = "";
+    }else{
+        filter['currentfilter'] = key;
     }
 }

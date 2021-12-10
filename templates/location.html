@@ -58,28 +58,27 @@
 <!-- <h3>Legend:</h3> -->
 
 <div class="container">
-	<div class="row col-12" id="testDisplay">
+	<div class="row col-12" id="legendDisplay">
 	
 	</div>
 </div>
+{% set rack_add = 0 %}
+{% set table_num = "cellTable1" %}
 
 <!-- Table -->
 {% if locdet["tableType"] == "2d" %}
-	<div class="table table-responsive">
-		{% set rack_add = 0 %}
-		{% set table_num = "cellTable1" %}
-		{{ table2(rack_id, locdet, columns, loc_id, cell_location, rack_num, alphabet, rack_add, table_num) }}
-	</div>
-	<div class="table table-responsive">
-		{% set rack_add = columns/2 %}
-		{% set table_num = "cellTable2" %}
-		{{ table2(rack_id, locdet, columns, loc_id, cell_location, rack_num, alphabet, rack_add, table_num) }}
-	</div>
+
+	{{ table(rack_id, locdet, columns, loc_id, cell_location, rack_num, alphabet, rack_add, table_num) }}
+
+	{% set rack_add = columns/2 %}
+	{% set table_num = "cellTable2" %}
+	{{ table(rack_id, locdet, columns, loc_id, cell_location, rack_num, alphabet, rack_add, table_num) }}
+
 {% else %}
-	{{ table(rack_id, locdet, columns, loc_id, cell_location, rack_num, alphabet) }}
+	{{ table(rack_id, locdet, columns, loc_id, cell_location, rack_num, alphabet, rack_add, table_num) }}
 {% endif %}
 
-<meta id="my-data" data-loc="{{ loc_id }}" data-rack="{{ rack_num }}">
+<meta id="my-data" data-loc="{{ loc_id }}" data-rack="{{ rack_num }}" data-currentfilter="nofilter">
 <div id="updatedTime"></div>
 
 {% endblock %}
