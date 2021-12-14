@@ -6,7 +6,7 @@
     line-height: 25px;
     min-height: 25px;
     height: 60px;
-    min-width: 75px;
+    /* min-width: 55px; */
     padding: 0;
 }
 
@@ -19,7 +19,7 @@ td a {
     text-align: center;
     display: block;
     height: 100%;
-    font-size: 15px;
+    font-size: 3vmin;
     text-decoration: none;
 }
 
@@ -37,7 +37,7 @@ a.disabled {
 }
 
 td a div{
-    padding-top: 20px;
+    padding-top: 15px;
 }
 
 .dropdown-item{
@@ -55,9 +55,13 @@ td a div{
 }
 
 .darkenCell {
-    filter: brightness(35%);
+    filter: opacity(0.30);
 }
 
-.borderLeft {
-    border-left: 5px;
+div#loading {
+    width: 500px;
+    height: 405px;
+    display: none;
+    background: url(/static/images/loading.gif) no-repeat;
+    cursor: wait;
 }

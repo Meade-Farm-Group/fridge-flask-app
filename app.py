@@ -79,9 +79,20 @@ def palletInfo_page(cell_id):
                            cell_id=cell_id)
 
 
+@app.route("/search")
+def search_page():
+
+    return render_template('search.html',)
+
+
 @app.errorhandler(404)
 def error_404(e):
     return render_template('errors/404.html'), 404
+
+
+@app.errorhandler(503)
+def error_503(e):
+    return render_template('errors/503.html'), 503
 
 
 if __name__ == "__main__":
