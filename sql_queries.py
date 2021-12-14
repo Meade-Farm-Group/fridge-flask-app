@@ -1,5 +1,6 @@
 import os
 import pyodbc
+from util import check_table_type
 if os.path.exists("env.py"):
     import env
 
@@ -16,9 +17,10 @@ cnx = pyodbc.connect(f'DRIVER={driver};SERVER={server};\
 cursor = cnx.cursor()
 
 
-# Query to get location id, name from loczon
 def get_locations():
 
+    # Query gets the location code and location name of all locations that are
+    # of zone type "FRIDGE"
     cursor.execute('''
         SELECT
         loczon_nl.zonecode,
@@ -29,20 +31,26 @@ def get_locations():
     ''')
 
     locations = {}
+    # Loop uses the location id as the key, and the value is the name
     for row in cursor.fetchall():
         locations[row[0]] = {"name": row[1]}
+        tableType = check_table_type(row[0])
+        locations[row[0]] = {"name": row[1], "tableType": tableType}
+    # Returns:
+    # {
+    #   "FVFR1":{
+    #       "name": "Fruit Veg",
+    #       "tableType": "2d"
+    #   },
+    #   { ... }
+    # }
 
     return locations
 
 
-# Query to get location id, location name, table size and
-    # {
-    #     "id": "FVFR4",
-    #     "name": "Fruit and Veg Fridge 4",
-    #     "tableSize": [3, 20]
-    # }
 def get_table_size(location_id):
 
+    # Query gets all the cell location id's and get the name of the location
     cursor.execute('''
         SELECT
         locfil_nl.loccode,
@@ -55,24 +63,42 @@ def get_table_size(location_id):
 
     alphabet = "_ABCDEFGHIJK"
 
+    # Value of each dimension is defined before comparison
     loc_racks = 0
     loc_height = 0
     loc_depth = 0
     data = {}
 
+    # Each cell will be broken up and the value of each section will be
+    # compared
+
     for row in cursor.fetchall():
+        # Creates a string list seperated by the "-"
         loc = row[0].split('-')
-        if(loc_racks < int(loc[1])):
-            loc_racks = int(loc[1])
-        if(loc_height < alphabet.index(loc[2])):
-            loc_height = alphabet.index(loc[2])
-        # Extra bit for 3d
-        if (len(loc) == 4):
-            if(loc_depth < int(loc[3])):
-                loc_depth = int(loc[3])
+        if(str(loc[1]).isdigit()):
+            # Compare rack values
+            if(loc_racks < int(loc[1])):
+                loc_racks = int(loc[1])
+
+            # Compare height values
+            if(loc_height < alphabet.index(loc[2])):
+                loc_height = alphabet.index(loc[2])
+
+            # Compare depth values
+            if (len(loc) == 4):
+                if(loc_depth < int(loc[3])):
+                    loc_depth = int(loc[3])
 
         data["name"] = row[1]
+        data["cell"] = row[0]
     data["tableSize"] = [loc_racks, loc_height, loc_depth]
+    # Returns:
+    # {
+    #     "id": "FVFR4",
+    #     "name": "Fruit and Veg Fridge 4",
+    #     "cell": "FVFR4-01-A",
+    #     "tableSize": [3, 20, 0]
+    # }
 
     return data
 
@@ -85,12 +111,17 @@ def get_pallets_by_location(location_id):
         locfil_nl.loccode,
         loczon_nl.name,
         palstk_nl.recqty,
-        res.soldqty
+        res.soldqty,
+        prdall_nl.mascode,
+        prdall_nl.descr
         FROM palstk_nl
         LEFT JOIN palfil_nl ON palstk_nl.palfilid = palfil_nl.palfilid
         LEFT JOIN locdet_nl ON palfil_nl.locdetid = locdet_nl.locdetid
         LEFT JOIN locfil_nl ON locdet_nl.locfilid = locfil_nl.locfilid
         LEFT JOIN loczon_nl ON locfil_nl.zonecode = loczon_nl.zonecode
+        LEFT JOIN lotdet_nl ON palstk_nl.lotdetid = lotdet_nl.lotdetid
+        LEFT JOIN spdfil_nl ON lotdet_nl.prodnum = spdfil_nl.prodnum
+        LEFT JOIN prdall_nl ON spdfil_nl.mascode = prdall_nl.mascode
         LEFT JOIN (
             SELECT
             p1.palstkid,
@@ -104,23 +135,28 @@ def get_pallets_by_location(location_id):
         locfil_nl.loccode LIKE '{}%'
         AND
         res.balance != 0
+        ORDER BY locfil_nl.loccode
     '''.format(str(location_id)))
 
     data = {}
     data["loc_id"] = location_id
     data["loc_name"] = ""
-    data["pallets"] = []
+    data["pallets"] = {}
+    data["masCodeNames"] = {}
     for row in cursor.fetchall():
-        data["pallets"].append(row[0])
+        if row[0] in data["pallets"]:
+            if row[4] not in data["pallets"][row[0]]:
+                data["pallets"][row[0]].append(row[4])
+        else:
+            data["pallets"][row[0]] = [row[4]]
+        if row[4] not in data["masCodeNames"]:
+            data["masCodeNames"][row[4]] = row[5]
 
     return data
 
 
-# Query to get all pallets in a location
-# There can be mulitple pallets in a sigle location
-# Information desired per pallet: whats on pallet, how much, best before,
-# variety, country of origin, supplier
-# job no., description, pallet no.
+# Query to get information of each pallet in a location
+# There can be mulitple pallets in a single location
 def get_pallet_details(location_id):
     cursor.execute('''
         SELECT
@@ -166,6 +202,7 @@ def get_pallet_details(location_id):
         res.balance != 0
         ORDER BY palfil_nl.palfilid DESC
     '''.format(str(location_id)))
+
     pallets = []
     for row in cursor.fetchall():
         pallet = {"palletId": row[0],
@@ -186,3 +223,5 @@ def get_pallet_details(location_id):
         pallets.append(pallet)
 
     return pallets
+
+# def query_to_dict(cursor):

@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% block title %} Location Page {% endblock %} 
+{% block content %}
+{% from 'macros.j2' import table %}
+
+{% set rack_num = "{:02d}".format(rack_id| int)|string %}
+
+{% if locdet["tableType"] == "2d" %}
+	{% set columns = locdet["tableSize"][0] %}
+	{% set loc_id = locdet["id"] %}
+	{% set cell_location = locdet['id'] %}
+{% else %}
+	{% set columns = locdet["tableSize"][2] %}
+	{% set loc_id = locdet["id"][0] + locdet["id"][-1] %}
+	{% set cell_location = locdet['id']+'-'+rack_id %}
+{% endif %}
+<br/>
+
+<!-- Text -->
+<ul class="list-inline">
+	<li class="list-inline-item">
+		<a href="{{ url_for('home_page')}}" 
+        class="btn btn-success btn-lg" tabindex="-1" role="button" aria-disabled="true"><i class="fas fa-angle-left"></i>&#8592;Back</a>
+	</li>
+	<li class="list-inline-item">
+		<h2>{{ locdet["name"] }}&emsp;</h2>
+	</li>
+	<li class="list-inline-item">
+		{% if rack_id != none %}
+			<h3>Rack {{ rack_num }}&emsp;</h3>
+		{% endif %}
+	</li>
+	<li class="list-inline-item">
+		<h6 class="text-muted">
+			Last Updated: 
+			<li class="list-inline-item">
+				<div id="updatedTime"></div>
+			</li>
+		</h6>
+	</li>
+	<!-- <li class="list-inline-item">
+		<button id="refreshButton" type="button" class="btn btn-info btn-sm">Refresh</button>
+	</li> -->
+</ul>
+
+{% if locdet['tableType'] == "3d" %}
+<br/>
+<div class="dropdown">
+	<button class="btn btn-success btn-lg dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+		Select a Rack
+	</button>
+	<ul class="dropdown-menu dropdown-large border" aria-labelledby="dropdownMenuButton1">
+		{% for n in range(locdet["tableSize"][0]) %}
+			<li><a class="dropdown-item border" href="{{ url_for('location_page', location_id=locdet['id'], rack_id = loop.index )}}">Rack {{ loop.index }}</a></li>
+		{% endfor %}
+	</ul>
+</div>
+<br/>
+{% endif %}
+<div class="d-flex justify-content-center">
+	<div id="loading"></div>
+</div>
+	
+<div id="content">
+
+<!-- Legend:-->
+
+<div class="container">
+	<div class="row col-12" id="legendDisplay">
+	
+	</div>
+</div>
+{% set rack_add = 0 %}
+{% set table_num = "cellTable1" %}
+
+<!-- Table -->
+	{% if locdet["tableType"] == "2d" %}
+
+		{{ table(rack_id, locdet, columns, loc_id, cell_location, rack_num, alphabet, rack_add, table_num) }}
+
+		{% set rack_add = columns/2 %}
+		{% set table_num = "cellTable2" %}
+		{{ table(rack_id, locdet, columns, loc_id, cell_location, rack_num, alphabet, rack_add, table_num) }}
+
+	{% else %}
+		{{ table(rack_id, locdet, columns, loc_id, cell_location, rack_num, alphabet, rack_add, table_num) }}
+	{% endif %}
+</div>
+
+
+<meta id="my-data" data-loc="{{ loc_id }}" data-rack="{{ rack_num }}" data-currentfilter="">
+
+<script type="text/javascript">
+	function loading(){
+		$("#loading").show();
+		$("#content").hide();       
+	}
+</script>
+
+
+{% endblock %}
+
+{% block extrajs %}
+<script src="{{ url_for('static', filename='js/tableRefresh.js') }}"></script>
+{% endblock %}
+
+
+

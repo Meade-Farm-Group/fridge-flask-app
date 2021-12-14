@@ -1,12 +1,12 @@
 .table-hover:hover {
-    background-color: rgba(0,0,0,.095);
+    filter: brightness(110%);
 }
 
-#myTable td {
+.cellTable td {
     line-height: 25px;
     min-height: 25px;
-    height: 75px;
-    min-width: 60px;
+    height: 60px;
+    /* min-width: 55px; */
     padding: 0;
 }
 
@@ -19,7 +19,7 @@ td a {
     text-align: center;
     display: block;
     height: 100%;
-    font-size: 15px;
+    font-size: 3vmin;
     text-decoration: none;
 }
 
@@ -33,13 +33,35 @@ a.disabled {
 }
 
 #palletTable th{
-    width: 200px;
-}
-
-.rightBorder{
-    border: 5px solid;
+    width: 210px;
 }
 
 td a div{
-    padding-top: 20px;
+    padding-top: 15px;
+}
+
+.dropdown-item{
+    font-size: 2rem;
+}
+
+.legendSample{
+    margin: 5px;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.legendSample:hover{
+    filter: brightness(90%);
+}
+
+.darkenCell {
+    filter: opacity(0.30);
+}
+
+div#loading {
+    width: 500px;
+    height: 405px;
+    display: none;
+    background: url(/static/images/loading.gif) no-repeat;
+    cursor: wait;
 }
