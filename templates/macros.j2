@@ -47,8 +47,8 @@
                     {% else %}
                         <td class="" background id="{{ cell_id }}">
                     {% endif %}
-                        <a href="{{ url_for('palletInfo_page', cell_id = cell_id, location = cell_location ) }}" class="cell-link link-dark disabled" >
-                            <div onclick="loading();"> {{ cell_label }} </div>
+                        <a href="{{ url_for('loading_model', cell_id = cell_id, location = cell_location ) }}" class="cell-link link-dark disabled" >
+                            <div> {{ cell_label }} </div>
                         </a>
                     </td>
                 {% endfor %}
