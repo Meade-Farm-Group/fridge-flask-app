@@ -57,11 +57,6 @@
 </div>
 <br/>
 {% endif %}
-<div class="d-flex justify-content-center">
-	<div id="loading"></div>
-</div>
-	
-<div id="content">
 
 <!-- Legend:-->
 
@@ -85,15 +80,14 @@
 	{% else %}
 		{{ table(rack_id, locdet, columns, loc_id, cell_location, rack_num, alphabet, rack_add, table_num) }}
 	{% endif %}
-</div>
 
 
 <meta id="my-data" data-loc="{{ loc_id }}" data-rack="{{ rack_num }}" data-currentfilter="">
 
 <script type="text/javascript">
 	function loading(){
-		$("#loading").show();
-		$("#content").hide();       
+		// $("#loading").show();
+		// $("#content").hide();       
 	}
 </script>
 

@@ -2,6 +2,10 @@ from flask import Flask, render_template
 import sql_queries
 from util import check_table_type
 import json
+import os
+if os.path.exists("env.py"):
+    import env
+from waitress import serve
 
 app = Flask(__name__)
 
@@ -79,6 +83,11 @@ def palletInfo_page(cell_id):
                            cell_id=cell_id)
 
 
+@app.route('/loading/<string:cell_id>/<string:location>')
+def loading_model(cell_id, location):
+    return render_template("loading.html", cell_id=cell_id, location=location)
+
+
 @app.route("/search")
 def search_page():
 
@@ -95,6 +104,8 @@ def error_503(e):
     return render_template('errors/503.html'), 503
 
 
-if __name__ == "__main__":
-
-    app.run(debug=True)
+if "PRODUCTION" in os.environ:
+    serve(app, listen="*:7014")
+else:
+    if __name__ == "__main__":
+        app.run(debug=True)

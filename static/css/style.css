@@ -1,67 +1,77 @@
 .table-hover:hover {
-    filter: brightness(110%);
+  filter: brightness(110%);
 }
 
 .cellTable td {
-    line-height: 25px;
-    min-height: 25px;
-    height: 60px;
-    /* min-width: 55px; */
-    padding: 0;
+  line-height: 25px;
+  min-height: 25px;
+  height: 60px;
+  /* min-width: 55px; */
+  padding: 0;
 }
 
-.tabletext{
-    font-size: 15px;
+.tabletext {
+  font-size: 15px;
 }
 
 td a {
-    margin-top: auto;
-    text-align: center;
-    display: block;
-    height: 100%;
-    font-size: 3vmin;
-    text-decoration: none;
+  margin-top: auto;
+  text-align: center;
+  display: block;
+  height: 100%;
+  font-size: 13px;
+  text-decoration: none;
 }
 
 .valueHeading {
-    width: 100px;
+  width: 100px;
 }
 
 a.disabled {
-    pointer-events: none;
-    cursor: default;
+  pointer-events: none;
+  cursor: default;
 }
 
-#palletTable th{
-    width: 210px;
+#palletTable th {
+  width: 210px;
 }
 
-td a div{
-    padding-top: 15px;
+td a div {
+  padding-top: 15px;
 }
 
-.dropdown-item{
-    font-size: 2rem;
+.dropdown-item {
+  font-size: 2rem;
 }
 
-.legendSample{
-    margin: 5px;
-    padding: 5px;
-    border-radius: 5px;
+.legendSample {
+  margin: 5px;
+  padding: 5px;
+  border-radius: 5px;
 }
 
-.legendSample:hover{
-    filter: brightness(90%);
+.legendSample:hover {
+  filter: brightness(90%);
 }
 
 .darkenCell {
-    filter: opacity(0.30);
+  filter: opacity(0.3);
 }
 
-div#loading {
-    width: 500px;
-    height: 405px;
-    display: none;
-    background: url(/static/images/loading.gif) no-repeat;
-    cursor: wait;
+.loader {
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #5cb85c;
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
