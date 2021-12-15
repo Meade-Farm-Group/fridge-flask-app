@@ -75,3 +75,14 @@ td a div {
     transform: rotate(360deg);
   }
 }
+
+div#loading {
+  width: 535px;
+  height: 535px;
+  display: block;
+  background: url(/static/images/loading2.gif) no-repeat;
+  }
+
+  div#content {
+    display: none;
+  }

@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}
-Search Page
+Loading..
 {% endblock %}
 {% block content %}
 <br/><br/><br/><br/><br/>
@@ -8,7 +8,7 @@ Search Page
 	<div class="loader"></div>
 </div>
 
-<script> window.location.replace('/palletInfo/{{ cell_id }}?location={{location}}');</script>
+<script> window.location.replace('/palletInfo/{{ cell_id }}');</script>
 
 
 {% endblock %}
