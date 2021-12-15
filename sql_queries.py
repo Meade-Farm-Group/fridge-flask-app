@@ -140,7 +140,6 @@ def get_pallets_by_location(location_id):
 
     data = {}
     data["loc_id"] = location_id
-    data["loc_name"] = ""
     data["pallets"] = {}
     data["masCodeNames"] = {}
     for row in cursor.fetchall():
@@ -157,7 +156,7 @@ def get_pallets_by_location(location_id):
 
 # Query to get information of each pallet in a location
 # There can be mulitple pallets in a single location
-def get_pallet_details(location_id):
+def get_pallet_details(cell_id):
     cursor.execute('''
         SELECT
         palfil_nl.palfilid,
@@ -174,7 +173,8 @@ def get_pallet_details(location_id):
         lothed_nl.ponum,
         lotdet_nl.lotnum,
         poffil_nl.narrative,
-        spdfil_nl.countsize
+        spdfil_nl.countsize,
+        locfil_nl.zonecode
         FROM palstk_nl
         LEFT JOIN palfil_nl ON palstk_nl.palfilid = palfil_nl.palfilid
         LEFT JOIN locdet_nl ON palfil_nl.locdetid = locdet_nl.locdetid
@@ -201,9 +201,12 @@ def get_pallet_details(location_id):
         AND
         res.balance != 0
         ORDER BY palfil_nl.palfilid DESC
-    '''.format(str(location_id)))
+    '''.format(str(cell_id)))
 
-    pallets = []
+    data = {}
+    data["zonecode"] = None
+    data["tableType"] = check_table_type(cell_id)
+    data["pallets"] = []
     for row in cursor.fetchall():
         pallet = {"palletId": row[0],
                   "productDescr": row[1],
@@ -220,8 +223,10 @@ def get_pallet_details(location_id):
                   "lotnum": row[12],
                   "narrative": row[13],
                   "countsize": row[14]}
-        pallets.append(pallet)
+        data["pallets"].append(pallet)
+        if data["zonecode"] is None:
+            data["zonecode"] = row[15]
 
-    return pallets
+    return data
 
 # def query_to_dict(cursor):
