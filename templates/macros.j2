@@ -13,7 +13,7 @@
             <th scope="col">#</th>
             {% for row in range(tableRange) %}
                 {% if rack_id == none %}
-                    <th scope="col">Rack {{ "{:02d}".format((loop.index + rack_add)|int) }}</th>
+                    <th scope="col" class="text-center">Rack {{ "{:02d}".format((loop.index + rack_add)|int) }}</th>
                 {% elif rack_id | int % 2 == 1 %}
                     <th scope="col" class="text-center">Cell {{ "{:02d}".format((loop.index + rack_add)|int) }}</th>
                 {% else %}

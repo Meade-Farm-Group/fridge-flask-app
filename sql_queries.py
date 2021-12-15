@@ -24,8 +24,10 @@ def get_locations():
     cursor.execute('''
         SELECT
         loczon_nl.zonecode,
-        loczon_nl.name
+        loczon_nl.name,
+        locfil_nl.loccode
         FROM loczon_nl
+        LEFT JOIN locfil_nl ON loczon_nl.zonecode = locfil_nl.zonecode
         WHERE
         loczon_nl.zonetypecode = 'FRIDGE'
     ''')
@@ -35,7 +37,8 @@ def get_locations():
     for row in cursor.fetchall():
         locations[row[0]] = {"name": row[1]}
         tableType = check_table_type(row[0])
-        locations[row[0]] = {"name": row[1], "tableType": tableType}
+        locations[row[0]] = {"name": row[1], "tableType": tableType,
+                             "location": row[2]}
     # Returns:
     # {
     #   "FVFR1":{

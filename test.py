@@ -36,7 +36,7 @@ cursor = cnx.cursor()
 # }
 
 # data = sql_queries.get_pallets_by_location("FVFR1")
-data = sql_queries.get_pallet_details("D2-01-A-03")
+data = sql_queries.get_locations()
 
 print(data)
 # Using readlines()
