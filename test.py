@@ -36,48 +36,12 @@ cursor = cnx.cursor()
 # }
 
 # data = sql_queries.get_pallets_by_location("FVFR1")
-# data = sql_queries.get_pallets_by_location("FVFR1-08")
+data = sql_queries.get_pallet_details("D2-01-A-03")
 
-# print(data)
+print(data)
 # Using readlines()
-file1 = open('test.txt', 'r')
-Lines = file1.readlines()
-# Strips the newline character
-for line in Lines:
-    print('"'+line.strip()+'": "#",')
-
-# function getData(loc, rack) {
-#     var search = "";
-#     // If the rack value is "00", this means it is a 2d view of the storage
-#     // 2d storages do not have a rack value, so it defaults to 0, which is then
-#     // formatted to the desired digit length
-#     if (rack == 00) {
-#         search = loc;
-#     } else {
-#         search = loc + "-" + rack;
-#     }
-#     $.ajax({
-#         url: '/update_data/' + search,
-#         type: 'POST',
-#         success: function (data) {
-#             // var table = document.getElementById("cellTable");
-#             var tableNum;
-#             var table;
-#             $.getJSON("/static/js/mascodeColours.json", function (masCodeColours) {
-#                 legendList = {};
-#                 for (var k = 1; k <= 2 ; k++) {
-#                     tableNum = "celltable" + k;
-#                     table = document.getElementById(tableNum);
-#                     for (var i = 1, row; row = table.rows[i]; i++) {
-#                         for (var j = 1, col; col = row.cells[j]; j++) {
-#                             legendList = cellUpdate(col, data, masCodeColours, legendList);
-#                         }
-#                     }
-#                 }
-#                 // Update the legend
-#                 updateLegend(masCodeColours, legendList);
-#             });
-#         }
-#     });
-#     // showUpdateMsg();
-# }
+# file1 = open('test.txt', 'r')
+# Lines = file1.readlines()
+# # Strips the newline character
+# for line in Lines:
+#     print('"'+line.strip()+'": "#",')

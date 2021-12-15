@@ -76,10 +76,10 @@ def update_data(location_id):
 def palletInfo_page(cell_id):
 
     # Query to get all information of pallets in this location
-    pallets = sql_queries.get_pallet_details(cell_id)
+    data = sql_queries.get_pallet_details(cell_id)
 
     return render_template('palletInfo.html',
-                           pallets=pallets,
+                           data=data,
                            cell_id=cell_id)
 
 

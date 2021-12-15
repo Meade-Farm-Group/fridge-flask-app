@@ -38,18 +38,16 @@
 			</li>
 		</h6>
 	</li>
-	<!-- <li class="list-inline-item">
-		<button id="refreshButton" type="button" class="btn btn-info btn-sm">Refresh</button>
-	</li> -->
 </ul>
 
+<!-- Dropdown for rack select -->
 {% if locdet['tableType'] == "3d" %}
 <br/>
 <div class="dropdown">
-	<button class="btn btn-success btn-lg dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+	<button class="btn btn-success btn-lg dropdown-toggle" type="button" id="rackSelectButton" data-bs-toggle="dropdown" aria-expanded="false">
 		Select a Rack
 	</button>
-	<ul class="dropdown-menu dropdown-large border" aria-labelledby="dropdownMenuButton1">
+	<ul class="dropdown-menu dropdown-large border" aria-labelledby="rackSelectButton" id="rackSelect">
 		{% for n in range(locdet["tableSize"][0]) %}
 			<li><a class="dropdown-item border" href="{{ url_for('location_page', location_id=locdet['id'], rack_id = loop.index )}}">Rack {{ loop.index }}</a></li>
 		{% endfor %}
@@ -58,10 +56,11 @@
 <br/>
 {% endif %}
 
+	
 <!-- Legend:-->
 
 <div class="container">
-	<div class="row col-12" id="legendDisplay">
+	<div class="row" id="legendDisplay">
 	
 	</div>
 </div>
@@ -83,14 +82,6 @@
 
 
 <meta id="my-data" data-loc="{{ loc_id }}" data-rack="{{ rack_num }}" data-currentfilter="">
-
-<script type="text/javascript">
-	function loading(){
-		// $("#loading").show();
-		// $("#content").hide();       
-	}
-</script>
-
 
 {% endblock %}
 
