@@ -1,4 +1,4 @@
-function getData() {
+function getData() {     
     var search = "";
     var range;
     var locData = $('#my-data').data();
@@ -38,6 +38,7 @@ function getData() {
     // Update the time of last update done
     updatedTime = document.getElementById("updatedTime");
     updatedTime.innerHTML = '<div id="updateTime">' + formatDate(new Date()) + '</div>'
+
     // showUpdateMsg();
 }
 
@@ -74,6 +75,7 @@ function cellUpdate(cell, data, masCodeColours, legendList) {
         $(cell).css("background-color", bgColour);
         // Get the element that has the text
         cellText = cell.getElementsByTagName("Div")[0]
+
         // Check if the colour is dark
         if(checkBrightness(bgColour)){
             // If the colour is dark, make the text white
@@ -82,6 +84,7 @@ function cellUpdate(cell, data, masCodeColours, legendList) {
             // If the colour is light, keep text dark
             $(cellText).css("color", "#000000");
         }
+        
         // Set this attribute of the cell to the master code given it
         cell.setAttribute("data-masCode", masCode);
 
@@ -126,7 +129,7 @@ function updateLegend(masCodeColours, legendList, range){
             bgColour = masCodeColours[key];
             // Creating a button element and giving it relevant design and functionality
             var element = document.createElement("button");
-            element.classList.add("col-md");
+            element.classList.add("col");
             element.classList.add("legendSample");
             element.classList.add("text-center");
             element.setAttribute("id", key);
@@ -230,6 +233,7 @@ function formatDate(date) {
     hours = hours % 12;
     hours = hours ? hours : 12; // the hour '0' should be '12'
     minutes = minutes < 10 ? '0'+minutes : minutes;
+    seconds = seconds < 10 ? '0'+seconds : seconds;
     var strTime = hours + ':' + minutes +'.'+ seconds +' ' + ampm;
     return strTime + "   " + date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear();
 }
@@ -250,20 +254,3 @@ function checkBrightness(bgColour){
         return false
     }
 }
-
-var refreshing = false;
-$('#refreshButton').click(function() {
-    if (refreshing) {
-        return;
-    }
-
-    refreshing = true;
-    document.getElementById('refreshButton').classList.add("disabled")
-
-    getData();
-
-    setTimeout(function() {
-        refreshing = false;
-        document.getElementById('refreshButton').classList.remove("disabled")
-    }, 10000);
-});
