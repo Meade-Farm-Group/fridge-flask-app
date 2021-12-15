@@ -83,9 +83,9 @@ def palletInfo_page(cell_id):
                            cell_id=cell_id)
 
 
-@app.route('/loading/<string:cell_id>/<string:location>')
-def loading_model(cell_id, location):
-    return render_template("loading.html", cell_id=cell_id, location=location)
+@app.route('/palletInfo/<string:cell_id>/loading')
+def loading_model(cell_id):
+    return render_template("loading.html", cell_id=cell_id)
 
 
 @app.route("/search")

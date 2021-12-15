@@ -4,25 +4,27 @@
 {% endblock %}
 {% block content %}
 <br/>
-    {% set location = request.args.get('location').split('-') %}
-    {% if location|length == 2 %}
-        <a href="{{ url_for('location_page', location_id=location[0], rack_id = location[1] )}}" 
+    {% set loc_id = data["zonecode"] %}
+    {% if data["pallets"] == "3d" %}   
+        {% set rack_num = cell_id.split('-')[1] %}
+        <a href="{{ url_for('location_page', location_id=loc_id, rack_id = rack_num )}}" 
         class="btn btn-success btn-lg" tabindex="-1" role="button" aria-disabled="true"><i class="fas fa-chevron-left"></i>&#8592;Back</a>
     {% else %}
-        <a href="{{ url_for('location_page', location_id=location[0] )}}" 
+        <a href="{{ url_for('location_page', location_id=loc_id )}}" 
         class="btn btn-success btn-lg" tabindex="-1" role="button" aria-disabled="true"><i class="fas fa-chevron-left"></i>&#8592;Back</a>
     {% endif %}
     
-    {% if pallets is defined and pallets|length > 0 %}
-        <h2>Location: {{pallets[0]["locDescr"]}} ({{ cell_id }})</h2>
-        {% for pallet in pallets %}
+    {% if data["pallets"] is defined and data["pallets"]|length > 0 %}
+    <h2>Location: {{data["pallets"][0]["locDescr"]}} ({{ cell_id }})</h2>
+        {% for pallet in data["pallets"] %}
         <br/>
-        <h3>Pallet: {{ pallet["palletId"]  }}</h3>
+        <h3>Pallet: {{ pallet["palletId"] }}</h3>
+        
             <table class="table table-striped table-bordered" id="palletTable">
                 <tbody>
                     <tr>
                         <th scope="row">Pallet Id: </th>
-                        <td>{{ pallet["palletId"]  }}</td>
+                        <td>{{ pallet["palletId"] }}</td>
                     </tr>
                     <tr>
                         <th scope="row">Full Product Description: </th>
