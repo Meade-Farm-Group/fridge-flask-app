@@ -90,8 +90,14 @@ def loading_model(cell_id):
 
 @app.route("/search")
 def search_page():
+@app.route('/map')
+def map_page():
+    return render_template("map.html")
 
-    return render_template('search.html',)
+
+@app.route('/maploc/<string:coords>')
+def maploc_page(coords):
+    return render_template("maploc.html", coords=coords)
 
 
 @app.errorhandler(404)

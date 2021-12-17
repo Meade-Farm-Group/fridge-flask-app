@@ -1,0 +1,11 @@
+{% extends 'base.html' %} 
+{% block title %} map Page {% endblock %} 
+{% block content %}
+{% from 'macros.j2' import map %}
+<h1>Select location:</h1>
+
+<div class="border img-fluid mapdiv">
+    {{ map() }}
+</div>
+
+{% endblock %}
