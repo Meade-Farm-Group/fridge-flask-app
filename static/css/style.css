@@ -83,6 +83,29 @@ div#loading {
   background: url(/static/images/loading2.gif) no-repeat;
   }
 
-  div#content {
+div#content {
     display: none;
-  }
+}
+
+path{
+  fill:lightgreen;
+  stroke: black;
+  stroke-width: 1px;
+  stroke-linejoin: "round";
+  stroke-linecap: "round";
+  fill-rule: evenodd;
+}
+
+.mapdiv path:hover{
+  opacity: 0.5;
+}
+
+.mapdiv{
+  max-height:100%;
+  justify-content: center;
+}
+
+.mapdiv2{
+  padding-left: 100px;
+  padding-right: 100px;
+}
