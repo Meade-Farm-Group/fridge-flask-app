@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, flash
 import sql_queries
 from util import check_table_type
 import json
@@ -6,10 +6,13 @@ import os
 if os.path.exists("env.py"):
     import env
 from waitress import serve
+from forms import SearchForm
 
 app = Flask(__name__)
 
 alphabet = "_ABCDEFGHIJK"
+
+app.config['SECRET_KEY'] = 'ojou9823o2f82uye9foj2e8f9hu'
 
 
 @app.route("/")
@@ -43,6 +46,8 @@ def location_page(location_id, rack_id):
         return render_template('errors/404.html'), 404
 
     # Check if the url is valid
+    if data['cell'] is None:
+        return render_template('errors/404.html'), 404
     tableType = check_table_type(data["cell"])
     if(tableType == "3d"):
         if(int(rack_id) > data["tableSize"][0]):
@@ -88,8 +93,16 @@ def loading_model(cell_id):
     return render_template("loading.html", cell_id=cell_id)
 
 
-@app.route("/search")
+@app.route('/search', methods=['POST', 'GET'])
 def search_page():
+    form = SearchForm()
+    if form.validate_on_submit():
+        print(form.product_code.data)
+    else:
+        print("INVALID")
+    return render_template('search.html', form=form)
+
+
 @app.route('/map')
 def map_page():
     return render_template("map.html")

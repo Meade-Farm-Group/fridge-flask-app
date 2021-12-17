@@ -36,9 +36,9 @@ cursor = cnx.cursor()
 # }
 
 # data = sql_queries.get_pallets_by_location("FVFR1")
-data = sql_queries.get_locations()
+data = sql_queries.get_table_size("FVFR6")
 
-print(data)
+print(data['cell'])
 # Using readlines()
 # file1 = open('test.txt', 'r')
 # Lines = file1.readlines()
