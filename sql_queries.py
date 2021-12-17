@@ -30,6 +30,8 @@ def get_locations():
         LEFT JOIN locfil_nl ON loczon_nl.zonecode = locfil_nl.zonecode
         WHERE
         loczon_nl.zonetypecode = 'FRIDGE'
+        OR
+        loczon_nl.zonetypecode = 'FLOOR'
     ''')
 
     locations = {}
@@ -74,7 +76,7 @@ def get_table_size(location_id):
 
     # Each cell will be broken up and the value of each section will be
     # compared
-
+    data["cell"] = None
     for row in cursor.fetchall():
         # Creates a string list seperated by the "-"
         loc = row[0].split('-')
@@ -210,6 +212,18 @@ def get_pallet_details(cell_id):
     data["zonecode"] = None
     data["tableType"] = check_table_type(cell_id)
     data["pallets"] = []
+    if cursor.rowcount == 0:
+        cursor.execute('''
+            SELECT
+            locfil_nl.zonecode
+            FROM locfil_nl
+            WHERE
+            locfil_nl.loccode = '{}'
+
+        '''.format(str(cell_id)))
+        row = cursor.fetchone()
+        data["zonecode"] = row[0]
+
     for row in cursor.fetchall():
         pallet = {"palletId": row[0],
                   "productDescr": row[1],
