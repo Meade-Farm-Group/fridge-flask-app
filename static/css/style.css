@@ -104,8 +104,10 @@ path{
   max-height:100%;
   justify-content: center;
 }
+.mapdiv a{
+  text-decoration: none;
+}
 
-.mapdiv2{
-  padding-left: 100px;
-  padding-right: 100px;
+.palletTest{
+  font-size: calc(8px + 0.5vw);
 }
