@@ -119,6 +119,7 @@ function cellUpdate(cell, data, masCodeColours, legendList) {
 function updateLegend(masCodeColours, legendList, range){
     // clearing the legend table
     $("#legendDisplay button").remove();
+    $("#legendDisplay div").remove();
     var name
     var counter = 0;
     var filter = $('#my-data').data();
