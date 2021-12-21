@@ -1,4 +1,4 @@
-from flask import Flask, render_template, flash
+from flask import Flask, render_template, flash, redirect, url_for, request
 import sql_queries
 from util import check_table_type
 import json
@@ -97,10 +97,29 @@ def loading_model(cell_id):
 def search_page():
     form = SearchForm()
     if form.validate_on_submit():
-        print(form.product_code.data)
+        pc = form.product_name.data
+        po = form.purchase_order.data
+        r = form.reference.data
+        if r == '':
+            r = None
+        bbd = form.best_before_date.data
+
+        return redirect(url_for('search_result_page', pc=pc,
+                                po=po, r=r, bbd=bbd))
     else:
         print("INVALID")
     return render_template('search.html', form=form)
+
+
+@app.route('/search/results')
+def search_result_page():
+    # messages = request.args['pc']
+    return render_template("searchResults.html",)
+
+
+@app.route('/search/loading')
+def search_loading_page():
+    return render_template("searchLoading.html")
 
 
 @app.route('/map')
@@ -108,9 +127,9 @@ def map_page():
     return render_template("map.html")
 
 
-@app.route('/maploc/<string:coords>')
-def maploc_page(coords):
-    return render_template("maploc.html", coords=coords)
+@app.route('/detailedMap/<string:location_id>')
+def location_detailed_page(location_id):
+    return render_template("detailedMap.html")
 
 
 @app.errorhandler(404)

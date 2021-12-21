@@ -247,3 +247,82 @@ def get_pallet_details(cell_id):
     return data
 
 # def query_to_dict(cursor):
+
+
+def get_pallet_details_search(prod_name, po_num, reference, best_before_date):
+    cursor.execute('''
+        SELECT
+        palfil_nl.palfilid,
+        prdall_nl.descr,
+        spdfil_nl.mark,
+        palstk_nl.recqty,
+        palstk_nl.BestBeforeDate,
+        coufil_nl.name,
+        variety_nl.variety,
+        lotdet_nl.jobnum,
+        sendac_nl.name,
+        res.balance,
+        locfil_nl.descr,
+        lothed_nl.ponum,
+        lotdet_nl.lotnum,
+        poffil_nl.narrative,
+        spdfil_nl.countsize,
+        locfil_nl.zonecode
+        FROM palstk_nl
+        LEFT JOIN palfil_nl ON palstk_nl.palfilid = palfil_nl.palfilid
+        LEFT JOIN locdet_nl ON palfil_nl.locdetid = locdet_nl.locdetid
+        LEFT JOIN locfil_nl ON locdet_nl.locfilid = locfil_nl.locfilid
+        LEFT JOIN lotdet_nl ON palstk_nl.lotdetid = lotdet_nl.lotdetid
+        LEFT JOIN spdfil_nl ON lotdet_nl.prodnum = spdfil_nl.prodnum
+        LEFT JOIN prdall_nl ON spdfil_nl.mascode = prdall_nl.mascode
+        LEFT JOIN lothed_nl ON lotdet_nl.lotnum = lothed_nl.lotnum
+        LEFT JOIN sendac_nl ON lothed_nl.supcode = sendac_nl.supcode
+        LEFT JOIN variety_nl ON lotdet_nl.variety = variety_nl.varietycode
+        LEFT JOIN coufil_nl ON lotdet_nl.country = coufil_nl.country
+        LEFT JOIN poffil_nl ON lothed_nl.ponum = poffil_nl.ponum
+        LEFT JOIN (
+            SELECT
+            p1.palstkid,
+            ISNULL(SUM(po2.qty),0) AS soldqty,
+            ISNULL((p1.recqty-SUM(po2.qty)),p1.recqty) AS balance
+            FROM palstk_nl p1
+            LEFT OUTER JOIN palord_nl po2 ON po2.palstkid = p1.palstkid
+            GROUP BY p1.palstkid, p1.recqty
+        ) res ON palstk_nl.palstkid = res.palstkid
+        WHERE UPPER(prdall_nl.descr) LIKE UPPER('%{}%')
+        AND
+        WHERE lothed_nl.ponum LIKE '%{}%'
+        AND
+        WHERE UPPER(poffil_nl.narrative) LIKE UPPER('%{}%')
+        AND
+        WHERE palstk_nl.BestBeforeDate LIKE '%{}%'
+        AND
+        res.balance != 0
+        ORDER BY palfil_nl.palfilid ASC
+    '''.format(str(prod_name, prod_name, po_num, reference, best_before_date)))
+
+    data = {}
+    data["zonecode"] = None
+    data["pallets"] = []
+
+    for row in cursor.fetchall():
+        pallet = {"palletId": row[0],
+                  "productDescr": row[1],
+                  "spdfilMark": row[2],
+                  "recqty": row[3],
+                  "bestBefore": row[4],
+                  "country": row[5],
+                  "variety": row[6],
+                  "jobNum": row[7],
+                  "supplierName": row[8],
+                  "balence": row[9],
+                  "locDescr": row[10],
+                  "ponum": row[11],
+                  "lotnum": row[12],
+                  "narrative": row[13],
+                  "countsize": row[14]}
+        data["pallets"].append(pallet)
+        if data["zonecode"] is None:
+            data["zonecode"] = row[15]
+
+    return data
