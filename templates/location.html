@@ -25,49 +25,46 @@
 	<li class="list-inline-item">
 		<h2>{{ locdet["name"] }}&emsp;</h2>
 	</li>
+	{% if rack_id != none and (locdet["tableSize"][0] != 0 and locdet["tableSize"][2] != 0) %}
+		<li class="list-inline-item">
+				<h3>Rack {{ rack_num }}&emsp;</h3>
+		</li>
+	{% endif %}
 	<li class="list-inline-item">
-		{% if rack_id != none %}
-			<h3>Rack {{ rack_num }}&emsp;</h3>
-		{% endif %}
-	</li>
-	<li class="list-inline-item">
-		<h6 class="text-muted">
-			Last Updated: 
-			<li class="list-inline-item">
-				<div id="updatedTime"></div>
-			</li>
-		</h6>
+		<img src="/static/images/{{ locdet['id'] }}/{{ rack_num }}.png" height="140" alt="miniMap">
 	</li>
 </ul>
 
 <!-- Dropdown for rack select -->
 {% if locdet['tableType'] == "3d" %}
-<br/>
-<div class="dropdown">
-	<button class="btn btn-success btn-lg dropdown-toggle" type="button" id="rackSelectButton" data-bs-toggle="dropdown" aria-expanded="false">
-		Select a Rack
-	</button>
-	<ul class="dropdown-menu dropdown-large border" aria-labelledby="rackSelectButton" id="rackSelect">
-		{% for n in range(locdet["tableSize"][0]) %}
-			<li><a class="dropdown-item border" href="{{ url_for('location_page', location_id=locdet['id'], rack_id = loop.index )}}">Rack {{ loop.index }}</a></li>
-		{% endfor %}
-	</ul>
-</div>
-<br/>
+		<div class="dropdown">
+			<button class="btn btn-success btn-lg dropdown-toggle" type="button" id="rackSelectButton" data-bs-toggle="dropdown" aria-expanded="false">
+				Select a Rack
+			</button>
+			<ul class="dropdown-menu dropdown-large border" aria-labelledby="rackSelectButton" id="rackSelect">
+				{% for n in range(locdet["tableSize"][0]) %}
+					<li><a class="dropdown-item border" href="{{ url_for('location_page', location_id=locdet['id'], rack_id = loop.index )}}">Rack {{ loop.index }}</a></li>
+				{% endfor %}
+			</ul>
+		</div>
 {% endif %}
+<br/>
 
-	
-<!-- Legend:-->
+<!-- If no table to diplay -->
+{% if not (locdet["tableSize"][0] == 0 and locdet["tableSize"][2] == 0) %}
 
-<div class="container">
-	<div class="row" id="legendDisplay">
-	
+	<!-- Legend: -->
+	<div class="container">
+		<div class="row" id="legendDisplay">
+		
+		</div>
 	</div>
-</div>
-{% set rack_add = 0 %}
-{% set table_num = "cellTable1" %}
 
-<!-- Table -->
+	{% set rack_add = 0 %}
+	{% set table_num = "cellTable1" %}
+
+
+<!-- Table(s) -->
 	{% if locdet["tableType"] == "2d" %}
 
 		{{ table(rack_id, locdet, columns, loc_id, cell_location, rack_num, alphabet, rack_add, table_num) }}
@@ -79,8 +76,29 @@
 	{% else %}
 		{{ table(rack_id, locdet, columns, loc_id, cell_location, rack_num, alphabet, rack_add, table_num) }}
 	{% endif %}
+{% endif %}
 
+<!-- Bay(s) -->
+{% if locdet["bays"]|length != 0 %}
+	{% for bay in locdet["bays"] %}
+		<h2>{{bay}}</h2>
+		{% if bay["pallets"]|length > 0 %}
+			<p>Things are here test</p>
+		{% else %}
+			<h5>No pallets found.</h5>
+		{% endif %}
+	{% endfor %}
+{% endif %}
 
+<!-- Time Updated -->
+<h6 class="text-muted">
+	Last Updated: 
+	<li class="list-inline-item">
+		<div id="updatedTime"></div>
+	</li>
+</h6>
+
+<!-- Data about location and current settings -->
 <meta id="my-data" data-loc="{{ loc_id }}" data-rack="{{ rack_num }}" data-currentfilter="">
 
 {% endblock %}

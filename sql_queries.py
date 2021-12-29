@@ -73,13 +73,16 @@ def get_table_size(location_id):
     loc_height = 0
     loc_depth = 0
     data = {}
+    data["bays"] = []
 
     # Each cell will be broken up and the value of each section will be
     # compared
     data["cell"] = None
+    data["name"] = None
     for row in cursor.fetchall():
         # Creates a string list seperated by the "-"
         loc = row[0].split('-')
+        if(loc[1] != "BAY"):
         if(str(loc[1]).isdigit()):
             # Compare rack values
             if(loc_racks < int(loc[1])):
@@ -93,9 +96,11 @@ def get_table_size(location_id):
             if (len(loc) == 4):
                 if(loc_depth < int(loc[3])):
                     loc_depth = int(loc[3])
-
+            if data["cell"] is None:
+                data["cell"] = row[0]
+        else:
+            data["bays"].append(row[0])
         data["name"] = row[1]
-        data["cell"] = row[0]
     data["tableSize"] = [loc_racks, loc_height, loc_depth]
     # Returns:
     # {

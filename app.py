@@ -32,36 +32,52 @@ def home_page():
 @app.route('/location/<string:location_id>/<string:rack_id>',
            methods=['POST', 'GET'])
 def location_page(location_id, rack_id):
-
+    tableType = ""
     # Query to get the dimensions for the table
     data = sql_queries.get_table_size(location_id)
 
+    # File that contains the spacing required between cells
+    # No data in db to determine this, so it must be hard coded
     with open('cellsPerBay.json') as json_file:
         data2 = json.load(json_file)
 
-    # Check to see if location is in file
+    # Check to see if location exists in file
     if(location_id in data2):
         cells_per_bay = data2[location_id]
     else:
-        return render_template('errors/404.html'), 404
+        # If no location found, use default value
+        cells_per_bay = 1
 
     # Check if the url is valid
-    if data['cell'] is None:
-        return render_template('errors/404.html'), 404
+    # If there is no cell locations or bays in this location, then it
+    # does not exist, or not implemented yet
+    if data['cell'] is None and len(data['bays']) == 0:
+        return render_template('errors/locationNotExist.html'), 404
+    # if a cell is present, then it will not be None
+    if data['cell'] is not None:
+        # Structure of the cell id will determine the storage type
     tableType = check_table_type(data["cell"])
+        # If the cell id has 3 values for cell location
     if(tableType == "3d"):
-        if(int(rack_id) > data["tableSize"][0]):
-            return render_template('errors/404.html'), 404
+            # If the id given exceeds the number of racks in location,
+            # it is invalid
+            if int(rack_id) > data["tableSize"][0]:
+                return render_template('errors/locationNotExist.html'), 404
+        # If the cell id does not have 3 values
     else:
-        if(rack_id is not None):
-            return render_template('errors/404.html'), 404
+            # 2d storages should not have a rack Id, so if one is provided,
+            # invalid data
+            if rack_id is not None:
+                return render_template('errors/locationNotExist.html'), 404
 
+    # Storing values in json object for easier data management
     locdet = {
         "id": location_id,  # Id of the location
         "tableType": tableType,  # How table will render
         "name": data["name"],  # Full name of the location
         "tableSize": data["tableSize"],  # Table dimensions
-        "cellsPerBay": cells_per_bay  # How many cells until break
+        "cellsPerBay": cells_per_bay,  # How many cells until break
+        "bays": data["bays"]
     }
 
     return render_template('location.html',
@@ -82,6 +98,9 @@ def palletInfo_page(cell_id):
 
     # Query to get all information of pallets in this location
     data = sql_queries.get_pallet_details(cell_id)
+
+    if data["zonecode"] is None:
+        return render_template('errors/palletNotExist.html'), 404
 
     return render_template('palletInfo.html',
                            data=data,
