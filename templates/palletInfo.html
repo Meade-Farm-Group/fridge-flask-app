@@ -80,7 +80,6 @@
             <tr>
                 <th>Pallet ID</th>
                 <th>Full Product Description</th>
-                <th>Variety</th>
                 <th>Pallet Stock</th>
                 <th>Best Before</th>
                 <th>Job Number</th>
@@ -94,8 +93,7 @@
             {% for pallet in data["pallets"] %}
             <tr>
                 <td>{{ pallet["palletId"] }}</td>
-                <td>{{ pallet["productDescr"] }} {{ pallet["spdfilMark"] }} {{ pallet["countsize"] }}</td>
-                <td>{{ pallet["variety"] }}</td>
+                <td>{{ pallet["productDescr"] }} {{ pallet["spdfilMark"] }} {{ pallet["countsize"] }} - {{ pallet["variety"] }}</td>
                 <td>{{ pallet["balence"] }}</td>
                 {% if pallet["bestBefore"] is none %}
                     <td>N/A</td>
@@ -121,7 +119,7 @@
     <script>
         $(document).ready( function () {
             $('#table_id').DataTable();
-        } );
+        });
     </script>
 
 {% endblock %}
