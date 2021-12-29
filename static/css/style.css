@@ -87,19 +87,6 @@ div#content {
     display: none;
 }
 
-path{
-  fill:lightgreen;
-  stroke: black;
-  stroke-width: 1px;
-  stroke-linejoin: "round";
-  stroke-linecap: "round";
-  fill-rule: evenodd;
-}
-
-.mapdiv path:hover{
-  opacity: 0.5;
-}
-
 .mapdiv{
   max-height:100%;
   justify-content: center;
@@ -109,6 +96,23 @@ path{
 }
 
 .palletTest{
+  font-size: calc(7px + 0.5vw);
+}
+
+.stripe {
+  color: white;
+  background: repeating-linear-gradient(
+    45deg,
+    #808080,
+    #808080 10px,
+    #d9c800 10px,
+    #d9c800 20px
+  );
+  border-width: 5px;
+}
+
+
+
 .cls-1, .cls-2, .cls-3, .cls-4, .cls-5, .cls-6, .cls-7, .cls-8, .cls-9, .cls-10, .cls-11, .cls-12, .cls-13, .cls-14, .cls-15, .cls-16, .cls-17, .cls-18 {
   stroke: #000;
   stroke-width: 7px;

@@ -88,6 +88,17 @@ function cellUpdate(cell, data, masCodeColours, legendList) {
         // Set this attribute of the cell to the master code given it
         cell.setAttribute("data-masCode", masCode);
 
+
+        // Check if the product is in quarantine(needs to be checked)
+        // if (isQuarantined == true){
+        //     cell.classList.add("stripe");
+        //     $(cellText).css("color", "#FFFFFF");
+        // }
+        // cell.classList.add("stripe");
+        // cell.getElementsByTagName("div")[0].classList.add("stripe");
+        // $(cellText).css("color", "#FFFFFF");
+        
+
         // Array containing all mascodes and colours that is currently being displayed
         // on the table. Check to see if mastercode exists in the array
         if (!(masCode in legendList)){
