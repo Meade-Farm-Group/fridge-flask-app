@@ -97,15 +97,14 @@ def loading_model(cell_id):
 def search_page():
     form = SearchForm()
     if form.validate_on_submit():
-        pc = form.product_name.data
-        po = form.purchase_order.data
         r = form.reference.data
         if r == '':
             r = None
-        bbd = form.best_before_date.data
 
-        return redirect(url_for('search_result_page', pc=pc,
-                                po=po, r=r, bbd=bbd))
+        return redirect(url_for('search_result_page',
+                                pc=form.product_name.data,
+                                po=form.purchase_order.data,
+                                r=r, bbd=form.best_before_date.data))
     else:
         print("INVALID")
     return render_template('search.html', form=form)
@@ -113,8 +112,14 @@ def search_page():
 
 @app.route('/search/results')
 def search_result_page():
-    # messages = request.args['pc']
-    return render_template("searchResults.html",)
+    pc = request.args.get("pc")
+    po = request.args.get("po")
+    r = request.args.get("r")
+    bbd = request.args.get("bbd")
+    data = sql_queries.get_pallet_details_search(pc, po, r, bbd)
+    # if data["pallets"].count == 0:
+    #     return redirect(url_for('search_page'))
+    return render_template("searchResults.html", data=data)
 
 
 @app.route('/search/loading')

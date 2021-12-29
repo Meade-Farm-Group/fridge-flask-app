@@ -250,7 +250,32 @@ def get_pallet_details(cell_id):
 
 
 def get_pallet_details_search(prod_name, po_num, reference, best_before_date):
-    cursor.execute('''
+    where_clause = []
+    prod_name = prod_name.lstrip()
+
+    if prod_name is None\
+       and po_num is None\
+       and reference is None\
+       and best_before_date is None:
+        return ""
+
+    if prod_name is not None:
+        where_clause.append("""(prdall_nl.descr LIKE '%{}%' OR variety_nl.
+                            variety LIKE '%{}%')""".format(
+                            prod_name.lower(), prod_name.lower()))
+    if po_num is not None:
+        where_clause.append("lothed_nl.ponum = '{}'".format(
+                            str(po_num)))
+    if reference is not None:
+        where_clause.append("poffil_nl.narrative LIKE '%{}%'".format(
+                            reference.lower()))
+    if best_before_date is not None:
+        where_clause.append("palstk_nl.BestBeforeDate = '{}'".format(
+                            best_before_date))
+
+    searches = ' AND '.join(where_clause)
+
+    sql_query = '''
         SELECT
         palfil_nl.palfilid,
         prdall_nl.descr,
@@ -267,7 +292,7 @@ def get_pallet_details_search(prod_name, po_num, reference, best_before_date):
         lotdet_nl.lotnum,
         poffil_nl.narrative,
         spdfil_nl.countsize,
-        locfil_nl.zonecode
+        locfil_nl.loccode
         FROM palstk_nl
         LEFT JOIN palfil_nl ON palstk_nl.palfilid = palfil_nl.palfilid
         LEFT JOIN locdet_nl ON palfil_nl.locdetid = locdet_nl.locdetid
@@ -289,20 +314,14 @@ def get_pallet_details_search(prod_name, po_num, reference, best_before_date):
             LEFT OUTER JOIN palord_nl po2 ON po2.palstkid = p1.palstkid
             GROUP BY p1.palstkid, p1.recqty
         ) res ON palstk_nl.palstkid = res.palstkid
-        WHERE UPPER(prdall_nl.descr) LIKE UPPER('%{}%')
-        AND
-        WHERE lothed_nl.ponum LIKE '%{}%'
-        AND
-        WHERE UPPER(poffil_nl.narrative) LIKE UPPER('%{}%')
-        AND
-        WHERE palstk_nl.BestBeforeDate LIKE '%{}%'
+        WHERE {}
         AND
         res.balance != 0
         ORDER BY palfil_nl.palfilid ASC
-    '''.format(str(prod_name, prod_name, po_num, reference, best_before_date)))
+    '''.format(searches)
+    cursor.execute(sql_query)
 
     data = {}
-    data["zonecode"] = None
     data["pallets"] = []
 
     for row in cursor.fetchall():
@@ -320,9 +339,8 @@ def get_pallet_details_search(prod_name, po_num, reference, best_before_date):
                   "ponum": row[11],
                   "lotnum": row[12],
                   "narrative": row[13],
-                  "countsize": row[14]}
+                  "countsize": row[14],
+                  "location": row[15]}
         data["pallets"].append(pallet)
-        if data["zonecode"] is None:
-            data["zonecode"] = row[15]
 
     return data

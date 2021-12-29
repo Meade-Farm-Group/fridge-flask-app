@@ -1,11 +1,12 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, SubmitField, DateField
-from wtforms.validators import DataRequired, Optional, NumberRange
+from wtforms.validators import Optional, Length, DataRequired
 
 
 class SearchForm(FlaskForm):
     product_name = StringField('Product Name', validators=[
-        Optional(strip_whitespace=True)])
+        Optional(strip_whitespace=True),
+        Length(min=1, max=50, message=None)])
     purchase_order = IntegerField('Purchase Order Number', validators=[
         Optional(strip_whitespace=True)])
     reference = StringField('Reference', validators=[
