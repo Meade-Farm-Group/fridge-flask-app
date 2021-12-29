@@ -109,5 +109,101 @@ path{
 }
 
 .palletTest{
-  font-size: calc(8px + 0.5vw);
+.cls-1, .cls-2, .cls-3, .cls-4, .cls-5, .cls-6, .cls-7, .cls-8, .cls-9, .cls-10, .cls-11, .cls-12, .cls-13, .cls-14, .cls-15, .cls-16, .cls-17, .cls-18 {
+  stroke: #000;
+  stroke-width: 7px;
+  fill-rule: evenodd;
+}
+
+.cls-1 {
+  fill: #2f75b5;
+}
+
+.cls-2 {
+  fill: #8ea9db;
+}
+
+.cls-3 {
+  fill: #a9d08e;
+}
+
+.cls-4 {
+  fill: #00b050;
+}
+
+.cls-5 {
+  fill: #00b0f0;
+}
+
+.cls-6 {
+  fill: #c65911;
+}
+
+.cls-7 {
+  fill: rgb(167, 167, 48);
+}
+
+.cls-8 {
+  fill: #bf8f00;
+}
+
+.cls-9 {
+  fill: #ed1010;
+}
+
+.cls-10 {
+  fill: #548235;
+}
+
+.cls-11 {
+  fill: #f4b084;
+}
+
+.cls-12 {
+  fill: #7030a0;
+}
+
+.cls-13 {
+  fill: #e5c666;
+}
+
+.cls-14 {
+  fill: #ffc000;
+}
+
+.cls-15 {
+  fill: #0070c0;
+}
+
+.cls-16 {
+  fill: #d4d4d4;
+}
+
+.cls-17 {
+  fill: #92d050;
+}
+
+.cls-18 {
+  fill: #f8cbad;
+}
+
+.cls-19, .cls-21 {
+  font-size: 66.667px;
+}
+
+.cls-19, .cls-20, .cls-21, .cls-22 {
+  text-anchor: middle;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  fill: white;
+}
+
+.cls-20 {
+  writing-mode: tb;
+  glyph-orientation-vertical: 0;
+  font-size: 58.333px;
+}
+
+.cls-22 {
+  font-size: 50px;
 }

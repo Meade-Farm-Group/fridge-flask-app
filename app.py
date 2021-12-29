@@ -11,14 +11,12 @@ from forms import SearchForm
 app = Flask(__name__)
 
 alphabet = "_ABCDEFGHIJK"
-
 app.config['SECRET_KEY'] = 'ojou9823o2f82uye9foj2e8f9hu'
 
 
 @app.route("/")
 @app.route("/home")
 def home_page():
-
     # Query call to get all locations
     locations = sql_queries.get_locations()
 
@@ -56,15 +54,15 @@ def location_page(location_id, rack_id):
     # if a cell is present, then it will not be None
     if data['cell'] is not None:
         # Structure of the cell id will determine the storage type
-    tableType = check_table_type(data["cell"])
+        tableType = check_table_type(data["cell"])
         # If the cell id has 3 values for cell location
-    if(tableType == "3d"):
+        if(tableType == "3d"):
             # If the id given exceeds the number of racks in location,
             # it is invalid
             if int(rack_id) > data["tableSize"][0]:
                 return render_template('errors/locationNotExist.html'), 404
         # If the cell id does not have 3 values
-    else:
+        else:
             # 2d storages should not have a rack Id, so if one is provided,
             # invalid data
             if rack_id is not None:
@@ -153,7 +151,7 @@ def map_page():
 
 @app.route('/detailedMap/<string:location_id>')
 def location_detailed_page(location_id):
-    return render_template("detailedMap.html")
+    return render_template("detailedMap.html", location_id=location_id)
 
 
 @app.errorhandler(404)
