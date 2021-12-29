@@ -35,8 +35,9 @@ cursor = cnx.cursor()
 #     cell.setAttribute("id", newId);
 # }
 
-# data = sql_queries.get_pallets_by_location("FVFR1")
-data = sql_queries.get_pallet_details_search("pear", "", "", "")
+# data = sql_queries.get_pallet_details_search("Sugraone", "81766",
+#                                              "2158-0129", None)
+data = sql_queries.get_table_size("DIS1")
 
 print(data)
 # Using readlines()
