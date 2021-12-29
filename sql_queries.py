@@ -4,7 +4,6 @@ from util import check_table_type
 if os.path.exists("env.py"):
     import env
 
-
 server = os.getenv("PROPHET_SERVER")
 db = os.getenv("PROPHET_DATABASE")
 username = os.getenv("PROPHET_USERNAME")
@@ -83,19 +82,19 @@ def get_table_size(location_id):
         # Creates a string list seperated by the "-"
         loc = row[0].split('-')
         if(loc[1] != "BAY"):
-        if(str(loc[1]).isdigit()):
-            # Compare rack values
-            if(loc_racks < int(loc[1])):
-                loc_racks = int(loc[1])
+            if(str(loc[1]).isdigit()):
+                # Compare rack values
+                if(loc_racks < int(loc[1])):
+                    loc_racks = int(loc[1])
 
-            # Compare height values
-            if(loc_height < alphabet.index(loc[2])):
-                loc_height = alphabet.index(loc[2])
+                # Compare height values
+                if(loc_height < alphabet.index(loc[2])):
+                    loc_height = alphabet.index(loc[2])
 
-            # Compare depth values
-            if (len(loc) == 4):
-                if(loc_depth < int(loc[3])):
-                    loc_depth = int(loc[3])
+                # Compare depth values
+                if (len(loc) == 4):
+                    if(loc_depth < int(loc[3])):
+                        loc_depth = int(loc[3])
             if data["cell"] is None:
                 data["cell"] = row[0]
         else:
@@ -217,17 +216,17 @@ def get_pallet_details(cell_id):
     data["zonecode"] = None
     data["tableType"] = check_table_type(cell_id)
     data["pallets"] = []
-    if cursor.rowcount == 0:
-        cursor.execute('''
-            SELECT
-            locfil_nl.zonecode
-            FROM locfil_nl
-            WHERE
-            locfil_nl.loccode = '{}'
+    # if cursor.rowcount == 0:
+    #     cursor.execute('''
+    #         SELECT
+    #         locfil_nl.zonecode
+    #         FROM locfil_nl
+    #         WHERE
+    #         locfil_nl.loccode = '{}'
 
-        '''.format(str(cell_id)))
-        row = cursor.fetchone()
-        data["zonecode"] = row[0]
+    #     '''.format(str(cell_id)))
+    #     row = cursor.fetchone()
+    #     data["zonecode"] = row[0]
 
     for row in cursor.fetchall():
         pallet = {"palletId": row[0],
