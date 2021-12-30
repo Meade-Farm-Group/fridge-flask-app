@@ -9,46 +9,63 @@
 	{% set columns = locdet["tableSize"][0] %}
 	{% set loc_id = locdet["id"] %}
 	{% set cell_location = locdet['id'] %}
+	{% set image_link = locdet['id'] +"/"+ "left" %}
 {% else %}
 	{% set columns = locdet["tableSize"][2] %}
 	{% set loc_id = locdet["id"][0] + locdet["id"][-1] %}
 	{% set cell_location = locdet['id']+'-'+rack_id %}
+	{% set image_link = locdet['id'] +"/"+ rack_num %}
 {% endif %}
 <br/>
 
 <!-- Text -->
-<ul class="list-inline">
-	<li class="list-inline-item">
-		<a href="{{ url_for('home_page')}}" 
-        class="btn btn-success btn-lg" tabindex="-1" role="button" aria-disabled="true"><i class="fas fa-angle-left"></i>&#8592;Back</a>
-	</li>
-	<li class="list-inline-item">
-		<h2>{{ locdet["name"] }}&emsp;</h2>
-	</li>
-	{% if rack_id != none and (locdet["tableSize"][0] != 0 and locdet["tableSize"][2] != 0) %}
-		<li class="list-inline-item">
-				<h3>Rack {{ rack_num }}&emsp;</h3>
-		</li>
-	{% endif %}
-	<li class="list-inline-item">
-		<img src="/static/images/{{ locdet['id'] }}/{{ rack_num }}.png" height="140" alt="miniMap">
-	</li>
-</ul>
 
-<!-- Dropdown for rack select -->
-{% if locdet['tableType'] == "3d" %}
-		<div class="dropdown">
-			<button class="btn btn-success btn-lg dropdown-toggle" type="button" id="rackSelectButton" data-bs-toggle="dropdown" aria-expanded="false">
-				Select a Rack
-			</button>
-			<ul class="dropdown-menu dropdown-large border" aria-labelledby="rackSelectButton" id="rackSelect">
-				{% for n in range(locdet["tableSize"][0]) %}
-					<li><a class="dropdown-item border" href="{{ url_for('location_page', location_id=locdet['id'], rack_id = loop.index )}}">Rack {{ loop.index }}</a></li>
-				{% endfor %}
-			</ul>
+<div class="container infoContainer">
+	<div class="row topRow">
+	  	<div class="col-sm col-md-2">
+			<a href="{{ url_for('home_page')}}" 
+        class="btn btn-success btn-lg" tabindex="-1" role="button" aria-disabled="true"><i class="fas fa-angle-left"></i>&#8592;Back</a>
+	  	</div>
+		<div class="col-sm col-md-3">
+			<h3 class="text-justify">{{ locdet["name"] }}</h3>
+	  	</div>
+		{% if rack_id != none and (locdet["tableSize"][0] != 0 and locdet["tableSize"][2] != 0) %}
+			<div class="col-sm col-md-3">
+				<h4 class="text-justify">Rack {{ rack_num }}</h4>
+			</div>
+		{% endif %}
+	  	<div class="col">
+			<img class="float-end" src="/static/images/{{ image_link }}.png" height="140" alt="miniMap">
+	  	</div>
+	</div>
+	{% if locdet['tableType'] == "3d" %}
+		<div class="row">
+			<div class="col col-4">
+				<div class="dropdown">
+					<button class="btn btn-success btn-lg dropdown-toggle" type="button" id="rackSelectButton" data-bs-toggle="dropdown" aria-expanded="false">
+						Select a Rack
+					</button>
+					<ul class="dropdown-menu dropdown-large border" aria-labelledby="rackSelectButton" id="rackSelect">
+						{% for n in range(locdet["tableSize"][0]) %}
+							<li><a class="dropdown-item border" href="{{ url_for('location_page', location_id=locdet['id'], rack_id = loop.index )}}">Rack {{ loop.index }}</a></li>
+						{% endfor %}
+					</ul>
+				</div>
+			</div>
 		</div>
-{% endif %}
-<br/>
+	{% endif %}
+	<div class="row">
+		<div class="col">
+			<!-- Time Updated -->
+			<h6 class="text-muted">
+				Last Updated: 
+				<li class="list-inline-item">
+					<div id="updatedTime"></div>
+				</li>
+			</h6>
+		</div>
+	</div>
+</div>
 
 <!-- If no table to diplay -->
 {% if not (locdet["tableSize"][0] == 0 and locdet["tableSize"][2] == 0) %}
@@ -90,14 +107,6 @@
 	{% endfor %}
 {% endif %}
 
-<!-- Time Updated -->
-<h6 class="text-muted">
-	Last Updated: 
-	<li class="list-inline-item">
-		<div id="updatedTime"></div>
-	</li>
-</h6>
-
 <!-- Data about location and current settings -->
 <meta id="my-data" data-loc="{{ loc_id }}" data-rack="{{ rack_num }}" data-currentfilter="">
 
@@ -106,6 +115,4 @@
 {% block extrajs %}
 <script src="{{ url_for('static', filename='js/tableRefresh.js') }}"></script>
 {% endblock %}
-
-
 
