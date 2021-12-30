@@ -19,11 +19,7 @@
                     </tr>
                     <tr>
                         <th scope="row">Full Product Description: </th>
-                        <td>{{ pallet["productDescr"] }} {{ pallet["spdfilMark"] }} {{ pallet["countsize"] }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Variety:</th>
-                        <td>{{ pallet["variety"] }}</td>
+                        <td>{{ pallet["productDescr"] }} {{ pallet["spdfilMark"] }} {{ pallet["countsize"] }} - {{ pallet["variety"] }}</td>
                     </tr>
                     <tr>
                         <th scope="row">Pallet Stock:</th>
@@ -72,7 +68,6 @@
             <tr>
                 <th>Pallet ID</th>
                 <th>Full Product Description</th>
-                <th>Variety</th>
                 <th>Pallet Stock</th>
                 <th>Best Before</th>
                 <th>Job Number</th>
@@ -86,8 +81,7 @@
             {% for pallet in data["pallets"] %}
             <tr>
                 <td>{{ pallet["palletId"] }}</td>
-                <td>{{ pallet["productDescr"] }} {{ pallet["spdfilMark"] }} {{ pallet["countsize"] }}</td>
-                <td>{{ pallet["variety"] }}</td>
+                <td>{{ pallet["productDescr"] }} {{ pallet["spdfilMark"] }} {{ pallet["countsize"] }} - {{ pallet["variety"] }}</td>
                 <td>{{ pallet["balence"] }}</td>
                 {% if pallet["bestBefore"] is none %}
                     <td>N/A</td>
