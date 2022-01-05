@@ -1,18 +1,10 @@
 {% extends 'base.html' %} 
-{% block title %} 
-    Pallet Page
-{% endblock %}
+{% block title %} Search Page {% endblock %} 
 {% block content %}
+<h1>Search Results:</h1>
 <br/>
-    {% set loc_id = data["zonecode"] %}
-    {% if data["tableType"] == "3d" %}   
-        {% set rack_num = cell_id.split('-')[1] %}
-        <a href="{{ url_for('location_page', location_id=loc_id, rack_id = rack_num )}}" 
+        <a href="{{ url_for('search_page' )}}" 
         class="btn btn-success btn-lg" tabindex="-1" role="button" aria-disabled="true"><i class="fas fa-chevron-left"></i>&#8592;Back</a>
-    {% else %}
-        <a href="{{ url_for('location_page', location_id=loc_id )}}" 
-        class="btn btn-success btn-lg" tabindex="-1" role="button" aria-disabled="true"><i class="fas fa-chevron-left"></i>&#8592;Back</a>
-    {% endif %}
     
     {% if data["pallets"] is defined and data["pallets"]|length ==  1 %}
     <h2>Location: {{data["pallets"][0]["locDescr"]}} ({{ cell_id }})</h2>
@@ -27,11 +19,7 @@
                     </tr>
                     <tr>
                         <th scope="row">Full Product Description: </th>
-                        <td>{{ pallet["productDescr"] }} {{ pallet["spdfilMark"] }} {{ pallet["countsize"] }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Variety:</th>
-                        <td>{{ pallet["variety"] }}</td>
+                        <td>{{ pallet["productDescr"] }} {{ pallet["spdfilMark"] }} {{ pallet["countsize"] }} - {{ pallet["variety"] }}</td>
                     </tr>
                     <tr>
                         <th scope="row">Pallet Stock:</th>
@@ -83,10 +71,10 @@
                 <th>Pallet Stock</th>
                 <th>Best Before</th>
                 <th>Job Number</th>
-                <th>Supplier</th>
                 <th>PO Number</th>
                 <th>Lot Number</th>
                 <th>Narrative</th>
+                <th>Location</th>
             </tr>
         </thead>
         <tbody>
@@ -101,10 +89,10 @@
                     <td>{{ pallet["bestBefore"].strftime('%d-%m-%Y') }}</td>
                 {% endif %}
                 <td>{{ pallet["jobNum"] }}</td>
-                <td>{{ pallet["supplierName"] }}</td>
                 <td>{{ pallet["ponum"] }}</td>
                 <td>{{ pallet["lotnum"] }}</td>
                 <td>{{ pallet["narrative"] }}</td>
+                <td>{{ pallet["location"] }}</td>
             </tr>
                     
         {% endfor %}
@@ -113,13 +101,13 @@
     <br/>
     {% else %}
         <h2>No pallets found!</h2>
-        <p>Press "Back" to get refreshed table of pallets.</p>
+        <p>Press "Back" to return to search.</p>
     {% endif %}
 
     <script>
         $(document).ready( function () {
             $('#table_id').DataTable();
-        });
+        } );
     </script>
 
 {% endblock %}

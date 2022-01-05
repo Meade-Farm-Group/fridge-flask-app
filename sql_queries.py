@@ -4,7 +4,6 @@ from util import check_table_type
 if os.path.exists("env.py"):
     import env
 
-
 server = os.getenv("PROPHET_SERVER")
 db = os.getenv("PROPHET_DATABASE")
 username = os.getenv("PROPHET_USERNAME")
@@ -24,10 +23,14 @@ def get_locations():
     cursor.execute('''
         SELECT
         loczon_nl.zonecode,
-        loczon_nl.name
+        loczon_nl.name,
+        locfil_nl.loccode
         FROM loczon_nl
+        LEFT JOIN locfil_nl ON loczon_nl.zonecode = locfil_nl.zonecode
         WHERE
         loczon_nl.zonetypecode = 'FRIDGE'
+        OR
+        loczon_nl.zonetypecode = 'FLOOR'
     ''')
 
     locations = {}
@@ -35,7 +38,8 @@ def get_locations():
     for row in cursor.fetchall():
         locations[row[0]] = {"name": row[1]}
         tableType = check_table_type(row[0])
-        locations[row[0]] = {"name": row[1], "tableType": tableType}
+        locations[row[0]] = {"name": row[1], "tableType": tableType,
+                             "location": row[2]}
     # Returns:
     # {
     #   "FVFR1":{
@@ -68,29 +72,34 @@ def get_table_size(location_id):
     loc_height = 0
     loc_depth = 0
     data = {}
+    data["bays"] = []
 
     # Each cell will be broken up and the value of each section will be
     # compared
-
+    data["cell"] = None
+    data["name"] = None
     for row in cursor.fetchall():
         # Creates a string list seperated by the "-"
         loc = row[0].split('-')
-        if(str(loc[1]).isdigit()):
-            # Compare rack values
-            if(loc_racks < int(loc[1])):
-                loc_racks = int(loc[1])
+        if(loc[1] != "BAY"):
+            if(str(loc[1]).isdigit()):
+                # Compare rack values
+                if(loc_racks < int(loc[1])):
+                    loc_racks = int(loc[1])
 
-            # Compare height values
-            if(loc_height < alphabet.index(loc[2])):
-                loc_height = alphabet.index(loc[2])
+                # Compare height values
+                if(loc_height < alphabet.index(loc[2])):
+                    loc_height = alphabet.index(loc[2])
 
-            # Compare depth values
-            if (len(loc) == 4):
-                if(loc_depth < int(loc[3])):
-                    loc_depth = int(loc[3])
-
+                # Compare depth values
+                if (len(loc) == 4):
+                    if(loc_depth < int(loc[3])):
+                        loc_depth = int(loc[3])
+            if data["cell"] is None:
+                data["cell"] = row[0]
+        else:
+            data["bays"].append(row[0])
         data["name"] = row[1]
-        data["cell"] = row[0]
     data["tableSize"] = [loc_racks, loc_height, loc_depth]
     # Returns:
     # {
@@ -207,6 +216,18 @@ def get_pallet_details(cell_id):
     data["zonecode"] = None
     data["tableType"] = check_table_type(cell_id)
     data["pallets"] = []
+    # if cursor.rowcount == 0:
+    #     cursor.execute('''
+    #         SELECT
+    #         locfil_nl.zonecode
+    #         FROM locfil_nl
+    #         WHERE
+    #         locfil_nl.loccode = '{}'
+
+    #     '''.format(str(cell_id)))
+    #     row = cursor.fetchone()
+    #     data["zonecode"] = row[0]
+
     for row in cursor.fetchall():
         pallet = {"palletId": row[0],
                   "productDescr": row[1],
@@ -230,3 +251,100 @@ def get_pallet_details(cell_id):
     return data
 
 # def query_to_dict(cursor):
+
+
+def get_pallet_details_search(prod_name, po_num, reference, best_before_date):
+    where_clause = []
+    prod_name = prod_name.lstrip()
+
+    if prod_name is None\
+       and po_num is None\
+       and reference is None\
+       and best_before_date is None:
+        return ""
+
+    if prod_name is not None:
+        where_clause.append("""(prdall_nl.descr LIKE '%{}%' OR variety_nl.
+                            variety LIKE '%{}%')""".format(
+                            prod_name.lower(), prod_name.lower()))
+    if po_num is not None:
+        where_clause.append("lothed_nl.ponum = '{}'".format(
+                            str(po_num)))
+    if reference is not None:
+        where_clause.append("poffil_nl.narrative LIKE '%{}%'".format(
+                            reference.lower()))
+    if best_before_date is not None:
+        where_clause.append("palstk_nl.BestBeforeDate = '{}'".format(
+                            best_before_date))
+
+    searches = ' AND '.join(where_clause)
+
+    sql_query = '''
+        SELECT
+        palfil_nl.palfilid,
+        prdall_nl.descr,
+        spdfil_nl.mark,
+        palstk_nl.recqty,
+        palstk_nl.BestBeforeDate,
+        coufil_nl.name,
+        variety_nl.variety,
+        lotdet_nl.jobnum,
+        sendac_nl.name,
+        res.balance,
+        locfil_nl.descr,
+        lothed_nl.ponum,
+        lotdet_nl.lotnum,
+        poffil_nl.narrative,
+        spdfil_nl.countsize,
+        locfil_nl.loccode
+        FROM palstk_nl
+        LEFT JOIN palfil_nl ON palstk_nl.palfilid = palfil_nl.palfilid
+        LEFT JOIN locdet_nl ON palfil_nl.locdetid = locdet_nl.locdetid
+        LEFT JOIN locfil_nl ON locdet_nl.locfilid = locfil_nl.locfilid
+        LEFT JOIN lotdet_nl ON palstk_nl.lotdetid = lotdet_nl.lotdetid
+        LEFT JOIN spdfil_nl ON lotdet_nl.prodnum = spdfil_nl.prodnum
+        LEFT JOIN prdall_nl ON spdfil_nl.mascode = prdall_nl.mascode
+        LEFT JOIN lothed_nl ON lotdet_nl.lotnum = lothed_nl.lotnum
+        LEFT JOIN sendac_nl ON lothed_nl.supcode = sendac_nl.supcode
+        LEFT JOIN variety_nl ON lotdet_nl.variety = variety_nl.varietycode
+        LEFT JOIN coufil_nl ON lotdet_nl.country = coufil_nl.country
+        LEFT JOIN poffil_nl ON lothed_nl.ponum = poffil_nl.ponum
+        LEFT JOIN (
+            SELECT
+            p1.palstkid,
+            ISNULL(SUM(po2.qty),0) AS soldqty,
+            ISNULL((p1.recqty-SUM(po2.qty)),p1.recqty) AS balance
+            FROM palstk_nl p1
+            LEFT OUTER JOIN palord_nl po2 ON po2.palstkid = p1.palstkid
+            GROUP BY p1.palstkid, p1.recqty
+        ) res ON palstk_nl.palstkid = res.palstkid
+        WHERE {}
+        AND
+        res.balance != 0
+        ORDER BY palfil_nl.palfilid ASC
+    '''.format(searches)
+    cursor.execute(sql_query)
+
+    data = {}
+    data["pallets"] = []
+
+    for row in cursor.fetchall():
+        pallet = {"palletId": row[0],
+                  "productDescr": row[1],
+                  "spdfilMark": row[2],
+                  "recqty": row[3],
+                  "bestBefore": row[4],
+                  "country": row[5],
+                  "variety": row[6],
+                  "jobNum": row[7],
+                  "supplierName": row[8],
+                  "balence": row[9],
+                  "locDescr": row[10],
+                  "ponum": row[11],
+                  "lotnum": row[12],
+                  "narrative": row[13],
+                  "countsize": row[14],
+                  "location": row[15]}
+        data["pallets"].append(pallet)
+
+    return data

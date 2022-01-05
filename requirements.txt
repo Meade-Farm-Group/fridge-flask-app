@@ -1,6 +1,7 @@
 click==8.0.3
 colorama==0.4.4
 Flask==2.0.2
+Flask-WTF==1.0.0
 itsdangerous==2.0.1
 Jinja2==3.0.3
 MarkupSafe==2.0.1
@@ -8,3 +9,4 @@ pycodestyle==2.8.0
 pyodbc==4.0.32
 waitress==2.0.0
 Werkzeug==2.0.2
+WTForms==3.0.0

@@ -1,0 +1,13 @@
+<svg width="100%" viewBox="0 0 1476 882" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <image id="Background" width="1476" height="882" />
+    <a onclick="test('donut')">
+        <path class="cls-1" d="M472,115c137.519,0,249,111.481,249,249S609.519,613,472,613,223,501.519,223,364,334.481,115,472,115Zm22,114A110,110,0,1,1,384,339,110,110,0,0,1,494,229Z"/>
+    </a>
+    <a onclick="test('circle')">
+        <path class="cls-1" d="M1188.5,292c86.98,0,157.5,91.11,157.5,203.5S1275.48,699,1188.5,699,1031,607.89,1031,495.5,1101.52,292,1188.5,292Z"/>
+    </a>
+    <a onclick="test('square')">
+        <path class="cls-2" d="M882,64h204V268H882V64Z"/>       
+    </a>
+    <path id="Triangle_1" data-name="Triangle 1" class="cls-3" d="M907.5,532L1029,792H786Z"/>
+</svg>

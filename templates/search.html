@@ -1,11 +1,46 @@
-{% extends 'base.html' %}
-{% block title %}
-Search Page
-{% endblock %}
+{% extends 'base.html' %} 
+{% block title %} Search Page {% endblock %} 
 {% block content %}
-<h1>Search Page</h1>
+<h1>Search</h1>
 
-
-
-
+<div class="container">
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <fieldset class="form">
+            <div class="form-group">
+                {{ form.product_name.label(class="form-control-label") }}
+                {% if form.product_name.errors %}
+                    {{ form.product_name(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.product_name.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.product_name(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <br/>
+            <div class="form-group">
+                {{ form.purchase_order.label(class="form-control-label") }}
+                {{ form.purchase_order(class="form-control form-control-lg") }}
+            </div>
+            <br/>
+            <div class="form-group">
+                {{ form.reference.label(class="form-control-label") }}
+                {{ form.reference(class="form-control form-control-lg") }}
+            </div>
+            <br/>
+            <div class="form-group">
+                {{ form.best_before_date.label(class="form-control-label") }}
+                {{ form.best_before_date(class="form-control form-control-lg") }}
+            </div>
+            <br/>
+        </fieldset>
+        <div class="form-group">
+            {{ form.submit(class="btn btn-outline-success") }}
+        </div>
+    </form>
+</div>
+<br/>
 {% endblock %}

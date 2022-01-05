@@ -1,0 +1,254 @@
+{% extends 'base.html' %} 
+{% block title %} map Page {% endblock %} 
+{% block content %}
+{% from 'macros.j2' import map %}
+<h1>Select location:</h1>
+
+<script>
+    function test(loc){
+        alert(loc + " pressed!")
+    }
+</script>
+<div class="img-fluid mapdiv">
+    <svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 2024 2385">
+
+		<!-- All Locations going to detailed page -->
+
+		<a onclick="test('Dispatch 1')">
+			<path id="Dispatch_1" data-name="Dispatch 1" class="cls-2" d="M1599.99,651h408.02v446H1599.99V651Z"/>
+			<text id="Dispatch_1-2" data-name="Dispatch 1" class="cls-19" x="1804.341" y="875.958"><tspan x="1804.341">Dispatch 1</tspan></text>
+		</a>
+
+		<a href="{{ url_for('location_detailed_page', location_id='DIS2' )}}">
+			<path id="Dispatch_2" data-name="Dispatch 2" class="cls-1" d="M1600.48,1096.5h408.04v481H1600.48v-481Z"/>
+			<text id="Dispatch_2-2" data-name="Dispatch 2" class="cls-19 unselectable" x="1804.341" y="1340.959"><tspan x="1804.341">Dispatch 2</tspan></text>
+		</a>
+
+		<a href="{{ url_for('location_page', location_id='FVFR1' )}}">
+			<path id="Fridge_1" data-name="Fridge 1" class="cls-5" d="M633.471,1292.5H980.529v254H633.471v-254Z"/>
+			<text id="Fridge_1-2" data-name="Fridge 1" class="cls-19" x="808.341" y="1434.959"><tspan x="808.341">Fridge 1</tspan></text>
+		</a>
+
+		<a href="{{ url_for('location_page', location_id='FVFR2' )}}">
+			<path id="Fridge_2" data-name="Fridge 2" class="cls-2" d="M984.5,1292.49h356v253.02h-356V1292.49Z"/>
+			<text id="Fridge_2-2" data-name="Fridge 2" class="cls-19" x="1166.342" y="1434.959"><tspan x="1166.342">Fridge 2</tspan></text>
+		</a>
+
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="Fridge_3" data-name="Fridge 3" class="cls-5" d="M984.5,1035.46h356v252.08h-356V1035.46Z"/>
+			<text id="Fridge_3-2" data-name="Fridge 3" class="cls-21" x="1166.342" y="1175.96"><tspan x="1166.342">Fridge 3</tspan></text>
+		</a>
+		
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="Fridge_4" data-name="Fridge 4" class="cls-2" d="M633.492,1036.48H980.508v251.04H633.492V1036.48Z"/>
+			<text id="Fridge_4-2" data-name="Fridge 4" class="cls-19" x="808.341" y="1175.96"><tspan x="808.341">Fridge 4</tspan></text>
+		</a>
+
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="Fridge_5" data-name="Fridge 5" class="cls-6" d="M343.515,1034.54h288.97v253.92H343.515V1034.54Z"/>
+			<text id="Fridge_5-2" data-name="Fridge 5" class="cls-19" x="483.341" y="1175.96"><tspan x="483.341">Fridge 5</tspan></text>
+		</a>
+		
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="Fridge_6" data-name="Fridge 6" class="cls-7" d="M517,1545H632v184H517V1545Z"/>
+			<text id="Fridge_6-2" data-name="Fridge 6" class="cls-22" x="573.343" y="1653.959"><tspan x="573.343">FR 6</tspan></text>
+		</a>
+
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="Fridge_7" data-name="Fridge 7" class="cls-4" d="M635.493,653.5H979.507v377H635.493v-377Z"/>
+			<text id="Fridge_7-2" data-name="Fridge 7" class="cls-19" x="808.341" y="858.96"><tspan x="808.341">Fridge 7</tspan></text>
+		</a>
+
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="Fridge_8" data-name="Fridge 8" class="cls-3" d="M984,653h356v377H984V653Z"/>
+			<text id="Fridge_8-2" data-name="Fridge 8" class="cls-19" x="1166.342" y="858.96"><tspan x="1166.342">Fridge 8</tspan></text>
+		</a>
+		
+
+		<!-- All Bays -->
+
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="Bay_1" data-name="Bay 1" class="cls-9" d="M1596,2066h413v76H1596v-76Z"/>
+			<text id="Bay_1-2" data-name="Bay 1" class="cls-19" x="1804.341" y="2120.959"><tspan x="1804.341">Bay 1</tspan></text>
+		</a>
+
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="Bay_2" data-name="Bay 2" class="cls-9" d="M1596,1990h413v76H1596v-76Z"/>
+			<text id="Bay_2-2" data-name="Bay 2" class="cls-19" x="1804.341" y="2045.958"><tspan x="1804.341">Bay 2</tspan></text>
+		</a>
+
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="Bay_3" data-name="Bay 3" class="cls-9" d="M1596,1915h413v76H1596v-76Z"/>
+			<text id="Bay_3-2" data-name="Bay 3" class="cls-19" x="1804.341" y="1969.96"><tspan x="1804.341">Bay 3</tspan></text>
+		</a>
+
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="Bay_4" data-name="Bay 4" class="cls-9" d="M1596,1841h413v76H1596v-76Z"/>
+			<text id="Bay_4-2" data-name="Bay 4" class="cls-19" x="1804.341" y="1895.958"><tspan x="1804.341">Bay 4</tspan></text>
+		</a>
+
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="Bay5" class="cls-9" d="M1596,1764h413v76H1596v-76Z"/>
+			<text id="Bay_5" data-name="Bay 5" class="cls-19" x="1804.341" y="1820.959"><tspan x="1804.341">Bay 5</tspan></text>
+		</a>
+
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="Bay_6" data-name="Bay 6" class="cls-9" d="M1596,1689h413v76H1596v-76Z"/>
+			<text id="Bay_6-2" data-name="Bay 6" class="cls-19" x="1804.341" y="1743.96"><tspan x="1804.341">Bay 6</tspan></text>
+		</a>
+
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="Bay_7" data-name="Bay 7" class="cls-9" d="M1596,1612h413v76H1596v-76Z"/>
+			<text id="Bay_7-2" data-name="Bay 7" class="cls-19" x="1804.341" y="1668.959"><tspan x="1804.341">Bay 7</tspan></text>
+		</a>
+		
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="Bay_14" data-name="Bay 14" class="cls-9" d="M1597,495h411V621H1597V495Z"/>
+			<text id="Bay_14-2" data-name="Bay 14" class="cls-19" x="1804.341" y="572.958"><tspan x="1804.341">Bay 14</tspan></text>
+		</a>
+		
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="Bay_15" data-name="Bay 15" class="cls-9" d="M1597,369h411V495H1597V369Z"/>
+			<text id="Bay_15-2" data-name="Bay 15" class="cls-19" x="1804.341" y="452.959"><tspan x="1804.341">Bay 15</tspan></text>
+		</a>
+
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="Bay_16" data-name="Bay 16" class="cls-9" d="M851.983,16.009h87V332.991h-87V16.009Z"/>
+			<text id="Bay_16-2" data-name="Bay 16" class="cls-20" x="895.1" y="175.66"><tspan x="895.1">Bay 16</tspan></text>
+		</a>
+
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="Bay_17" data-name="Bay 17" class="cls-9" d="M760.983,16.009h87V332.991h-87V16.009Z"/>
+			<text id="Bay_17-2" data-name="Bay 17" class="cls-20" x="804.101" y="175.66"><tspan x="804.101">Bay 17</tspan></text>
+		</a>
+
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="Bay_18" data-name="Bay 18" class="cls-9" d="M669.983,16.009h87V332.991h-87V16.009Z"/>
+			<text id="Bay_18-2" data-name="Bay 18" class="cls-20" x="714.1" y="175.66"><tspan x="714.1">Bay 18</tspan></text>
+		</a>
+
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="Bay_19" data-name="Bay 19" class="cls-9" d="M578.983,16.009h87V332.991h-87V16.009Z"/>
+			<text id="Bay_19-2" data-name="Bay 19" class="cls-20" x="623.101" y="175.66"><tspan x="623.101">Bay 19</tspan></text>
+		</a>
+
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="Bay_20" data-name="Bay 20" class="cls-9" d="M487.983,16.009h87V332.991h-87V16.009Z"/>
+			<text id="Bay_20-2" data-name="Bay 20" class="cls-20" x="531.1" y="175.66"><tspan x="531.1">Bay 20</tspan></text>
+		</a>
+		
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="Bay_21" data-name="Bay 21" class="cls-9" d="M404.172,16.447h80.656V333.553H404.172V16.447Z"/>
+			<text id="Bay_21-2" data-name="Bay 21" class="cls-20" x="444.1" y="175.66"><tspan x="444.1">Bay 21</tspan></text>
+		</a>
+
+
+		<!-- All Lines -->
+
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="Apple_Bag_Line_1" data-name="Apple Bag Line 1" class="cls-16" d="M1371,1228h92v221h-92V1228Z"/>
+		</a>
+		
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="Apple_Bag_Line_2" data-name="Apple Bag Line 2" class="cls-16" d="M1371,967h92v221h-92V967Z"/>
+		</a>
+
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="Blueberry_Bucket_Line" data-name="Blueberry Bucket Line" class="cls-5" d="M1371,1483h92v59h-92v-59Z"/>
+		</a>
+
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="Carrot_Line_1" data-name="Carrot Line 1" class="cls-17" d="M1857,46h127V305H1857V46Z"/>
+		</a>
+		
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="Carrot_Line_2" data-name="Carrot Line 2" class="cls-17" d="M1678,46h127V305H1678V46Z"/>
+		</a>
+
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="New_Apple_Packing_Line" data-name="New Apple Packing Line" class="cls-18" d="M1179,110h126V525H1179V110Z"/>
+		</a>
+
+
+		<!-- All Seals -->
+
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="Grape_Heat_Seal_No_1" data-name="Grape Heat Seal No 1" class="cls-12" d="M1078,1913h261v115H1078V1913Z"/>
+		</a>
+		
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="Grape_Heat_Seal_No_2" data-name="Grape Heat Seal No 2" class="cls-12" d="M891,1613h63v339H891V1613Z"/>
+		</a>
+
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="Blueberry_Heat_Seal" data-name="Blueberry Heat Seal" class="cls-15" d="M1368,2142h434v73H1368v-73Z"/>
+		</a>
+
+
+		<!-- All Clippers -->
+
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="Clipper_1_Citrus" data-name="Clipper 1 Citrus" class="cls-14" d="M738,2140H954v72H738v-72Z"/>
+		</a>
+
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="Clipper_2_Onion_Citrus" data-name="Clipper 2 Onion Citrus" class="cls-14" d="M1371,654h92V938h-92V654Z"/>
+		</a>
+
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="Lime_Clipper" data-name="Lime Clipper" class="cls-10" d="M1144,1652h196v35H1144v-35Z"/>
+		</a>
+
+		<!-- All Nets -->
+
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="Citrus_and_Stone_Fruit_Punnet_Net" data-name="Citrus and Stone Fruit Punnet Net" class="cls-13" d="M695,1613H889v339H695V1613Z"/>
+		</a>
+
+		<!-- All Wrap -->
+
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="Manual_Flow_Wrap" data-name="Manual Flow Wrap" class="cls-11" d="M1079,1763h260v75H1079v-75Z"/>
+		</a>
+
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="Auto_Flow_Wrap" data-name="Auto Flow Wrap" class="cls-18" d="M1368,79h95V398h-95V79Z"/>
+		</a>
+
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="Iceland_Flow_Wrap" data-name="Iceland Flow Wrap" class="cls-5" d="M204,621H344V743H204V621Z"/>
+		</a>
+
+		<!-- Other -->
+
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="New_Compactor_Site" data-name="New Compactor Site" class="cls-7" d="M374.014,1324H632.986v90H374.014v-90Z"/>
+		</a>
+		
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="Box_Making" data-name="Box Making" class="cls-8" d="M374.014,1452H632.986v90H374.014v-90Z"/>
+		</a>
+		
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="Giro" class="cls-14" d="M986,2140h225v72H986v-72Z"/>
+		</a>
+		
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="Galaxy" class="cls-17" d="M1513,46h83V305h-83V46Z"/>
+		</a>
+				
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="Veg_Cutting" data-name="Veg Cutting" class="cls-17" d="M1179,17h158V77H1179V17Z"/>
+		</a>
+		
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="Onion_Storage" data-name="Onion Storage" class="cls-14" d="M204,78H344V463H204V78Z"/>
+		</a>
+				
+		<a href="{{ url_for('location_detailed_page', location_id='' )}}">
+			<path id="Veg_and_Salad_Packing" data-name="Veg and Salad Packing" class="cls-4" d="M204,781H456V932H204V781Z"/>
+		</a>
+    </svg>
+</div>
+
+{% endblock %}

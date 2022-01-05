@@ -25,59 +25,13 @@ cursor = cnx.cursor()
 # with open('locationDetails.json') as json_file:
 #     data = json.load(json_file)
 
-# function replaceCellId(col, data, rack, i, j) {
-#     var cell = document.getElementById(col.id) //Cell Html object
-#     var cell_id = cell.getAttribute("cell-id"); // Getting the Id of the cell
-#     var col_link = col.getElementsByClassName("cell-link")[0];
-#     var newId = data["loc_id"] +"-"+ cell_id;
-#     col_link.innerHTML = "<div> Cell " + rack +"-"+ cell_id+"</div>";
-#     col_link.href="/palletInfo/"+newId;
-#     cell.setAttribute("id", newId);
-# }
-
-# data = sql_queries.get_pallets_by_location("FVFR1")
-# data = sql_queries.get_pallets_by_location("FVFR1-08")
-
-# print(data)
+# data = sql_queries.get_pallet_details_search("Sugraone", "81766",
+#                                              "2158-0129", None)
+data = sql_queries.get_pallet_details("D2-BAY-9")
+print(data)
 # Using readlines()
-file1 = open('test.txt', 'r')
-Lines = file1.readlines()
-# Strips the newline character
-for line in Lines:
-    print('"'+line.strip()+'": "#",')
-
-# function getData(loc, rack) {
-#     var search = "";
-#     // If the rack value is "00", this means it is a 2d view of the storage
-#     // 2d storages do not have a rack value, so it defaults to 0, which is then
-#     // formatted to the desired digit length
-#     if (rack == 00) {
-#         search = loc;
-#     } else {
-#         search = loc + "-" + rack;
-#     }
-#     $.ajax({
-#         url: '/update_data/' + search,
-#         type: 'POST',
-#         success: function (data) {
-#             // var table = document.getElementById("cellTable");
-#             var tableNum;
-#             var table;
-#             $.getJSON("/static/js/mascodeColours.json", function (masCodeColours) {
-#                 legendList = {};
-#                 for (var k = 1; k <= 2 ; k++) {
-#                     tableNum = "celltable" + k;
-#                     table = document.getElementById(tableNum);
-#                     for (var i = 1, row; row = table.rows[i]; i++) {
-#                         for (var j = 1, col; col = row.cells[j]; j++) {
-#                             legendList = cellUpdate(col, data, masCodeColours, legendList);
-#                         }
-#                     }
-#                 }
-#                 // Update the legend
-#                 updateLegend(masCodeColours, legendList);
-#             });
-#         }
-#     });
-#     // showUpdateMsg();
-# }
+# file1 = open('test.txt', 'r')
+# Lines = file1.readlines()
+# # Strips the newline character
+# for line in Lines:
+#     print('"'+line.strip()+'": "#",')
