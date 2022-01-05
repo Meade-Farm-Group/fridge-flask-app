@@ -25,20 +25,9 @@ cursor = cnx.cursor()
 # with open('locationDetails.json') as json_file:
 #     data = json.load(json_file)
 
-# function replaceCellId(col, data, rack, i, j) {
-#     var cell = document.getElementById(col.id) //Cell Html object
-#     var cell_id = cell.getAttribute("cell-id"); // Getting the Id of the cell
-#     var col_link = col.getElementsByClassName("cell-link")[0];
-#     var newId = data["loc_id"] +"-"+ cell_id;
-#     col_link.innerHTML = "<div> Cell " + rack +"-"+ cell_id+"</div>";
-#     col_link.href="/palletInfo/"+newId;
-#     cell.setAttribute("id", newId);
-# }
-
 # data = sql_queries.get_pallet_details_search("Sugraone", "81766",
 #                                              "2158-0129", None)
-data = sql_queries.get_table_size("DIS1")
-
+data = sql_queries.get_pallet_details("D2-BAY-9")
 print(data)
 # Using readlines()
 # file1 = open('test.txt', 'r')

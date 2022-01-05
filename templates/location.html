@@ -34,9 +34,11 @@
 				<h4 class="text-justify">Rack {{ rack_num }}</h4>
 			</div>
 		{% endif %}
-	  	<div class="col">
-			<img class="float-end" src="/static/images/{{ image_link }}.png" height="140" alt="miniMap">
-	  	</div>
+		{% if locdet['tableType'] == "3d" %}
+		<!-- <div class="col">
+			<img class="float-end" src="/static/images/.png" height="140" alt="ReferenceMap">
+	  	</div> -->
+		{% endif %}
 	</div>
 	{% if locdet['tableType'] == "3d" %}
 		<div class="row">
@@ -98,12 +100,9 @@
 <!-- Bay(s) -->
 {% if locdet["bays"]|length != 0 %}
 	{% for bay in locdet["bays"] %}
-		<h2>{{bay}}</h2>
-		{% if bay["pallets"]|length > 0 %}
-			<p>Things are here test</p>
-		{% else %}
-			<h5>No pallets found.</h5>
-		{% endif %}
+		<a class="btn btn-lg btn-success" href="{{ url_for('loading_model', cell_id = bay ) }}">
+			<div> {{ bay }} </div>
+		</a>
 	{% endfor %}
 {% endif %}
 

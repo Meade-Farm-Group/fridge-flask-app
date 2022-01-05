@@ -144,14 +144,14 @@ def search_loading_page():
     return render_template("searchLoading.html")
 
 
-@app.route('/map')
-def map_page():
-    return render_template("map.html")
+# @app.route('/map')
+# def map_page():
+#     return render_template("map.html")
 
 
-@app.route('/detailedMap/<string:location_id>')
-def location_detailed_page(location_id):
-    return render_template("detailedMap.html", location_id=location_id)
+# @app.route('/detailedMap/<string:location_id>')
+# def location_detailed_page(location_id):
+#     return render_template("detailedMap.html", location_id=location_id)
 
 
 @app.errorhandler(404)
