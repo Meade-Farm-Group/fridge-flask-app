@@ -10,14 +10,15 @@ username = os.getenv("PROPHET_USERNAME")
 password = os.getenv("PROPHET_PASSWORD")
 driver = '{ODBC Driver 17 for SQL Server}'
 
-cnx = pyodbc.connect(f'DRIVER={driver};SERVER={server};\
+def prophet_connection():
+    cnx = pyodbc.connect(f'DRIVER={driver};SERVER={server};\
                        DATABASE={db};UID={username};PWD={password}')
+    return cnx.cursor()
 
-cursor = cnx.cursor()
 
 
 def get_locations():
-
+    cursor = prophet_connection()
     # Query gets the location code and location name of all locations that are
     # of zone type "FRIDGE"
     cursor.execute('''
@@ -53,6 +54,7 @@ def get_locations():
 
 
 def get_table_size(location_id):
+    cursor = prophet_connection()
 
     # Query gets all the cell location id's and get the name of the location
     cursor.execute('''
@@ -114,6 +116,7 @@ def get_table_size(location_id):
 
 # Query to get pallets currently in store
 def get_pallets_by_location(location_id):
+    cursor = prophet_connection()
 
     cursor.execute('''
         SELECT
@@ -166,6 +169,7 @@ def get_pallets_by_location(location_id):
 # Query to get information of each pallet in a location
 # There can be mulitple pallets in a single location
 def get_pallet_details(cell_id):
+    cursor = prophet_connection()
     cursor.execute('''
         SELECT
         palfil_nl.palfilid,
@@ -254,6 +258,8 @@ def get_pallet_details(cell_id):
 
 
 def get_pallet_details_search(prod_name, po_num, reference, best_before_date):
+    cursor = prophet_connection()
+
     where_clause = []
     prod_name = prod_name.lstrip()
 
