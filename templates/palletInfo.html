@@ -7,6 +7,9 @@
     {% set loc_id = data["zonecode"] %}
     {% if data["tableType"] == "3d" %}   
         {% set rack_num = cell_id.split('-')[1] %}
+        {% if rack_num == "BAY" %}
+            {% set rack_num = "01" %}
+        {% endif %}
         <a href="{{ url_for('location_page', location_id=loc_id, rack_id = rack_num )}}" 
         class="btn btn-success btn-lg" tabindex="-1" role="button" aria-disabled="true"><i class="fas fa-chevron-left"></i>&#8592;Back</a>
     {% else %}
