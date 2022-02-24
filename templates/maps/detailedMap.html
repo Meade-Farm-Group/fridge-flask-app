@@ -1,0 +1,46 @@
+{% extends 'base.html' %} 
+{% block title %} Detailed Map Page {% endblock %}
+
+{% block extracss %}
+    <link rel="stylesheet" media="screen" href="{{ url_for('static', filename='css/mapStyle.css') }}" />
+{% endblock %}
+
+{% block content %}
+
+<h1>Select Rack:</h1>
+
+{% if location_id == "DIS2" %}
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 2024 2385">
+    <a href="{{ url_for('location_page', location_id=location_id, rack_id = '1' )}}">
+        <path id="Dispatch_1" data-name="Dispatch 1" class="cls-2" d="M1599.99,651h408.02v446H1599.99V651Z"/>
+        <text id="Dispatch_1-1" data-name="Dispatch 1" class="cls-19" x="1804.341" y="875.958"><tspan x="1804.341">Rack 1</tspan></text>
+    </a>
+    <a href="{{ url_for('location_page', location_id=location_id, rack_id = '2' )}}">
+        <path id="Dispatch_2" data-name="Dispatch 2" class="cls-1" d="M1600.48,1096.5h408.04v481H1600.48v-481Z"/>
+        <text id="Dispatch_Rack-2" data-name="Dispatch Rack 2" class="cls-19 unselectable" x="1804.341" y="1340.959"><tspan x="1804.341">Rack 2</tspan></text>
+    </a>
+</svg>
+{% elif location_id == "FVFR1" or location_id == "FVFR2" or location_id == "FVFR3" or location_id == "FVFR4"%}
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 2024 2385">
+    <a href="{{ url_for('location_page', location_id=location_id )}}">
+        <path id="Fridge_1" data-name="Fridge 1" class="cls-5" d="M633.471,1292.5H980.529v254H633.471v-254Z"/>
+        <text id="Fridge_1-2" data-name="Fridge 1" class="cls-19" x="808.341" y="1434.959"><tspan x="808.341">Racks 1-8</tspan></text>
+    </a>
+</svg>
+{% elif loc == "FVFR5" %}
+
+{% elif loc == "FVFR6" %}
+
+{% elif loc == "FVFR7" %}
+
+{% elif loc == "FVFR8" %}
+<a href="{{ url_for('location_page', location_id=loc )}}">
+    <path id="Fridge_8" data-name="Fridge 8" class="cls-3" d="M984,653h356v377H984V653Z"/>
+    <text id="Fridge_8-2" data-name="Fridge 8" class="cls-19" x="1166.342" y="858.96"><tspan x="1166.342">Fridge 8</tspan></text>
+</a>
+
+{% else %}
+<p>No Location found!</p>
+{% endif %}
+
+{% endblock %}
