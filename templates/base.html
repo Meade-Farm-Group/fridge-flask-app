@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" />
-        <script type=text/javascript src="{{ url_for('static', filename='js/bootstrap.jquery.js') }}"></script>
+        <script type=text/javascript src="{{ url_for('static', filename='js/jquery.js') }}"></script>
         <link rel="stylesheet" media="screen" href="{{ url_for('static', filename='css/style.css') }}" />
-        <link rel="stylesheet" media="screen" href="{{ url_for('static', filename='css/mapStyle.css') }}" />
+        {% block extracss %}{% endblock %}
         <title>{% block title %} {% endblock %}</title>
     </head>
 
     <body class="d-flex flex-column min-vh-100 ">
-        <nav class="navbar navbar-expand-sm navbar-dark bg-success">
+        <nav class="navbar navbar-expand-sm navbar-dark bg-info">
             <div class="container-fluid">
                 <a class="navbar-brand" href="{{ url_for('home_page') }}">
                     <img src="/static/images/meade_farm_logo.png" alt="" width="80" height="44" class="d-inline-block align-text-middle">
@@ -29,9 +30,9 @@
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="{{ url_for('search_page') }}">Search</a>
                         </li>
-                        <!-- <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href=" url_for('map_page') ">Map</a>
-                        </li> -->
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{{ url_for('map_page') }}">Map</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -47,8 +48,10 @@
             </div>
         </footer>
 
-        <link rel="stylesheet" type="text/css" href="/static/css/datatables.min.css"/>
-        <script type="text/javascript" src="/static/js/datatables.min.js"></script>
+        <!-- <link rel="stylesheet" type="text/css" href="/static/css/datatables.min.css"/> -->
+
+        <!-- <script type="text/javascript" src="/static/js/datatables.min.js"></script> -->
+        
         <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
         <script type=text/javascript src="{{ url_for('static', filename='js/locationsTableUpdate.js') }}"></script>
         {% block extrajs %}{% endblock %}

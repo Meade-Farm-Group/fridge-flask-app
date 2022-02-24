@@ -94,9 +94,9 @@ function cellUpdate(cell, data, masCodeColours, legendList) {
         //     cell.classList.add("stripe");
         //     $(cellText).css("color", "#FFFFFF");
         // }
-        // cell.classList.add("stripe");
-        // cell.getElementsByTagName("div")[0].classList.add("stripe");
-        // $(cellText).css("color", "#FFFFFF");
+        //cell.classList.add("stripe");
+        cell.getElementsByTagName("div")[0].classList.add("stripe");
+        $(cellText).css("color", "#FFFFFF");
         
 
         // Array containing all mascodes and colours that is currently being displayed
