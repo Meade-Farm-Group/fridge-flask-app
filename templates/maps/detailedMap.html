@@ -1,6 +1,10 @@
 {% extends 'base.html' %} 
 {% block title %} Detailed Map Page {% endblock %}
 
+{% block extracss %}
+    <link rel="stylesheet" media="screen" href="{{ url_for('static', filename='css/mapStyle.css') }}" />
+{% endblock %}
+
 {% block content %}
 
 <h1>Select Rack:</h1>

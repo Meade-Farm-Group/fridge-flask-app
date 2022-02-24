@@ -1,6 +1,9 @@
 {% extends 'base.html' %} 
 {% block title %} Search Page {% endblock %} 
 {% block content %}
+{% block extracss %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='DataTables/datatables.min.css') }}"/>
+{% endblock %}
 <h1>Search Results:</h1>
 <br/>
         <a href="{{ url_for('search_page' )}}" 
@@ -103,11 +106,14 @@
         <h2>No pallets found!</h2>
         <p>Press "Back" to return to search.</p>
     {% endif %}
-
-    <script>
-        $(document).ready( function () {
-            $('#table_id').DataTable();
-        } );
-    </script>
-
+    {% block extrajs %}
+        <script type="text/javascript" src="{{ url_for('static', filename='DataTables/datatables.min.js') }}"></script>
+        <script>
+            
+            $(document).ready( function () {
+                $('#table_id').DataTable();
+            } );
+        </script>
+    {% endblock %}
+    
 {% endblock %}
