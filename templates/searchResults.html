@@ -7,7 +7,7 @@
 <h1>Search Results:</h1>
 <br/>
         <a href="{{ url_for('search_page' )}}" 
-        class="btn btn-success btn-lg" tabindex="-1" role="button" aria-disabled="true"><i class="fas fa-chevron-left"></i>&#8592;Back</a>
+        class="btn btn-success btn-lg" tabindex="-1" role="button" aria-disabled="true"><i class="fas fa-chevron-left"></i>Back</a>
     
     {% if data["pallets"] is defined and data["pallets"]|length ==  1 %}
     <h2>Location: {{data["pallets"][0]["locDescr"]}} ({{ cell_id }})</h2>
