@@ -68,6 +68,10 @@
 	</div>
 </div>
 
+<div class="d-flex justify-content-center">
+	<div id="loader" class="visually-hidden"></div>
+</div>
+<div id="hideContent">
 <!-- If no table to diplay -->
 {% if not (locdet["tableSize"][0] == 0 and locdet["tableSize"][2] == 0) %}
 
@@ -94,12 +98,13 @@
 	{% else %}
 		{{ table(rack_id, locdet, columns, loc_id, cell_location, rack_num, alphabet, rack_add, table_num) }}
 	{% endif %}
+</div>
 {% endif %}
 
 <!-- Bay(s) -->
 {% if locdet["bays"]|length != 0 %}
 	{% for bay in locdet["bays"] %}
-		<a class="btn btn-lg btn-success" href="{{ url_for('loading_model', cell_id = bay ) }}">
+		<a class="btn btn-lg btn-success" href="{{ url_for('palletInfo_page', cell_id = bay ) }}" onclick="loading();">
 			<div> {{ bay }} </div>
 		</a>
 		<div class="mb-2"></div>
@@ -108,10 +113,10 @@
 <!-- Data about location and current settings -->
 <meta id="my-data" data-loc="{{ loc_id }}" data-rack="{{ rack_num }}" data-currentfilter="">
 
-{% endblock %}
-
 {% block extrajs %}
+<script type="text/javascript" src="{{ url_for('static', filename='js/loader.js') }}"></script>
 <script src="{{ url_for('static', filename='js/tableRefresh.js') }}"></script>
 <script type=text/javascript src="{{ url_for('static', filename='js/locationsTableUpdate.js') }}"></script>
 {% endblock %}
 
+{% endblock %}

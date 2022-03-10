@@ -1,10 +1,15 @@
 {% extends 'base.html' %} 
 {% block title %} Search Page {% endblock %} 
 {% block content %}
-<h1>Search</h1>
 
-<div class="loading"></div>
-<div id="searchForm" class="container">
+
+<div class="d-flex justify-content-center">
+    <h1><i class="fa-solid fa-magnifying-glass"></i> Search</h1>
+</div>
+<div class="d-flex justify-content-center">
+    <div id="loader" class="visually-hidden"></div>
+</div>
+<div id="hideContent" class="container">
     <form method="POST" action="">
         {{ form.hidden_tag() }}
         <fieldset class="form">
@@ -45,13 +50,7 @@
 </div>
 <br/>
 {% block extrajs %}
-<script type="text/javascript">// <![CDATA[
-    function loading(){
-        console.log("test")
-        $("#loading").show();
-        $("#searchForm").hide();       
-    }
-// ]]></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/loader.js') }}"></script>
 {% endblock extrajs %}
 {% endblock %}
 
