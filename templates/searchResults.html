@@ -111,7 +111,14 @@
         <script>
             
             $(document).ready( function () {
-                $('#table_id').DataTable();
+                if ( $.fn.dataTable.isDataTable( '#table_id' ) ) {
+                    table = $('#table_id').DataTable();
+                }
+                else {
+                    table = $('#table_id').DataTable( {
+                        responsive: true
+                    } );
+                }
             } );
         </script>
     {% endblock %}
