@@ -81,7 +81,7 @@
         <br/>
     {% elif data["pallets"]|length > 1 %}
     <br/><br/>
-    <table id="table_id" class="display palletTest">
+    <table id="table_id" class="display">
         <thead>
             <tr>
                 <th>Pallet ID</th>
@@ -124,10 +124,16 @@
 
     {% block extrajs %}
         <script type="text/javascript" src="{{ url_for('static', filename='DataTables/datatables.min.js') }}"></script>
-        <script>
-            
+        <script>     
             $(document).ready( function () {
-                $('#table_id').DataTable();
+                if ( $.fn.dataTable.isDataTable( '#table_id' ) ) {
+                    table = $('#table_id').DataTable();
+                }
+                else {
+                    table = $('#table_id').DataTable( {
+                        responsive: true
+                    } );
+                }
             } );
         </script>
     {% endblock %}
