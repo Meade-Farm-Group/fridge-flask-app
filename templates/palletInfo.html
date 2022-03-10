@@ -14,10 +14,10 @@
             {% set rack_num = "01" %}
         {% endif %}
         <a href="{{ url_for('location_page', location_id=loc_id, rack_id = rack_num )}}" 
-        class="btn btn-success btn-lg" tabindex="-1" role="button" aria-disabled="true"><i class="fas fa-chevron-left"></i>&#8592;Back</a>
+        class="btn btn-success btn-lg" tabindex="-1" role="button" aria-disabled="true"><i class="fas fa-chevron-left"></i>Back</a>
     {% else %}
         <a href="{{ url_for('location_page', location_id=loc_id )}}" 
-        class="btn btn-success btn-lg" tabindex="-1" role="button" aria-disabled="true"><i class="fas fa-chevron-left"></i>&#8592;Back</a>
+        class="btn btn-success btn-lg" tabindex="-1" role="button" aria-disabled="true"><i class="fas fa-chevron-left"></i>Back</a>
     {% endif %}
     
     {% if data["pallets"] is defined and data["pallets"]|length ==  1 %}
@@ -81,7 +81,7 @@
         <br/>
     {% elif data["pallets"]|length > 1 %}
     <br/><br/>
-    <table id="table_id" class="display palletTest">
+    <table id="table_id" class="display">
         <thead>
             <tr>
                 <th>Pallet ID</th>
@@ -124,10 +124,16 @@
 
     {% block extrajs %}
         <script type="text/javascript" src="{{ url_for('static', filename='DataTables/datatables.min.js') }}"></script>
-        <script>
-            
+        <script>     
             $(document).ready( function () {
-                $('#table_id').DataTable();
+                if ( $.fn.dataTable.isDataTable( '#table_id' ) ) {
+                    table = $('#table_id').DataTable();
+                }
+                else {
+                    table = $('#table_id').DataTable( {
+                        responsive: true
+                    } );
+                }
             } );
         </script>
     {% endblock %}
