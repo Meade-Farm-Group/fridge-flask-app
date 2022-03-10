@@ -10,11 +10,11 @@ username = os.getenv("PROPHET_USERNAME")
 password = os.getenv("PROPHET_PASSWORD")
 driver = '{ODBC Driver 17 for SQL Server}'
 
+
 def prophet_connection():
     cnx = pyodbc.connect(f'DRIVER={driver};SERVER={server};\
                        DATABASE={db};UID={username};PWD={password}')
     return cnx.cursor()
-
 
 
 def get_locations():
@@ -263,11 +263,11 @@ def get_pallet_details_search(prod_name, po_num, reference, best_before_date):
     where_clause = []
     prod_name = prod_name.lstrip()
 
-    if prod_name is None\
+    if len(prod_name) == 0\
        and po_num is None\
        and reference is None\
        and best_before_date is None:
-        return ""
+        return "invalid_search_data"
 
     if prod_name is not None:
         where_clause.append("""(prdall_nl.descr LIKE '%{}%' OR variety_nl.
