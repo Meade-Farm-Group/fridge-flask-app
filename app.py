@@ -134,6 +134,9 @@ def search_result_page():
     r = request.args.get("r")
     bbd = request.args.get("bbd")
     data = sql_queries.get_pallet_details_search(pc, po, r, bbd)
+    if data == "invalid_search_data":
+        flash(f'Invalid search data. Please try again.', 'danger')
+        return redirect(url_for('search_page'))
     # if data["pallets"].count == 0:
     #     return redirect(url_for('search_page'))
     return render_template("searchResults.html", data=data)
