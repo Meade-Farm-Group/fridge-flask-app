@@ -26,17 +26,16 @@
 			<a href="{{ url_for('home_page')}}" 
         class="btn btn-success btn-lg" tabindex="-1" role="button" aria-disabled="true"><i class="fas fa-angle-left"></i>&#8592;Back</a>
 	  	</div>
-		<div class="col-sm col-md-3">
-			<h3 class="text-justify">{{ locdet["name"] }}</h3>
+		<div id="locationName" class="col-sm col-md-5">
+			<h3 class="mb-1">{{ locdet["name"] }}
+			{% if rack_id != none and (locdet["tableSize"][0] != 0 and locdet["tableSize"][2] != 0) %}
+				- Rack {{ rack_num }}
+			{% endif %}
+			</h3>
 	  	</div>
-		{% if rack_id != none and (locdet["tableSize"][0] != 0 and locdet["tableSize"][2] != 0) %}
-			<div class="col-sm col-md-3">
-				<h4 class="text-justify">Rack {{ rack_num }}</h4>
-			</div>
-		{% endif %}
 		{% if locdet['tableType'] == "3d" %}
-		<div class="col">
-			<img class="float-end" src="/static/images/{{ image_link }}.png" height="140" alt="ReferenceMap">
+		<div class="col" id="test123">
+			<img class="" src="/static/images/{{ image_link }}.png" height="140" alt="ReferenceMap">
 	  	</div>
 		{% endif %}
 	</div>
@@ -103,9 +102,9 @@
 		<a class="btn btn-lg btn-success" href="{{ url_for('loading_model', cell_id = bay ) }}">
 			<div> {{ bay }} </div>
 		</a>
+		<div class="mb-2"></div>
 	{% endfor %}
 {% endif %}
-
 <!-- Data about location and current settings -->
 <meta id="my-data" data-loc="{{ loc_id }}" data-rack="{{ rack_num }}" data-currentfilter="">
 
