@@ -130,3 +130,10 @@ div#content {
 .infoContainer{
   min-height: 150px;
 }
+
+
+@media (max-width: 575px) {
+  #rackSelectButton{
+    margin-top: 160px;
+  }
+}
