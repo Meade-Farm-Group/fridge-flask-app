@@ -105,11 +105,6 @@ def palletInfo_page(cell_id):
                            cell_id=cell_id)
 
 
-@app.route('/palletInfo/<string:cell_id>/loading')
-def loading_model(cell_id):
-    return render_template("loading.html", cell_id=cell_id)
-
-
 @app.route('/search', methods=['POST', 'GET'])
 def search_page():
     form = SearchForm()
@@ -140,11 +135,6 @@ def search_result_page():
     # if data["pallets"].count == 0:
     #     return redirect(url_for('search_page'))
     return render_template("searchResults.html", data=data)
-
-
-@app.route('/search/loading')
-def search_loading_page():
-    return render_template("searchLoading.html")
 
 
 @app.route('/map')
