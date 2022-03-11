@@ -97,7 +97,7 @@
 	{% else %}
 		{{ table(rack_id, locdet, columns, loc_id, cell_location, rack_num, alphabet, rack_add, table_num) }}
 	{% endif %}
-</div>
+
 {% endif %}
 
 <!-- Bay(s) -->
@@ -109,6 +109,8 @@
 		<div class="mb-2"></div>
 	{% endfor %}
 {% endif %}
+</div>
+
 <!-- Data about location and current settings -->
 <meta id="my-data" data-loc="{{ loc_id }}" data-rack="{{ rack_num }}" data-currentfilter="">
 
