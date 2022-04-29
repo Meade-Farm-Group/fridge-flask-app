@@ -34,9 +34,12 @@
 			</h3>
 	  	</div>
 		{% if locdet['tableType'] == "3d" %}
-		<div class="col" id="test123">
+		<div class="col">
 			<img class="" src="/static/images/{{ image_link }}.png" height="140" alt="ReferenceMap">
 	  	</div>
+		<!-- <div class="col">
+			<img class="" src="/static/images/DIS2/01.png" height="140" alt="ReferenceMap">
+	  	</div> -->
 		{% endif %}
 	</div>
 	{% if locdet['tableType'] == "3d" %}
@@ -85,7 +88,7 @@
 	{% set rack_add = 0 %}
 	{% set table_num = "cellTable1" %}
 
-<!-- Table(s) -->
+	<!-- Table(s) -->
 	{% if locdet["tableType"] == "2d" %}
 
 		{{ table(rack_id, locdet, columns, loc_id, cell_location, rack_num, alphabet, rack_add, table_num) }}
@@ -115,9 +118,9 @@
 <meta id="my-data" data-loc="{{ loc_id }}" data-rack="{{ rack_num }}" data-currentfilter="">
 
 {% block extrajs %}
-<script type="text/javascript" src="{{ url_for('static', filename='js/loader.js') }}"></script>
 <script src="{{ url_for('static', filename='js/tableRefresh.js') }}"></script>
 <script type=text/javascript src="{{ url_for('static', filename='js/locationsTableUpdate.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/loader.js') }}"></script>
 {% endblock %}
 
 {% endblock %}
