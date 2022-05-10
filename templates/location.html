@@ -9,7 +9,7 @@
 	{% set columns = locdet["tableSize"][0] %}
 	{% set loc_id = locdet["id"] %}
 	{% set cell_location = locdet['id'] %}
-	{% set image_link = locdet['id'] +"/"+ "left" %}
+	{% set image_link = locdet['id'] %}
 {% else %}
 	{% set columns = locdet["tableSize"][2] %}
 	{% set loc_id = locdet["id"][0] + locdet["id"][-1] %}
@@ -33,14 +33,13 @@
 			{% endif %}
 			</h3>
 	  	</div>
-		{% if locdet['tableType'] == "3d" %}
+
 		<div class="col">
 			<img class="" src="/static/images/{{ image_link }}.png" height="140" alt="ReferenceMap">
 	  	</div>
 		<!-- <div class="col">
 			<img class="" src="/static/images/DIS2/01.png" height="140" alt="ReferenceMap">
 	  	</div> -->
-		{% endif %}
 	</div>
 	{% if locdet['tableType'] == "3d" %}
 		<div class="row">
@@ -57,6 +56,8 @@
 				</div>
 			</div>
 		</div>
+	{% else %}
+		<br><br><br><br><br><br><br>
 	{% endif %}
 	<div class="row">
 		<div class="col">
