@@ -1,7 +1,13 @@
 {% macro table(rack_id, locdet, columns, loc_id, cell_location, rack_num, alphabet, rack_add, table_num ) %}
 
 {% if locdet["tableType"] == "2d" %}
-    {% set tableRange = (columns/2)|int %}
+    {% if loc_id == "FVFR5" %}
+        {% set tableRange = columns %}
+    {% elif loc_id == "FVFR7" %}
+        {% set tableRange = columns %}
+    {% else %}
+        {% set tableRange = (columns/2)|int %}
+    {% endif %}
 {% else %}
     {% set tableRange = columns %}
 {% endif %}
@@ -12,7 +18,9 @@
         <tr class="table-primary">
             <th scope="col">#</th>
             {% for row in range(tableRange) %}
-                {% if rack_id == none %}
+                {% if loc_id == 'FVFR5' %}
+                    <th scope="col" class="text-center">Rack {{ "{:02d}".format((loop.revindex + rack_add)|int) }} </th>
+                {% elif rack_id == none %}
                     <th scope="col" class="text-center">Rack {{ "{:02d}".format((loop.index + rack_add)|int) }}</th>
                 {% elif rack_id | int % 2 == 1 %}
                     <th scope="col" class="text-center">Cell {{ "{:02d}".format((loop.index + rack_add)|int) }}</th>
@@ -30,8 +38,16 @@
                 {% for col in range(tableRange) %}
                     <!-- 2D data -->
                     {% if locdet['tableType'] == '2d' %}
-                        {% set cell_id = loc_id + "-" + "{:02d}".format((loop.index + rack_add)|int)|string + "-" + alphabet[outer_loop.revindex]  %}
-                        {% set cell_label = "{:02d}".format((loop.index + rack_add)|int)|string +"-"+ alphabet[outer_loop.revindex] %}
+                        {% if loc_id == 'FVFR5' %}
+
+                            {% set cell_id = loc_id + "-" + "{:02d}".format((loop.revindex + rack_add)|int)|string + "-" + alphabet[outer_loop.revindex]  %}
+                            {% set cell_label = "{:02d}".format((loop.revindex + rack_add)|int)|string +"-"+ alphabet[outer_loop.revindex] %}
+
+
+                        {% else %}
+                            {% set cell_id = loc_id + "-" + "{:02d}".format((loop.index + rack_add)|int)|string + "-" + alphabet[outer_loop.revindex]  %}
+                            {% set cell_label = "{:02d}".format((loop.index + rack_add)|int)|string +"-"+ alphabet[outer_loop.revindex] %}
+                        {% endif %}
                     <!-- 3D data and odd numbered rack -->	
                     {% elif rack_id | int % 2 == 1 %}
                         {% set cell_id = loc_id + "-" + rack_num + "-" + alphabet[outer_loop.revindex] +"-"+ "{:02d}".format((loop.index + rack_add)|int)|string  %}

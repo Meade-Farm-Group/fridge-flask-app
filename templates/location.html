@@ -19,7 +19,6 @@
 <br/>
 
 <!-- Text -->
-
 <div class="container infoContainer">
 	<div class="row topRow">
 	  	<div class="col-sm col-md-2">
@@ -91,13 +90,21 @@
 
 	<!-- Table(s) -->
 	{% if locdet["tableType"] == "2d" %}
-
-		{{ table(rack_id, locdet, columns, loc_id, cell_location, rack_num, alphabet, rack_add, table_num) }}
-
-		{% set rack_add = columns/2 %}
-		{% set table_num = "cellTable2" %}
-		{{ table(rack_id, locdet, columns, loc_id, cell_location, rack_num, alphabet, rack_add, table_num) }}
-
+		{% if loc_id == 'FVFR5' %}
+			{{ table(rack_id, locdet, columns, loc_id, cell_location, rack_num, alphabet, rack_add, table_num) }}
+		{% elif loc_id == 'FVFR7' %}
+			{% set columns = 12 %}
+			{{ table(rack_id, locdet, columns, loc_id, cell_location, rack_num, alphabet, rack_add, table_num) }}
+			{% set rack_add = columns %}
+			{% set columns = 8 %}
+			{% set table_num = "cellTable2" %}
+			{{ table(rack_id, locdet, columns, loc_id, cell_location, rack_num, alphabet, rack_add, table_num) }}
+		{% else %}
+			{{ table(rack_id, locdet, columns, loc_id, cell_location, rack_num, alphabet, rack_add, table_num) }}
+			{% set rack_add = columns/2 %}
+			{% set table_num = "cellTable2" %}
+			{{ table(rack_id, locdet, columns, loc_id, cell_location, rack_num, alphabet, rack_add, table_num) }}
+		{% endif %}
 	{% else %}
 		{{ table(rack_id, locdet, columns, loc_id, cell_location, rack_num, alphabet, rack_add, table_num) }}
 	{% endif %}
