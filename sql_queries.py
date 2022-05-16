@@ -83,7 +83,7 @@ def get_table_size(location_id):
     for row in cursor.fetchall():
         # Creates a string list seperated by the "-"
         loc = row[0].split('-')
-        if(loc[1] != "BAY"):
+        if(loc[1] != "BAY" and loc[1] != "FLOR"):
             if(str(loc[1]).isdigit()):
                 # Compare rack values
                 if(loc_racks < int(loc[1])):
@@ -110,7 +110,6 @@ def get_table_size(location_id):
     #     "cell": "FVFR4-01-A",
     #     "tableSize": [3, 20, 0]
     # }
-
     return data
 
 
