@@ -14,13 +14,13 @@
             {% set rack_num = "01" %}
         {% endif %}
         <a href="{{ url_for('location_page', location_id=loc_id, rack_id = rack_num )}}" 
-        class="btn btn-success btn-lg" tabindex="-1" role="button" aria-disabled="true"><i class="fas fa-chevron-left"></i>Back</a>
+        class="btn btn-success btn-lg" tabindex="-1" role="button" aria-disabled="true"><i class="fas fa-chevron-left"></i> Back</a>
     {% else %}
         <a href="{{ url_for('location_page', location_id=loc_id )}}" 
-        class="btn btn-success btn-lg" tabindex="-1" role="button" aria-disabled="true"><i class="fas fa-chevron-left"></i>Back</a>
+        class="btn btn-success btn-lg" tabindex="-1" role="button" aria-disabled="true"><i class="fas fa-chevron-left"></i> Back</a>
     {% endif %}
     
-    <h2>Location: {{data["pallets"][0]["locDescr"]}} ({{ cell_id }})</h2>
+    <h2>Location: {{data["locDescr"]}} ({{ cell_id }})</h2>
     {% if data["pallets"] is defined and data["pallets"]|length ==  1 %}
         {% for pallet in data["pallets"] %}
         <h3>Pallet: {{ pallet["palletId"] }}</h3>
