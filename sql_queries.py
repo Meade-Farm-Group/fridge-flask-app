@@ -169,6 +169,28 @@ def get_pallets_by_location(location_id):
 # There can be mulitple pallets in a single location
 def get_pallet_details(cell_id):
     cursor = prophet_connection()
+
+    data = {}
+    data["zonecode"] = None
+    data["locDescr"] = None
+    data["tableType"] = check_table_type(cell_id)
+    data["pallets"] = []
+
+    cursor.execute('''
+        SELECT
+        locfil_nl.loccode,
+        locfil_nl.descr
+        FROM locfil_nl
+        WHERE
+        locfil_nl.loccode = '{}'
+    '''.format(str(cell_id)))
+    if cursor.rowcount == 0:
+        return data
+
+    row = cursor.fetchone()
+    data["zonecode"] = row[0]
+    data["locDescr"] = row[1]
+
     cursor.execute('''
         SELECT
         palfil_nl.palfilid,
@@ -215,22 +237,6 @@ def get_pallet_details(cell_id):
         ORDER BY palfil_nl.palfilid DESC
     '''.format(str(cell_id)))
 
-    data = {}
-    data["zonecode"] = None
-    data["tableType"] = check_table_type(cell_id)
-    data["pallets"] = []
-    # if cursor.rowcount == 0:
-    #     cursor.execute('''
-    #         SELECT
-    #         locfil_nl.zonecode
-    #         FROM locfil_nl
-    #         WHERE
-    #         locfil_nl.loccode = '{}'
-
-    #     '''.format(str(cell_id)))
-    #     row = cursor.fetchone()
-    #     data["zonecode"] = row[0]
-
     for row in cursor.fetchall():
         pallet = {"palletId": row[0],
                   "productDescr": row[1],
@@ -248,8 +254,7 @@ def get_pallet_details(cell_id):
                   "narrative": row[13],
                   "countsize": row[14]}
         data["pallets"].append(pallet)
-        if data["zonecode"] is None:
-            data["zonecode"] = row[15]
+        data["zonecode"] = row[15]
 
     return data
 
