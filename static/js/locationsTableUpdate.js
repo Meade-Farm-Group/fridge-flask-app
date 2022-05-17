@@ -6,8 +6,14 @@ function getData() {
     // 2d storages do not have a rack value, so it defaults to 0, which is then
     // formatted to the desired digit length
     if (locData["rack"] == 00) {
-        search = locData["loc"];
-        range = 2
+        if (locData["loc"] == 'FVFR5'){
+            search = locData["loc"];
+            range = 1
+        } else{
+            search = locData["loc"];
+            range = 2
+        }
+        
     } else {
         search = locData["loc"] + "-" + locData["rack"];
         range = 1

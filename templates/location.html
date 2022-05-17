@@ -9,7 +9,7 @@
 	{% set columns = locdet["tableSize"][0] %}
 	{% set loc_id = locdet["id"] %}
 	{% set cell_location = locdet['id'] %}
-	{% set image_link = locdet['id'] +"/"+ "left" %}
+	{% set image_link = locdet['id'] %}
 {% else %}
 	{% set columns = locdet["tableSize"][2] %}
 	{% set loc_id = locdet["id"][0] + locdet["id"][-1] %}
@@ -19,7 +19,6 @@
 <br/>
 
 <!-- Text -->
-
 <div class="container infoContainer">
 	<div class="row topRow">
 	  	<div class="col-sm col-md-2">
@@ -33,11 +32,13 @@
 			{% endif %}
 			</h3>
 	  	</div>
-		{% if locdet['tableType'] == "3d" %}
-		<div class="col" id="test123">
+
+		<div class="col">
 			<img class="" src="/static/images/{{ image_link }}.png" height="140" alt="ReferenceMap">
 	  	</div>
-		{% endif %}
+		<!-- <div class="col">
+			<img class="" src="/static/images/DIS2/01.png" height="140" alt="ReferenceMap">
+	  	</div> -->
 	</div>
 	{% if locdet['tableType'] == "3d" %}
 		<div class="row">
@@ -54,6 +55,8 @@
 				</div>
 			</div>
 		</div>
+	{% else %}
+		<br><br><br><br><br><br><br>
 	{% endif %}
 	<div class="row">
 		<div class="col">
@@ -85,15 +88,23 @@
 	{% set rack_add = 0 %}
 	{% set table_num = "cellTable1" %}
 
-<!-- Table(s) -->
+	<!-- Table(s) -->
 	{% if locdet["tableType"] == "2d" %}
-
-		{{ table(rack_id, locdet, columns, loc_id, cell_location, rack_num, alphabet, rack_add, table_num) }}
-
-		{% set rack_add = columns/2 %}
-		{% set table_num = "cellTable2" %}
-		{{ table(rack_id, locdet, columns, loc_id, cell_location, rack_num, alphabet, rack_add, table_num) }}
-
+		{% if loc_id == 'FVFR5' %}
+			{{ table(rack_id, locdet, columns, loc_id, cell_location, rack_num, alphabet, rack_add, table_num) }}
+		{% elif loc_id == 'FVFR7' %}
+			{% set columns = 12 %}
+			{{ table(rack_id, locdet, columns, loc_id, cell_location, rack_num, alphabet, rack_add, table_num) }}
+			{% set rack_add = columns %}
+			{% set columns = 8 %}
+			{% set table_num = "cellTable2" %}
+			{{ table(rack_id, locdet, columns, loc_id, cell_location, rack_num, alphabet, rack_add, table_num) }}
+		{% else %}
+			{{ table(rack_id, locdet, columns, loc_id, cell_location, rack_num, alphabet, rack_add, table_num) }}
+			{% set rack_add = columns/2 %}
+			{% set table_num = "cellTable2" %}
+			{{ table(rack_id, locdet, columns, loc_id, cell_location, rack_num, alphabet, rack_add, table_num) }}
+		{% endif %}
 	{% else %}
 		{{ table(rack_id, locdet, columns, loc_id, cell_location, rack_num, alphabet, rack_add, table_num) }}
 	{% endif %}
@@ -115,9 +126,9 @@
 <meta id="my-data" data-loc="{{ loc_id }}" data-rack="{{ rack_num }}" data-currentfilter="">
 
 {% block extrajs %}
-<script type="text/javascript" src="{{ url_for('static', filename='js/loader.js') }}"></script>
 <script src="{{ url_for('static', filename='js/tableRefresh.js') }}"></script>
 <script type=text/javascript src="{{ url_for('static', filename='js/locationsTableUpdate.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/loader.js') }}"></script>
 {% endblock %}
 
 {% endblock %}

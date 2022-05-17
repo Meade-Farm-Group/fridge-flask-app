@@ -99,6 +99,11 @@ def palletInfo_page(cell_id):
 
     if data["zonecode"] is None:
         return render_template('errors/palletNotExist.html'), 404
+    data["zonecode"] = data["zonecode"].split('-')[0]
+    if data["zonecode"] == 'D1':
+        data["zonecode"] = 'DIS1'
+    if data["zonecode"] == 'D2':
+        data["zonecode"] = 'DIS2'
 
     return render_template('palletInfo.html',
                            data=data,
