@@ -39,12 +39,14 @@
 
 		<!-- All Locations going to detailed page -->
 
-		<a onclick="test('Dispatch 1')">
+		<!-- <a onclick="test('Dispatch 1')"> -->
+		<a href="{{ url_for('location_page', location_id='DIS1', rack_id = '1' )}}">
 			<path id="Dispatch_1" data-name="Dispatch 1" class="cls-2" d="M1599.99,651h408.02v446H1599.99V651Z"/>
 			<text id="Dispatch_1-2" data-name="Dispatch 1" class="cls-19" x="1804.341" y="875.958"><tspan x="1804.341">Dispatch 1</tspan></text>
 		</a>
 
-		<a href="{{ url_for('location_detailed_page', location_id='DIS2' )}}">
+		<!-- <a href="{{ url_for('location_detailed_page', location_id='DIS2' )}}"></a> -->
+		<a href="{{ url_for('location_page', location_id='DIS2', rack_id = '1' )}}">
 			<path id="Dispatch_2" data-name="Dispatch 2" class="cls-1" d="M1600.48,1096.5h408.04v481H1600.48v-481Z"/>
 			<text id="Dispatch_2-2" data-name="Dispatch 2" class="cls-19" x="1804.341" y="1340.959"><tspan x="1804.341">Dispatch 2</tspan></text>
 		</a>
