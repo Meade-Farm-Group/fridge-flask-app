@@ -4,7 +4,7 @@ services:
   web:
     build: .
     image: fridge-flask-app # change as per application
-    command: gunicorn --bind 0.0.0.0:5001 -t 0 --workers=15 --timeout 0 app:app # change port number
+    command: gunicorn --bind 0.0.0.0:5001 -t 0 --workers=3 --timeout 0 app:app # change port number
     volumes:
       - .:/usr/src/app
     expose:
