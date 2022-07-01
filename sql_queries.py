@@ -331,6 +331,8 @@ def get_pallet_details_search(prod_name, po_num, reference, best_before_date):
         WHERE {}
         AND
         res.balance != 0
+        AND
+        spdfil_nl.prodnum NOT LIKE '5%'
         ORDER BY palfil_nl.palfilid ASC
     '''.format(searches)
     cursor.execute(sql_query)
