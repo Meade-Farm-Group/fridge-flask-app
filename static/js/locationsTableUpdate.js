@@ -6,7 +6,7 @@ function getData() {
     // 2d storages do not have a rack value, so it defaults to 0, which is then
     // formatted to the desired digit length
     if (locData["rack"] == 00) {
-        if (locData["loc"] == 'FVFR5'){
+        if (locData["loc"] == 'FVFR5' || locData["loc"] == 'PHS1' || locData["loc"] == 'DIS1'){
             search = locData["loc"];
             range = 1
         } else{
@@ -29,8 +29,8 @@ function getData() {
                 for (var k = 1; k <= range ; k++) {
                     tableNum = "cellTable" + k;
                     table = document.getElementById(tableNum);
-                    for (var i = 1, row; row = table.rows[i]; i++) {
-                        for (var j = 1, col; col = row.cells[j]; j++) {
+                    for (var i = 0, row; row = table.rows[i]; i++) {
+                        for (var j = 0, col; col = row.cells[j]; j++) {
                             // Function returns the legend list so that it can be updated
                             legendList = cellUpdate(col, data, masCodeColours, legendList);
                         }
@@ -51,6 +51,9 @@ function getData() {
 // Function checks each cell to see if there are pallets within them
 // It is provided the cell
 function cellUpdate(cell, data, masCodeColours, legendList) {
+    if (cell.tagName == 'TH'){
+        return legendList;
+    }
     var cell_link = cell.getElementsByClassName("cell-link")[0];
     var masCode;
     var bgColour;
@@ -201,8 +204,11 @@ function toggleFilter(key, range){
     for (var k = 1; k <= range ; k++) {
         tableNum = "cellTable" + k;
         table = document.getElementById(tableNum);
-        for (var i = 1, row; row = table.rows[i]; i++) {
-            for (var j = 1, col; col = row.cells[j]; j++) {
+        for (var i = 0, row; row = table.rows[i]; i++) {
+            for (var j = 0, col; col = row.cells[j]; j++) {
+                if (col.tagName == 'TH'){
+                    continue;
+                }
                 // if the key given is the same as the current filter, this means the user
                 // is pressing the filter button again, thus turn off 
                 if(key == filter['currentfilter']){

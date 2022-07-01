@@ -121,3 +121,11 @@ div#content {
     margin-top: 160px;
   }
 }
+
+#PHS1Table td {
+  font-size:calc(8px + 0.5vw);
+  text-decoration: none;
+  max-height: 50px;
+  max-width: 10px;
+  padding: 10;
+}

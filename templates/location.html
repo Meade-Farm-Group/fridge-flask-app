@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block title %} Location Page {% endblock %} 
 {% block content %}
-{% from 'macros.j2' import table %}
+{% from 'macros.j2' import table, PHS1Table %}
 
 {% set rack_num = "{:02d}".format(rack_id| int)|string %}
 
@@ -17,7 +17,6 @@
 	{% set image_link = locdet['id'] +"/"+ rack_num %}
 {% endif %}
 <br/>
-
 <!-- Text -->
 <div class="container infoContainer">
 	<div class="row topRow">
@@ -77,7 +76,7 @@
 </div>
 <div id="hideContent">
 <!-- If no table to diplay -->
-{% if not (locdet["tableSize"][0] == 0 and locdet["tableSize"][2] == 0) %}
+{% if not (locdet["tableSize"][0] == 0 and locdet["tableSize"][2] == 0) or loc_id  == 'PHS1' %}
 
 	<!-- Legend: -->
 	<div class="container">
@@ -88,10 +87,11 @@
 
 	{% set rack_add = 0 %}
 	{% set table_num = "cellTable1" %}
-
 	<!-- Table(s) -->
-	{% if locdet["tableType"] == "2d" %}
-		{% if loc_id == 'FVFR5' %}
+	{% if loc_id  == 'PHS1' %}
+		{{ PHS1Table() }}
+	{% elif locdet["tableType"] == "2d" %}
+		{% if loc_id == 'FVFR5' or loc_id  == 'DIS1' %}
 			{{ table(rack_id, locdet, columns, loc_id, cell_location, rack_num, alphabet, rack_add, table_num) }}
 		{% elif loc_id == 'FVFR7' %}
 			{% set columns = 12 %}
