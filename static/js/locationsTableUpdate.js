@@ -60,6 +60,7 @@ function cellUpdate(cell, data, masCodeColours, legendList) {
     var filter = $('#my-data').data();
     // If cell id exists in the list
     ponum = cell.getElementsByTagName("Div")[1];
+    
     if (cell.id in data["pallets"]) {
         cell.classList.add("table-hover");
         cell_link.classList.remove("class", "disabled");
