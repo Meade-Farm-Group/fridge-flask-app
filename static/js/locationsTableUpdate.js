@@ -132,6 +132,7 @@ function cellUpdate(cell, data, masCodeColours, legendList) {
         cell.setAttribute("data-masCode","");
         cell.classList.remove("table-hover");
         cell_link.classList.add("class", "disabled");
+        ponum.innerHTML = "";
     }
 
     // Check used if in the case a filter is on and a cell gets updated with new data
