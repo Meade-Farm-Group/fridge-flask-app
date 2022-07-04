@@ -64,10 +64,11 @@ function cellUpdate(cell, data, masCodeColours, legendList) {
         cell_link.classList.remove("class", "disabled");
 
         // Check to see if the array are all the same value
-        if (data["pallets"][cell.id].every((val, i, arr) => val === arr[0])) {
+        // if (data["pallets"][cell.id].every((val, i, arr) => val === arr[0])) {
+        if (data["pallets"][cell.id]["mascodes"].length == 1) {
             // Gets the colour of the cell based on what master code it is
             // from a json file that was called and passed into this function
-            masCode = data["pallets"][cell.id][0]
+            masCode = data["pallets"][cell.id]["mascodes"]
             // Get the colour using the provided master code
             bgColour = masCodeColours[masCode]
             // If the master code does not have a colour yet, give it a default colour
@@ -80,18 +81,26 @@ function cellUpdate(cell, data, masCodeColours, legendList) {
             masCode = "MIXD";
             bgColour = masCodeColours[masCode]
         }
+        	
         // Set the background colour of the cell
         $(cell).css("background-color", bgColour);
         // Get the element that has the text
         cellText = cell.getElementsByTagName("Div")[0]
+        ponum = cell.getElementsByTagName("Div")[1];
+        ponum.innerHTML = "";
+        if(data["pallets"][cell.id]["ponums"].length == 1){
+            ponum.insertAdjacentText('beforeend', "(" + data["pallets"][cell.id]["ponums"][0] + ")");
+        }
 
         // Check if the colour is dark
         if(checkBrightness(bgColour)){
             // If the colour is dark, make the text white
             $(cellText).css("color", "#FFFFFF");
+            $(ponum).css("color", "#FFFFFF");
         }else{
             // If the colour is light, keep text dark
             $(cellText).css("color", "#000000");
+            $(ponum).css("color", "#000000");
         }
         
         // Set this attribute of the cell to the master code given it
