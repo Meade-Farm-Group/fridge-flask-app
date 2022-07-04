@@ -124,7 +124,8 @@ def get_pallets_by_location(location_id):
         palstk_nl.recqty,
         res.soldqty,
         prdall_nl.mascode,
-        prdall_nl.descr
+        prdall_nl.descr,
+        lothed_nl.ponum
         FROM palstk_nl
         LEFT JOIN palfil_nl ON palstk_nl.palfilid = palfil_nl.palfilid
         LEFT JOIN locdet_nl ON palfil_nl.locdetid = locdet_nl.locdetid
@@ -142,6 +143,7 @@ def get_pallets_by_location(location_id):
             LEFT OUTER JOIN palord_nl po2 ON po2.palstkid = p1.palstkid
             GROUP BY p1.palstkid, p1.recqty
         ) res ON palstk_nl.palstkid = res.palstkid
+        LEFT JOIN lothed_nl ON lotdet_nl.lotnum = lothed_nl.lotnum
         WHERE
         locfil_nl.loccode LIKE '{}%'
         AND
@@ -155,13 +157,17 @@ def get_pallets_by_location(location_id):
     data["masCodeNames"] = {}
     for row in cursor.fetchall():
         if row[0] in data["pallets"]:
-            if row[4] not in data["pallets"][row[0]]:
-                data["pallets"][row[0]].append(row[4])
+            if row[4] not in data["pallets"][row[0]]["mascodes"]:
+                data["pallets"][row[0]]["mascodes"].append(row[4])
+            if row[6] not in data["pallets"][row[0]]["ponums"]:
+                data["pallets"][row[0]]["ponums"].append(row[6])
         else:
-            data["pallets"][row[0]] = [row[4]]
+            data["pallets"][row[0]] = {}
+            data["pallets"][row[0]]["mascodes"] = [row[4]]
+            data["pallets"][row[0]]["ponums"] = [row[6]]
         if row[4] not in data["masCodeNames"]:
             data["masCodeNames"][row[4]] = row[5]
-
+    print(data)
     return data
 
 
