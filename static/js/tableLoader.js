@@ -1,3 +1,4 @@
+// used to instantiate the datatables
 $(document).ready( function () {
     if ( $.fn.dataTable.isDataTable('#table_id') ) {
         table = $('#table_id').DataTable();
