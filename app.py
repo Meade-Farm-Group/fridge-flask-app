@@ -68,6 +68,8 @@ def location_page(location_id, rack_id):
             if rack_id is not None:
                 return render_template('errors/locationNotExist.html'), 404
 
+    if location_id == "DIS1":
+        location_id = "D1"
     # Storing values in json object for easier data management
     locdet = {
         "id": location_id,  # Id of the location
@@ -91,15 +93,20 @@ def update_data(location_id):
     return data
 
 
+# Routing to get the ino of all pallets in a specific locations
 @app.route("/palletInfo/<string:cell_id>")
 def palletInfo_page(cell_id):
 
     # Query to get all information of pallets in this location
     data = sql_queries.get_pallet_details(cell_id)
 
+    # if there is no zonecode, the location does not exist on prophet
     if data["zonecode"] is None:
         return render_template('errors/palletNotExist.html'), 404
+    # split up the zonecode so that the first string is found
     data["zonecode"] = data["zonecode"].split('-')[0]
+    # due to the zonecode being different for dispatch, the strings are
+    # converted to their other form to be used for display
     if data["zonecode"] == 'D1':
         data["zonecode"] = 'DIS1'
     if data["zonecode"] == 'D2':
@@ -110,10 +117,15 @@ def palletInfo_page(cell_id):
                            cell_id=cell_id)
 
 
+# route used to get to the search page
 @app.route('/search', methods=['POST', 'GET'])
 def search_page():
+    # making an instance of the form
     form = SearchForm()
+    # if the form is valid when hitting submit
     if form.validate_on_submit():
+        # if the refrence search data is empty, we want to convert
+        # it to None as to not cause errors
         r = form.reference.data
         if r == '':
             r = None
@@ -121,19 +133,24 @@ def search_page():
         return redirect(url_for('search_result_page',
                                 pc=form.product_name.data,
                                 po=form.purchase_order.data,
-                                r=r, bbd=form.best_before_date.data))
+                                r=r,
+                                bbd=form.best_before_date.data))
     else:
         print("INVALID")
     return render_template('search.html', form=form)
 
 
+# route to display the results of the search
 @app.route('/search/results')
 def search_result_page():
+    # get all the details that was posted to the search page
     pc = request.args.get("pc")
     po = request.args.get("po")
     r = request.args.get("r")
     bbd = request.args.get("bbd")
+    # pass the values into the sql query
     data = sql_queries.get_pallet_details_search(pc, po, r, bbd)
+    # if the data passed in is invalid, it will return this error
     if data == "invalid_search_data":
         flash(f'Invalid search data. Please try again.', 'danger')
         return redirect(url_for('search_page'))
@@ -142,6 +159,7 @@ def search_result_page():
     return render_template("searchResults.html", data=data)
 
 
+# route to show a map of the FV warehouse location
 @app.route('/map')
 def map_page():
     return render_template("maps/mainMap.html")
@@ -162,8 +180,11 @@ def error_503(e):
     return render_template('errors/503.html'), 503
 
 
+# if the environmental value states its in production,
+# serve the app
 if "PRODUCTION" in os.environ:
     serve(app, listen="*:7014")
+# otherwise, allow it to run in debug when in development
 else:
     if __name__ == "__main__":
         app.run(debug=True)

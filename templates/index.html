@@ -7,9 +7,12 @@ Home Page
 <!-- <img src="../static/images/mpc_logo.jpg" class="rounded mx-auto d-block" alt="MPC Logo" /> -->
 <h1 class="text-center">Select Location:</h1>
 
+
 <div class="row">
 	<div class="col-sm">
 		<div class="d-grid gap-3">
+			<!-- 'locations' is a list of object values. They will be given values whether they are 2d or 3d, and this affects which side of the page they will render -->
+			<!-- NOTE: 2d and 3d refers to the table type they may be displayed in-->
 			{% for key, value in locations.items() %}
 				{% if value["location"] != None %}
 					{% if value["tableType"] == "2d" %}

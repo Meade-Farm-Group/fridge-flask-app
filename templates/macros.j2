@@ -1,7 +1,9 @@
+
+{# table macro for generating any of the tables required that show locations #}
 {% macro table(rack_id, locdet, columns, loc_id, cell_location, rack_num, alphabet, rack_add, table_num ) %}
 
 {% if locdet["tableType"] == "2d" %}
-    {% if loc_id == "FVFR5" or loc_id == "FVFR7" or loc_id == "DIS1" %}
+    {% if loc_id == "FVFR5" or loc_id == "FVFR7" or loc_id == "D1" %}
         {% set tableRange = columns %}
     {% else %}
         {% set tableRange = (columns/2)|int %}

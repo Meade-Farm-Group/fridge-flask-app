@@ -1,10 +1,15 @@
 {% extends 'base.html' %}
 {% block title %} Location Page {% endblock %} 
 {% block content %}
+<!-- importing blocks of code to this page from the file macros.j2 -->
 {% from 'macros.j2' import table, PHS1Table %}
 
+<!-- getting the rack number in the format of '00' or '01' etc -->
 {% set rack_num = "{:02d}".format(rack_id| int)|string %}
 
+<!-- set values for the macro tables based on what table type is given -->
+<!-- typically, if a table is '2d' they will have 2 tables to show all the racks. they will be in format FVFR1-A-01  -->
+<!-- and the 3d tables will have one table showing but will have a dropdown to allow you to select which rack to display -->
 {% if locdet["tableType"] == "2d" %}
 	{% set columns = locdet["tableSize"][0] %}
 	{% set loc_id = locdet["id"] %}
@@ -26,6 +31,7 @@
 	  	</div>
 		<div id="locationName" class="col-sm col-md-5">
 			<h3 class="mb-1">{{ locdet["name"] }}
+			<!-- if the location has specific racks for each table, we want to display the rack id -->
 			{% if rack_id != none and (locdet["tableSize"][0] != 0 and locdet["tableSize"][2] != 0) %}
 				- Rack {{ rack_num }}
 			{% endif %}
@@ -84,18 +90,28 @@
 		
 		</div>
 	</div>
-
+	<!-- set the rack add var to 0 as initialization -->
 	{% set rack_add = 0 %}
+	<!-- set the id of the table -->
 	{% set table_num = "cellTable1" %}
 	<!-- Table(s) -->
+	<!-- unique table generation for potato packhouse 1 table map -->
 	{% if loc_id  == 'PHS1' %}
 		{{ PHS1Table() }}
+	<!-- if the table is 2d -->
 	{% elif locdet["tableType"] == "2d" %}
-		{% if loc_id == 'FVFR5' or loc_id  == 'DIS1' %}
+		<!-- if the locations are specifically these ones, render out one table only as these are unique versions of the 2d tables -->
+		{% if loc_id == 'FVFR5' or loc_id  == 'D1' %}
+			<!-- using the table macro, we pass in details required to generate the table required -->
 			{{ table(rack_id, locdet, columns, loc_id, cell_location, rack_num, alphabet, rack_add, table_num) }}
+		<!-- 
+			FVFR7 is laid out in a wy that 12 racks are on one side and 8 are on the other side. To match this on the display,
+			the number of columns are set manually.
+		-->
 		{% elif loc_id == 'FVFR7' %}
 			{% set columns = 12 %}
 			{{ table(rack_id, locdet, columns, loc_id, cell_location, rack_num, alphabet, rack_add, table_num) }}
+			<!-- this add is used to tell the next table what number to start with when making the labels and the ids of each cell -->
 			{% set rack_add = columns %}
 			{% set columns = 8 %}
 			{% set table_num = "cellTable2" %}
@@ -113,6 +129,7 @@
 {% endif %}
 
 <!-- Bay(s) -->
+<!-- some locations will have bays in them which are locations in the storage that are seperate from the racks -->
 {% if locdet["bays"]|length != 0 %}
 	{% for bay in locdet["bays"] %}
 		<a class="btn btn-lg btn-success" href="{{ url_for('palletInfo_page', cell_id = bay ) }}" onclick="loading();">
@@ -126,6 +143,7 @@
 <!-- Data about location and current settings -->
 <meta id="my-data" data-loc="{{ loc_id }}" data-rack="{{ rack_num }}" data-currentfilter="">
 
+<!-- extra javascript needed being imported by this template and being inserted at end in the base.html -->
 {% block extrajs %}
 <script src="{{ url_for('static', filename='js/tableRefresh.js') }}"></script>
 <script type=text/javascript src="{{ url_for('static', filename='js/locationsTableUpdate.js') }}"></script>

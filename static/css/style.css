@@ -1,3 +1,5 @@
+/* Styles that are present across all pages of the app */
+
 .table-hover:hover {
   filter: brightness(110%);
 }
@@ -92,6 +94,7 @@ div#content {
   font-size: calc(7px + 0.5vw);
 }
 
+/* css for product in quarentine for the starch */
 .stripe {
   color: white;
   background: repeating-linear-gradient(

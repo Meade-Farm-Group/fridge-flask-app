@@ -6,30 +6,41 @@ function getData() {
     // 2d storages do not have a rack value, so it defaults to 0, which is then
     // formatted to the desired digit length
     if (locData["rack"] == 00) {
+        // these locations are different to the standard '2d' layouts. These layouts only need one table
+        // to display its contents
         if (locData["loc"] == 'FVFR5' || locData["loc"] == 'PHS1' || locData["loc"] == 'DIS1'){
             search = locData["loc"];
             range = 1
+        // if table isnt in the list, then it really is a 2d and will require 2 tables to display all contents
         } else{
             search = locData["loc"];
             range = 2
         }
-        
+    // if a value other than '00' is present, it means there is an actual value here, meaning it is a 3d table, 1 table needed only
     } else {
         search = locData["loc"] + "-" + locData["rack"];
         range = 1
     }
     $.ajax({
+        // url to get us all the data needed to for the table checking
         url: '/update_data/' + search,
         type: 'POST',
         success: function (data) {
             var tableNum;
             var table;
+            // getting the colours saved on the JSON file to be used for coluring in the table cells
             $.getJSON("/static/js/mascodeColours.json", function (masCodeColours) {
+                // instantiate the list of legend buttons 
                 legendList = {};
+                // loop to scan the table(s). range decides how many tables there are eg range = 1 will be 1 table
                 for (var k = 1; k <= range ; k++) {
+                    // the table id will be this format and is used to get the htmt element
                     tableNum = "cellTable" + k;
+                    // getting the table html element
                     table = document.getElementById(tableNum);
+                    // this loop goes through each of the table rows
                     for (var i = 0, row; row = table.rows[i]; i++) {
+                        // this loop goes through each of the cells of the current row
                         for (var j = 0, col; col = row.cells[j]; j++) {
                             // Function returns the legend list so that it can be updated
                             legendList = cellUpdate(col, data, masCodeColours, legendList);
@@ -217,6 +228,10 @@ function toggleFilter(key, range){
         table = document.getElementById(tableNum);
         for (var i = 0, row; row = table.rows[i]; i++) {
             for (var j = 0, col; col = row.cells[j]; j++) {
+                // If the tag of the cell is 'th', ignore it by doing continue
+                // The reason the start of llops are not set to 1 is because some tables are
+                // made to look like a map of the location. Meaning setting 1 would miss out 
+                // on relevent cells.
                 if (col.tagName == 'TH'){
                     continue;
                 }
@@ -260,6 +275,7 @@ function toggleFilter(key, range){
     }
 }
 
+// function to format the date into something that is more readable
 function formatDate(date) {
     var hours = date.getHours();
     var minutes = date.getMinutes();
@@ -273,7 +289,7 @@ function formatDate(date) {
     return strTime + "   " + date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear();
 }
 
-// Function to calculate how dark the colour is
+// Function to calculate how dark the colour is 
 function checkBrightness(bgColour){
     var bgColour = bgColour.substring(1);      // strip #
     var rgb = parseInt(bgColour, 16);   // convert rrggbb to decimal
