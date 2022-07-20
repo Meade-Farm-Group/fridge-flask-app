@@ -275,6 +275,7 @@ function toggleFilter(key, range){
     }
 }
 
+// function to format the date into something that is more readable
 function formatDate(date) {
     var hours = date.getHours();
     var minutes = date.getMinutes();
@@ -288,7 +289,7 @@ function formatDate(date) {
     return strTime + "   " + date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear();
 }
 
-// Function to calculate how dark the colour is
+// Function to calculate how dark the colour is 
 function checkBrightness(bgColour){
     var bgColour = bgColour.substring(1);      // strip #
     var rgb = parseInt(bgColour, 16);   // convert rrggbb to decimal

@@ -20,7 +20,7 @@ def prophet_connection():
 def get_locations():
     cursor = prophet_connection()
     # Query gets the location code and location name of all locations that are
-    # of zone type "FRIDGE"
+    # of zone type "FRIDGE" or "FLOOR"
     cursor.execute('''
         SELECT
         loczon_nl.zonecode,
@@ -77,7 +77,7 @@ def get_table_size(location_id):
     data["bays"] = []
 
     # Each cell will be broken up and the value of each section will be
-    # compared
+    # compared. This compari
     data["cell"] = None
     data["name"] = None
     for row in cursor.fetchall():
@@ -155,6 +155,7 @@ def get_pallets_by_location(location_id):
     data["loc_id"] = location_id
     data["pallets"] = {}
     data["masCodeNames"] = {}
+    # loop through each of the rows
     for row in cursor.fetchall():
         if row[0] in data["pallets"]:
             if row[4] not in data["pallets"][row[0]]["mascodes"]:
@@ -167,7 +168,6 @@ def get_pallets_by_location(location_id):
             data["pallets"][row[0]]["ponums"] = [row[6]]
         if row[4] not in data["masCodeNames"]:
             data["masCodeNames"][row[4]] = row[5]
-    print(data)
     return data
 
 
