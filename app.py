@@ -111,6 +111,8 @@ def palletInfo_page(cell_id):
         data["zonecode"] = 'DIS1'
     if data["zonecode"] == 'D2':
         data["zonecode"] = 'DIS2'
+    if data["zonecode"] == 'DIS2':
+        data["tableType"] = '3d'
 
     return render_template('palletInfo.html',
                            data=data,
