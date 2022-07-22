@@ -2,12 +2,20 @@
 {# table macro for generating any of the tables required that show locations #}
 {% macro table(rack_id, locdet, columns, loc_id, cell_location, rack_num, alphabet, rack_add, table_num ) %}
 
+{# check to see what type of display these tables will be #}
+{# if we are displaying 2 tables, the column length needs to be halved
+    as the column length is the ammount of racks present in the location
+    so each table will be half the total racks
+ #}
 {% if locdet["tableType"] == "2d" %}
+    {# these are locations that are 2d in a data sense, but still only need one table #}
     {% if loc_id == "FVFR5" or loc_id == "FVFR7" or loc_id == "D1" %}
         {% set tableRange = columns %}
+    {# these are 2d locations that need 2 tables #}
     {% else %}
         {% set tableRange = (columns/2)|int %}
     {% endif %}
+{# these are 3d locations a=that only need 1 table on screen at a time #}
 {% else %}
     {% set tableRange = columns %}
 {% endif %}
@@ -17,34 +25,57 @@
     <thead>
         <tr class="table-primary">
             <th scope="col">#</th>
+            {# first row of the table being made with titles of the each of the columns #}
             {% for row in range(tableRange) %}
+                {# the one table needed for this location needs to have the locations displayed in reverse due to its rotation #}
                 {% if loc_id == 'FVFR5' %}
                     <th scope="col" class="text-center">Rack {{ "{:02d}".format((loop.revindex + rack_add)|int) }} </th>
+                {# if there is no rack_id present, it means we are dealing with a 2d location #}
                 {% elif rack_id == none %}
                     <th scope="col" class="text-center">Rack {{ "{:02d}".format((loop.index + rack_add)|int) }}</th>
+                {# if the location has a rack_id its for a 3d table display. depending on the number of the rack will affect the way the table will display
+                    the correct perspective. Any odd racks will be displayed normally.
+                 #}
                 {% elif rack_id | int % 2 == 1 %}
                     <th scope="col" class="text-center">Cell {{ "{:02d}".format((loop.index + rack_add)|int) }}</th>
                 {% else %}
+                    {# whereas even racks will have the last cell to the left, so that the loop needs to be reversed #}
                     <th scope="col" class="text-center">Cell {{ "{:02d}".format((loop.revindex + rack_add)|int) }} </th>
                 {% endif %}
             {% endfor %}
         </tr>
     </thead>
     <tbody>
+        {# Building the contents of the table inside the body #}
+        {# this first row loops throigh each of the rows being built #}
         {% for row in range(locdet["tableSize"][1]) %} 
+            {# we want to track what loop we are on to help build the table #}
             {% set outer_loop = loop %}
             <tr>
+                {# depending what number we get will determine the letter used for each cell in the row based on the postion of the letter in the alpahbet passed in #}
                 <th scope="row" class="table-primary" id="row{{ outer_loop.index }}">{{ alphabet[loop.revindex] }}</th>
+                {# this loop goes through each of the cells in a row #}
                 {% for col in range(tableRange) %}
                     <!-- 2D data -->
+                    {# how the data is formatted is based on if it is 2d or 3d. 2d data is concerned with rack and shelf. 3d data is concerened with rack, shelf and depth #}
                     {% if locdet['tableType'] == '2d' %}
+                        {# since this location needs to be in reverse, the data needs to be made in reverse too #}
                         {% if loc_id == 'FVFR5' %}
-
+    	                    {# first we are setting the cell id to be used for searching the data received. this value is searched in the 
+                                get_pallets_by_location query function values.
+                                The id is built by combining the location id (FVFR1), the rack it is on (01) Note: in this case since the last rack want to be displayed
+                                at the left of the table or start column loop in the row, we get the reverse of the loop index. its converted to int to allow the values be added
+                                and formatted in the format "00". Finally its converted to string for string concatting. The reverse of the outer loop value is gotten so that we 
+                                can get the letter for the row we're on.
+                            #}
                             {% set cell_id = loc_id + "-" + "{:02d}".format((loop.revindex + rack_add)|int)|string + "-" + alphabet[outer_loop.revindex]  %}
+                            {# next we make the label of the cell. This label is what we see displayed on the screen. We dont need all the location id in the cell as it causes
+                                the table to look very congested.
+                            #}
                             {% set cell_label = "{:02d}".format((loop.revindex + rack_add)|int)|string +"-"+ alphabet[outer_loop.revindex] %}
 
-
                         {% else %}
+                            {# same concepts as previous sets but this time the loop values are used in proper order  #}
                             {% set cell_id = loc_id + "-" + "{:02d}".format((loop.index + rack_add)|int)|string + "-" + alphabet[outer_loop.revindex]  %}
                             {% set cell_label = "{:02d}".format((loop.index + rack_add)|int)|string +"-"+ alphabet[outer_loop.revindex] %}
                         {% endif %}
@@ -94,6 +125,8 @@
 
 {% endmacro %}
 
+{# this table was made because this location this location 
+ #}
 {% macro PHS1Table() %}
     <table id="cellTable1" class="table text-center table-borderless">
         <tbody class="border">
