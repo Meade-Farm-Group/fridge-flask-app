@@ -28,6 +28,7 @@ function getData() {
         success: function (data) {
             var tableNum;
             var table;
+            
             // getting the colours saved on the JSON file to be used for coluring in the table cells
             $.getJSON("/static/js/mascodeColours.json", function (masCodeColours) {
                 // instantiate the list of legend buttons 
