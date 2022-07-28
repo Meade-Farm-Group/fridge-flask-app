@@ -35,7 +35,7 @@ Home Page
 			{% for key, value in locations.items() %}
 				{% if value["location"] != None %}
 					{% if value["zonetypecode"] == "FLOOR" %}
-						{% if 'DIS1' in key or 'PHS1' in key %}
+						{% if value["tableType"] == "2d" %}
 							<a class="btn btn-lg btn-success" href="{{ url_for('location_page', location_id=key )}}">{{ value["name"]}}</a>
 						{% else %}
 							<a class="btn btn-lg btn-success" href="{{ url_for('location_page', location_id=key, rack_id = '1' )}}">{{ value["name"]}}</a>
