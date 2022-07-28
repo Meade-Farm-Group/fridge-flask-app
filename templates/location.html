@@ -101,7 +101,7 @@
 	<!-- if the table is 2d -->
 	{% elif locdet["tableType"] == "2d" %}
 		<!-- if the locations are specifically these ones, render out one table only as these are unique versions of the 2d tables -->
-		{% if loc_id == 'FVFR5' or loc_id  == 'D1' %}
+		{% if loc_id == 'FVFR5' or loc_id  == 'D1' or loc_id == 'CS1P' or loc_id == 'CS2P' %}
 			<!-- using the table macro, we pass in details required to generate the table required -->
 			{{ table(rack_id, locdet, columns, loc_id, cell_location, rack_num, alphabet, rack_add, table_num) }}
 		<!-- 
