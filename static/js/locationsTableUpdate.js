@@ -32,7 +32,6 @@ function getData() {
             $.getJSON("/static/js/mascodeColours.json", function (masCodeColours) {
                 // instantiate the list of legend buttons 
                 legendList = {};
-                console.log(range)
                 // loop to scan the table(s). range decides how many tables there are eg range = 1 will be 1 table
                 for (var k = 1; k <= range ; k++) {
                     // the table id will be this format and is used to get the htmt element
