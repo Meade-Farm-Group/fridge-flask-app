@@ -39,7 +39,7 @@ def get_locations():
     # Loop uses the location id as the key, and the value is the name
     for row in cursor.fetchall():
         locations[row[0]] = {"name": row[1]}
-        tableType = check_table_type(row[0])
+        tableType = check_table_type(row[2])
         locations[row[0]] = {"name": row[1],
                              "tableType": tableType,
                              "location": row[2],
@@ -70,7 +70,7 @@ def get_table_size(location_id):
         locfil_nl.zonecode LIKE '{}';
     '''.format(str(location_id)))
 
-    alphabet = "_ABCDEFGHIJK"
+    alphabet = "_ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
     # Value of each dimension is defined before comparison
     loc_racks = 0
