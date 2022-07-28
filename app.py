@@ -10,7 +10,7 @@ from forms import SearchForm
 
 app = Flask(__name__)
 
-alphabet = "_ABCDEFGHIJK"
+alphabet = "_ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 app.config['SECRET_KEY'] = 'ojou9823o2f82uye9foj2e8f9hu'
 
 

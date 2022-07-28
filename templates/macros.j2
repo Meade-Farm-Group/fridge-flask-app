@@ -9,7 +9,7 @@
  #}
 {% if locdet["tableType"] == "2d" %}
     {# these are locations that are 2d in a data sense, but still only need one table #}
-    {% if loc_id == "FVFR5" or loc_id == "FVFR7" or loc_id == "D1" %}
+    {% if loc_id == "FVFR5" or loc_id == "FVFR7" or loc_id == "D1" or loc_id == 'CS1P' or loc_id == 'CS2P' %}
         {% set tableRange = columns %}
     {# these are 2d locations that need 2 tables #}
     {% else %}

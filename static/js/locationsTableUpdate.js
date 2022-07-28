@@ -8,7 +8,7 @@ function getData() {
     if (locData["rack"] == 00) {
         // these locations are different to the standard '2d' layouts. These layouts only need one table
         // to display its contents
-        if (locData["loc"] == 'FVFR5' || locData["loc"] == 'PHS1' || locData["loc"] == 'DIS1'){
+        if (locData["loc"] == 'FVFR5' || locData["loc"] == 'PHS1' || locData["loc"] == 'D1' || locData["loc"] == 'CS1P'|| locData["loc"] == 'CS2P'){
             search = locData["loc"];
             range = 1
         // if table isnt in the list, then it really is a 2d and will require 2 tables to display all contents
@@ -32,6 +32,7 @@ function getData() {
             $.getJSON("/static/js/mascodeColours.json", function (masCodeColours) {
                 // instantiate the list of legend buttons 
                 legendList = {};
+                console.log(range)
                 // loop to scan the table(s). range decides how many tables there are eg range = 1 will be 1 table
                 for (var k = 1; k <= range ; k++) {
                     // the table id will be this format and is used to get the htmt element
