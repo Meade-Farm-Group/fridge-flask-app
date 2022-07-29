@@ -32,7 +32,7 @@
                     <th scope="col" class="text-center">Rack {{ "{:02d}".format((loop.revindex + rack_add)|int) }} </th>
                 {# if there is no rack_id present, it means we are dealing with a 2d location #}
                 {% elif rack_id == none %}
-                    <th scope="col" class="text-center">Rack {{ "{:02d}".format((loop.index + rack_add)|int) }}</th>
+                    <th scope="col" class="text-center">{% if "CS" not in loc_id %}Rack{% endif %} {{ "{:02d}".format((loop.index + rack_add)|int) }}</th>
                 {# if the location has a rack_id its for a 3d table display. depending on the number of the rack will affect the way the table will display
                     the correct perspective. Any odd racks will be displayed normally.
                  #}
