@@ -52,7 +52,6 @@ def get_locations():
     #   },
     #   { ... }
     # }
-    print(locations)
     return locations
 
 
