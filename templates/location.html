@@ -2,7 +2,7 @@
 {% block title %} Location Page {% endblock %} 
 {% block content %}
 <!-- importing blocks of code to this page from the file macros.j2 -->
-{% from 'macros.j2' import table, PHS1Table %}
+{% from 'macros.j2' import table, PHS1Table, PLTTable %}
 
 <!-- getting the rack number in the format of '00' or '01' etc -->
 {% set rack_num = "{:02d}".format(rack_id| int)|string %}
@@ -98,6 +98,21 @@
 	<!-- unique table generation for potato packhouse 1 table map -->
 	{% if loc_id  == 'PHS1' %}
 		{{ PHS1Table() }}
+	{% elif loc_id  == 'PLT' %}
+		{% set locs1 = [] %}
+		{{ locs1.append(['01-C','02-C','03-C','04-C','05-C','06-C','07-C','08-C','09-C','10-C']) }}
+		{{ locs1.append(['01-D','02-D','03-D','04-D','05-D','06-D','07-D','08-D','09-D','10-D']) }}
+		{{ locs1.append(['01-E','02-E','03-E','04-E','05-E','06-E','07-E','08-E','09-E','10-E']) }}
+		{{ locs1.append(['01-F','02-F','03-F','04-F','05-F','06-F','07-F','08-F','09-F','10-F']) }}
+		{{ locs1.append(['01-G','02-G','03-G','04-G','05-G','06-G','07-G','08-G','09-G','10-G']) }}
+		{{ locs1.append(['01-H','02-H','03-H','04-H','05-H','06-H','07-H','08-H','09-H','10-H']) }}
+		{{ locs1.append(['01-I','02-I','03-I','04-I','05-I','06-I','07-I','08-I','09-I','10-I']) }}
+		{% set locs2 = [] %}
+		{{ locs2.append(['01-J','02-J','03-J','04-J','05-J','06-J','07-J','08-J','09-J']) }}
+		{{ locs2.append(['01-K','02-K','03-K','04-K','05-K','06-K','07-K','08-K','09-K']) }}
+		{{ locs2.append(['01-L','02-L','03-L','04-L','05-L','06-L','07-L','08-L','09-L','10-L']) }}
+		{{ locs2.append(['01-M','02-M','03-M','04-M','05-M','06-M','07-M','08-M','09-M','10-M']) }}
+		{{ PLTTable(locs1, locs2) }}
 	<!-- if the table is 2d -->
 	{% elif locdet["tableType"] == "2d" %}
 		<!-- if the locations are specifically these ones, render out one table only as these are unique versions of the 2d tables -->

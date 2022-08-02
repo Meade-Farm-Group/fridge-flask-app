@@ -394,3 +394,87 @@
         </tbody>
         </table>
 {% endmacro %}
+
+{% macro PLTTable(locs1, locs2) %}
+    <table id="cellTable1" class="table text-center table-borderless">
+        <tbody class="border">
+            <tr class="border">
+                <th>Line 1</th><th>Line 2</th><th>Line 3</th><th>Line 4</th><th>Line 5</th><th>Line 6</th><th>Line 7</th><th>Line 8</th><th>Line 9</th><th>Line 10</th>
+            </tr>
+            <tr>
+                <td id="PLT-01-A" class="border table-hover">
+                    <a href="{{ url_for('palletInfo_page', cell_id = 'PLT-01-A' ) }}" class="cell-link link-dark" onclick="loading();">
+                        <div> 01-A </div>
+                        <div class="pt-0"></div>
+                    </a>
+                </td>
+                <td id="PLT-02-A" class="border table-hover">
+                    <a href="{{ url_for('palletInfo_page', cell_id = 'PLT-02-A' ) }}" class="cell-link link-dark" onclick="loading();">
+                        <div> 02-A </div>
+                        <div class="pt-0"></div>
+                    </a>
+                </td>
+                <td id="PLT-03-A" class="border table-hover">
+                    <a href="{{ url_for('palletInfo_page', cell_id = 'PLT-03-A' ) }}" class="cell-link link-dark" onclick="loading();">
+                        <div> 03-A </div>
+                        <div class="pt-0"></div>
+                    </a>
+                </td>
+                <th colspan="5">Fridge Unit</th>
+            </tr>
+            <tr>
+                <td id="PLT-01-B" class="border table-hover">
+                    <a href="{{ url_for('palletInfo_page', cell_id = 'PLT-01-B' ) }}" class="cell-link link-dark" onclick="loading();">
+                        <div> 01-B </div>
+                        <div class="pt-0"></div>
+                    </a>
+                </td>
+                <td id="PLT-02-B" class="border table-hover">
+                    <a href="{{ url_for('palletInfo_page', cell_id = 'PLT-02-B' ) }}" class="cell-link link-dark" onclick="loading();">
+                        <div> 02-B </div>
+                        <div class="pt-0"></div>
+                    </a>
+                </td>
+                <td id="PLT-03-B" class="border table-hover">
+                    <a href="{{ url_for('palletInfo_page', cell_id = 'PLT-03-B' ) }}" class="cell-link link-dark" onclick="loading();">
+                        <div> 03-B </div>
+                        <div class="pt-0"></div>
+                    </a>
+                </td>
+            </tr>
+            {% for row in locs1 %}
+                <tr>
+                    {% for cell in row %}
+                        {% set cell_id = "PLT-" + cell %}
+                        <td id="{{cell_id}}" class="border table-hover">
+                            <a href="{{ url_for('palletInfo_page', cell_id = cell_id ) }}" class="cell-link link-dark" onclick="loading();">
+                                <div> {{cell}} </div>
+                                <div class="pt-0"></div>
+                            </a>
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+            <tr>
+                <th colspan="10" height="80"></th>
+            </tr>
+            {% for row in locs2 %}
+                <tr>
+                    {% for cell in row %}
+                        {% set cell_count = loop.length %}
+                        {% set cell_id = "PLT-" + cell %}
+                        <td id="{{cell_id}}" class="border table-hover">
+                            <a href="{{ url_for('palletInfo_page', cell_id = cell_id ) }}" class="cell-link link-dark" onclick="loading();">
+                                <div> {{cell}} </div>
+                                <div class="pt-0"></div>
+                            </a>
+                        </td>
+                    {% endfor %}
+                {% if loop.index == 1 %}
+                    <th class="border-top"> Door </th>
+                {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endmacro %}
