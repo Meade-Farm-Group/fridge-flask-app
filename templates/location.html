@@ -2,7 +2,7 @@
 {% block title %} Location Page {% endblock %} 
 {% block content %}
 <!-- importing blocks of code to this page from the file macros.j2 -->
-{% from 'macros.j2' import table, PHS1Table, PLTTable %}
+{% from 'macros.j2' import table, PHS1Table, PLTTable, SRWTable %}
 
 <!-- getting the rack number in the format of '00' or '01' etc -->
 {% set rack_num = "{:02d}".format(rack_id| int)|string %}
@@ -82,24 +82,25 @@
 </div>
 <div id="hideContent">
 <!-- If no table to diplay -->
-{% if not (locdet["tableSize"][0] == 0 and locdet["tableSize"][2] == 0) or loc_id  == 'PHS1' %}
-
-	<!-- Legend: -->
-	<div class="container">
-		<div class="row" id="legendDisplay">
-		
-		</div>
+<!-- Legend: -->
+<div class="container">
+	<div class="row" id="legendDisplay">
+	
 	</div>
+</div>
+
+{% if not (locdet["tableSize"][0] == 0 and locdet["tableSize"][2] == 0) or loc_id  == 'PHS1' %}
+	
 	<!-- set the rack add var to 0 as initialization -->
 	{% set rack_add = 0 %}
 	<!-- set the id of the table -->
 	{% set table_num = "cellTable1" %}
 	{% if loc_id  == 'PHS1' %}
 		<!-- Table(s) -->
-	<!-- unique table generation for potato packhouse 1 table map -->
+		<!-- unique table generation for potato packhouse 1 table map -->
 		{{ PHS1Table() }}
 	{% elif loc_id  == 'PLT' %}
-		
+		<!-- unique table generation for potato long term table map -->
 		{{ PLTTable() }}
 	<!-- if the table is 2d -->
 	{% elif locdet["tableType"] == "2d" %}
@@ -128,6 +129,9 @@
 	{% else %}
 		{{ table(rack_id, locdet, columns, loc_id, cell_location, rack_num, alphabet, rack_add, table_num) }}
 	{% endif %}
+{% elif loc_id  == 'SRW' %}
+	{{ SRWTable() }}
+{% else %}
 
 {% endif %}
 
