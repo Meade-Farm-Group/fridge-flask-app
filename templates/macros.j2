@@ -492,3 +492,45 @@
         </tbody>
     </table>
 {% endmacro %}
+
+{% macro SRWTable() %}
+    <table id="cellTable1" class="table text-center table-borderless">
+        <tbody class="border">
+            <tr class="border">
+                <th>Line 1</th><th>Line 2</th><th>Line 3</th><th>Line 4</th><th>Line 5</th>
+            </tr>
+            <tr>
+                <td id="SRW-01" class="border table-hover" height="200">
+                    <a href="{{ url_for('palletInfo_page', cell_id = 'SRW-01' ) }}" class="cell-link link-dark" onclick="loading();">
+                        <div> SRW-01 </div>
+                        <div class="pt-0"></div>
+                    </a>
+                </td>
+                <td id="SRW-02" class="border table-hover" height="200">
+                    <a href="{{ url_for('palletInfo_page', cell_id = 'SRW-02' ) }}" class="cell-link link-dark" onclick="loading();">
+                        <div> SRW-02 </div>
+                        <div class="pt-0"></div>
+                    </a>
+                </td>
+                <td id="SRW-03" class="border table-hover" height="200">
+                    <a href="{{ url_for('palletInfo_page', cell_id = 'SRW-03' ) }}" class="cell-link link-dark" onclick="loading();">
+                        <div> SRW-03 </div>
+                        <div class="pt-0"></div>
+                    </a>
+                </td>
+                <td id="SRW-04" class="border table-hover" height="200">
+                    <a href="{{ url_for('palletInfo_page', cell_id = 'SRW-04' ) }}" class="cell-link link-dark" onclick="loading();">
+                        <div> SRW-04 </div>
+                        <div class="pt-0"></div>
+                    </a>
+                </td>
+                <td id="SRW-05" class="border table-hover" height="200">
+                    <a href="{{ url_for('palletInfo_page', cell_id = 'SRW-05' ) }}" class="cell-link link-dark" onclick="loading();">
+                        <div> SRW-05 </div>
+                        <div class="pt-0"></div>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{% endmacro %}

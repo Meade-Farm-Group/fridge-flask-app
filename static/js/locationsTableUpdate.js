@@ -8,7 +8,7 @@ function getData() {
     if (locData["rack"] == 00) {
         // these locations are different to the standard '2d' layouts. These layouts only need one table
         // to display its contents
-        if (locData["loc"] == 'FVFR5' || locData["loc"] == 'PHS1' || locData["loc"] == 'D1' || locData["loc"] == 'CS1P'|| locData["loc"] == 'CS2P' || locData["loc"] == 'PLT'){
+        if (locData["loc"] == 'FVFR5' || locData["loc"] == 'PHS1' || locData["loc"] == 'D1' || locData["loc"] == 'CS1P'|| locData["loc"] == 'CS2P' || locData["loc"] == 'PLT'|| locData["loc"] == 'SRW'){
             search = locData["loc"];
             range = 1
         // if table isnt in the list, then it really is a 2d and will require 2 tables to display all contents
