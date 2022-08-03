@@ -5,13 +5,13 @@ Home Page
 {% block content %}
 <br />
 <!-- <img src="../static/images/mpc_logo.jpg" class="rounded mx-auto d-block" alt="MPC Logo" /> -->
-<h1 class="text-center">Select Location:</h1>
+<h2 class="text-center">Select Location:</h2>
 
 
 <div class="row">
 	<div class="col-sm">
 		<div class="d-grid gap-3">
-			<h2 class="text-center"><i class="fa-solid fa-apple-whole"></i> Fruit & Veg <i class="fa-solid fa-carrot"></i></h2>
+			<h4 class="text-center"><i class="fa-solid fa-apple-whole"></i> Fruit & Veg <i class="fa-solid fa-carrot"></i></h4>
 			<!-- 'locations' is a list of object values. They will be given values whether they are 2d or 3d, and this affects which side of the page they will render -->
 			<!-- NOTE: 2d and 3d refers to the table type they may be displayed in-->
 			{% for key, value in locations.items() %}
@@ -31,7 +31,7 @@ Home Page
 	
 	<div class="col-sm">
 		<div class="d-grid gap-3">
-			<h2 class="text-center"><i class="fa-solid fa-tractor"></i> Potato & Starch <i class="fa-solid fa-seedling"></i></h2>
+			<h4 class="text-center"><i class="fa-solid fa-tractor"></i> Potato & Starch <i class="fa-solid fa-seedling"></i></h4>
 			{% for key, value in locations.items() %}
 				{% if value["location"] != None %}
 					{% if value["zonetypecode"] == "FLOOR" %}
