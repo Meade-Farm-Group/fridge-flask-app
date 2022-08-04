@@ -1,4 +1,4 @@
-function getData() {     
+function getData() {
     var search = "";
     var range;
     var locData = $('#my-data').data();

@@ -151,10 +151,10 @@
 <meta id="my-data" data-loc="{{ loc_id }}" data-rack="{{ rack_num }}" data-currentfilter="">
 
 <!-- extra javascript needed being imported by this template and being inserted at end in the base.html -->
-{% block extrajs %}
-<script src="{{ url_for('static', filename='js/tableRefresh.js') }}"></script>
-<script type=text/javascript src="{{ url_for('static', filename='js/locationsTableUpdate.js') }}"></script>
-<script type="text/javascript" src="{{ url_for('static', filename='js/loader.js') }}"></script>
-{% endblock %}
 
+{% endblock %}
+{% block extrajs %}
+<script type=text/javascript src="{{ url_for('static', filename='js/locationsTableUpdate.js') }}"></script>
+<script src="{{ url_for('static', filename='js/tableRefresh.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/loader.js') }}"></script>
 {% endblock %}
