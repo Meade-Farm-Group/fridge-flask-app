@@ -7,10 +7,15 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <!-- favicon -->
         <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+        <!-- css to make bootstrap function -->
         <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" />
+        <!-- JQuery used in many pages -->
         <script type=text/javascript src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+        <!-- overall custom stylesheet -->
         <link rel="stylesheet" media="screen" href="{{ url_for('static', filename='css/style.css') }}" />
+        <!-- importing css for custom icon library -->
         <link href="{{ url_for('static', filename='fontawesome-free-6.0.0-web/css/all.min.css') }}" rel="stylesheet" />
         <link href="{{ url_for('static', filename='fontawesome-free-6.0.0-web/css/fontawesome.min.css') }}" rel="stylesheet" />
         <!-- some pages will sometimes have custom css in them, so they can be passed to here to be rendered before the elements they are affecting -->
@@ -18,7 +23,9 @@
         <title>{% block title %} {% endblock %}</title>
     </head>
 
+    <!-- main body of the app -->
     <body class="d-flex flex-column min-vh-100 ">
+        <!-- Navbar -->
         <nav class="navbar navbar-expand-sm navbar-dark bg-success">
             <div class="container-fluid">
                 <a class="navbar-brand" href="{{ url_for('home_page') }}">
@@ -43,6 +50,7 @@
                 </div>
             </div>
         </nav>
+        <!-- where all the content goes -->
         <main role="main" class="container">
             <!-- varible messages being assigned with all the messages gotten from the get_flashed_messages command -->
             {% with messages = get_flashed_messages(with_categories=true) %}

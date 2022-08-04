@@ -1,3 +1,4 @@
+<!-- page that shows the table or map of the locations that there is product found in certain locations -->
 {% extends 'base.html' %}
 {% block title %} Location Page {% endblock %} 
 {% block content %}
@@ -11,12 +12,16 @@
 <!-- typically, if a table is '2d' they will have 2 tables to show all the racks. they will be in format FVFR1-A-01  -->
 <!-- and the 3d tables will have one table showing but will have a dropdown to allow you to select which rack to display -->
 {% if locdet["tableType"] == "2d" %}
+	<!-- The columns in 2d tables are the rack numbers, so get the rack number from the data and set it here -->
 	{% set columns = locdet["tableSize"][0] %}
+	<!-- the location id for 2d is the same. this is set so that it can be passed into a macro function. This is to accomadate the 3d data -->
 	{% set loc_id = locdet["id"] %}
 	{% set cell_location = locdet['id'] %}
 	{% set image_link = locdet['id'] %}
 {% else %}
+	<!-- The columns are based on how deep a rack is, so the depth value is set as the columns -->
 	{% set columns = locdet["tableSize"][2] %}
+	<!-- the location id is based on the loczon id and the current rack that is currently selected -->
 	{% set loc_id = locdet["id"][0] + locdet["id"][-1] %}
 	{% set cell_location = locdet['id']+'-'+rack_id %}
 	{% set image_link = locdet['id'] +"/"+ rack_num %}
@@ -45,6 +50,7 @@
 			<img class="" src="/static/images/DIS2/01.png" height="140" alt="ReferenceMap">
 	  	</div> -->
 	</div>
+	<!-- if the table type is 3d, we will need some functionality to select a specific rack. dropdown menu with links to each of the shelves -->
 	{% if locdet['tableType'] == "3d" %}
 		<div class="row">
 			<div class="col col-4">
@@ -53,6 +59,7 @@
 						Select a Rack
 					</button>
 					<ul class="dropdown-menu dropdown-large border" aria-labelledby="rackSelectButton" id="rackSelect">
+						<!-- loop through the range of the amount of racks are in the locations -->
 						{% for n in range(locdet["tableSize"][0]) %}
 							<li><a class="dropdown-item border" href="{{ url_for('location_page', location_id=locdet['id'], rack_id = loop.index )}}">Rack {{ loop.index }}</a></li>
 						{% endfor %}
@@ -61,8 +68,7 @@
 			</div>
 		</div>
 	{% else %}
-	<div id="spacing">
-	</div>
+		<div id="spacing"></div>
 	{% endif %}
 	<div class="row">
 		<div class="col">
@@ -70,6 +76,7 @@
 			<h6 class="text-muted mt-1">
 				Last Updated: 
 				<li class="list-inline-item">
+					<!-- the update data function also has a part that updates the current time to the time of when an update is done and adds the time here -->
 					<div id="updatedTime"></div>
 				</li>
 			</h6>
@@ -77,11 +84,14 @@
 	</div>
 </div>
 
+<!-- The loader is rendered on page load and given the class of visually hidden to hide it. the class will be removed when the user selects a location -->
 <div class="d-flex justify-content-center">
 	<div id="loader" class="visually-hidden"></div>
 </div>
+<!-- the content that we want to hide when the user selects a -->
 <div id="hideContent">
-<!-- If no table to diplay -->
+
+<!-- this legend gets displays all the products that are in the current location -->
 <!-- Legend: -->
 <div class="container">
 	<div class="row" id="legendDisplay">
@@ -117,7 +127,9 @@
 			{{ table(rack_id, locdet, columns, loc_id, cell_location, rack_num, alphabet, rack_add, table_num) }}
 			<!-- this add is used to tell the next table what number to start with when making the labels and the ids of each cell -->
 			{% set rack_add = columns %}
+			<!-- setting the number of columns for the next table -->
 			{% set columns = 8 %}
+			<!-- setting the id for the next table -->
 			{% set table_num = "cellTable2" %}
 			{{ table(rack_id, locdet, columns, loc_id, cell_location, rack_num, alphabet, rack_add, table_num) }}
 		{% else %}
@@ -129,6 +141,7 @@
 	{% else %}
 		{{ table(rack_id, locdet, columns, loc_id, cell_location, rack_num, alphabet, rack_add, table_num) }}
 	{% endif %}
+<!-- if the id of the location is srw, display this table -->
 {% elif loc_id  == 'SRW' %}
 	{{ SRWTable() }}
 {% else %}

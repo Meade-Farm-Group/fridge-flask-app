@@ -1,22 +1,28 @@
+<!-- front page of the app -->
 {% extends 'base.html' %}
 {% block title %}
 Home Page
 {% endblock %}
 {% block content %}
 <br />
-<!-- <img src="../static/images/mpc_logo.jpg" class="rounded mx-auto d-block" alt="MPC Logo" /> -->
 <h2 class="text-center">Select Location:</h2>
-
-
+<!-- app displays two columns of buttons. these buttons are rendered in two seperate rows. These rows are set to be align with each other 
+	depending on the size of the page. When the small breakpoint in reached, the rows are then displayed on top of each other, resulting in 
+	the 'Potato & Starch' beign move underneath the 'Fruit & Veg' button block
+-->
 <div class="row">
 	<div class="col-sm">
 		<div class="d-grid gap-3">
 			<h4 class="text-center"><i class="fa-solid fa-apple-whole"></i> Fruit & Veg <i class="fa-solid fa-carrot"></i></h4>
 			<!-- 'locations' is a list of object values. They will be given values whether they are 2d or 3d, and this affects which side of the page they will render -->
 			<!-- NOTE: 2d and 3d refers to the table type they may be displayed in-->
+			<!-- looping through each of the key value pairs in the locations object -->
 			{% for key, value in locations.items() %}
+				<!-- Check if the location value is None -->
 				{% if value["location"] != None %}
+					<!-- check if the zone type of this location is of type FRIDGE -->
 					{% if value["zonetypecode"] == "FRIDGE" %}
+					<!-- check the table type for rendering the appropriate link -->
 						{% if value["tableType"] == "2d" %}
 							<a class="btn btn-lg btn-success" href="{{ url_for('location_page', location_id=key )}}">{{ value["name"]}}</a>
 						{% else %}

@@ -108,6 +108,7 @@
 {% endmacro %}
 
 {% macro map() %}
+{# map was made in photoshop, then exported as an svg image so that it can be changed to have functionality #}
 <svg width="100%" height="100%" viewBox="0 0 1476 882">
     <a href="{{ url_for('maploc_page', coords='140 100 676 532')}}">
         <path class="cls-1" d="M472,115c137.519,0,249,111.481,249,249S609.519,613,472,613,223,501.519,223,364,334.481,115,472,115Zm22,114A110,110,0,1,1,384,339,110,110,0,0,1,494,229Z"/>
@@ -125,8 +126,7 @@
 
 {% endmacro %}
 
-{# this table was made because this location this location 
- #}
+{# this table was made because this location this location #}
 {% macro PHS1Table() %}
     <table id="cellTable1" class="table text-center table-borderless">
         <tbody class="border">
